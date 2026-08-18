@@ -240,20 +240,33 @@ text = "————<< 第 0 回合 >>————"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadingPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=1625845037 instance=ExtResource("12_j3p8a")]
-visible = false
+[node name="Log" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=647268735]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = 32.0
+offset_bottom = -64.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.31061712, 0.31061712, 0.3106171, 1)
 
-[node name="Label" type="Label" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="8" unique_id=1129569061]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/Log" index="0" unique_id=652132006]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[时间]：事件"
+
+[node name="LoadingPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="8" unique_id=1625845037 instance=ExtResource("12_j3p8a")]
 visible = false
-offset_left = 1520.0
-offset_top = 76.0
-offset_right = 1560.0
-offset_bottom = 116.0
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 26
-text = "+1"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Light" parent="Environment" parent_id_path=PackedInt32Array(768455844) index="1" unique_id=129914062]
 transform = Transform3D(0.90630776, 0.014749165, -0.42236084, 0, 0.99939084, 0.034899496, 0.42261827, -0.031629685, 0.9057557, 0, 25, 0)
