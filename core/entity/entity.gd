@@ -1,24 +1,15 @@
 extends RefCounted
 class_name Entity
 
-
-#@onready var behavior_manager: BehaviorManager = $BehaviorManager
-#@onready var value_mount: Node = $ValueManager
-
-
-# code: { value, max, min, name }
 var name := ""
 var value_manager: Dictionary[String, Value] = {}
 var behavior_manager := BehaviorManager.new()
 var tags = []
 
 
-# var parent: Node
 var meta: Variant:
 	set(_v):
 		meta = _v
-		# 这里需要做一些事情：
-		# 1. 提取meta中的values等信息
 		__tick_values()
 		__tick_tags()
 		__tick_behaviors()
@@ -28,7 +19,6 @@ func __tick_values() -> void:
 	if meta["entity"]:
 		var values = LuaUtils.table_to_dictionary(meta["entity"]["values"])
 		for v in values.values():
-			# GApiManager.value_api.append(name, v)
 			var template = ModManager.do_mod_file(GResourceManager.value_resource[v["template"]])
 			template = template.invoke()
 			var override = v["override"]
@@ -64,7 +54,3 @@ func __tick_behaviors() -> void:
 		for behavior in meta["entity"]["behaviors"].to_array():
 			var behavior_lua = GApiManager.behavior_api.create(behavior)
 			behavior_manager.add_behavior(behavior_lua)
-
-#
-#func _ready() -> void:
-	#add_to_group(&"entity")

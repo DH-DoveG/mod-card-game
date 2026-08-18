@@ -46,63 +46,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "回合结束"
 
-[node name="CardSetInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="1" unique_id=1360632198]
-custom_minimum_size = Vector2(28, 28)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 160.0
-offset_right = 216.0
-offset_bottom = -8.0
-grow_vertical = 2
-texture_normal = ExtResource("9_o21fp")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="UI/BottomBar/CardSetInfoShowBtn" index="0" unique_id=1034841865]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -14.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "卡堆"
-label_settings = SubResource("LabelSettings_j3p8a")
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="VisualAngleChangeBtn" type="TextureButton" parent="UI/BottomBar" index="2" unique_id=284874316]
-custom_minimum_size = Vector2(28, 28)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 232.0
-offset_right = 288.0
-offset_bottom = -8.0
-grow_vertical = 2
-texture_normal = ExtResource("4_0k3r2")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="UI/BottomBar/VisualAngleChangeBtn" index="0" unique_id=980115544]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -14.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "视角"
-label_settings = SubResource("LabelSettings_j3p8a")
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="AreaInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="3" unique_id=140021862]
+[node name="AreaInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="1" unique_id=140021862]
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 1
 anchors_preset = 9
@@ -130,7 +74,7 @@ label_settings = SubResource("LabelSettings_j3p8a")
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="CardInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="4" unique_id=454600040]
+[node name="CardInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="2" unique_id=454600040]
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 1
 anchors_preset = 9
@@ -154,6 +98,63 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "卡片"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CardSetInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="3" unique_id=1360632198]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 160.0
+offset_right = 216.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("9_o21fp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/BottomBar/CardSetInfoShowBtn" index="0" unique_id=1034841865]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "卡堆"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VisualAngleChangeBtn" type="TextureButton" parent="UI/BottomBar" index="4" unique_id=284874316]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 232.0
+offset_right = 288.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("4_0k3r2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/BottomBar/VisualAngleChangeBtn" index="0" unique_id=980115544]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "视角"
 label_settings = SubResource("LabelSettings_j3p8a")
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -259,3 +260,7 @@ transform = Transform3D(0.90630776, 0.014749165, -0.42236084, 0, 0.99939084, 0.0
 light_energy = 1.0
 
 [connection signal="pressed" from="UI/BottomBar/RoundEndBtn" to="." method="_on_round_end_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/AreaInfoShowBtn" to="." method="_on_area_info_show_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/CardInfoShowBtn" to="." method="_on_card_info_show_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/CardSetInfoShowBtn" to="." method="_on_card_set_info_show_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/VisualAngleChangeBtn" to="." method="_on_visual_angle_change_btn_pressed"]

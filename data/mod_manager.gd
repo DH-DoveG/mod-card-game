@@ -31,7 +31,6 @@ class LuaAwaitWrapper extends Object:
 		awaitWrapper._arg = arg
 		return awaitWrapper.start()
 
-
 # 异步等待包装器集合类。这个类主要用户多个异步同时执行
 # 不过我们值得注意的一点是，Godot中其他线程不能够重绘页面
 # 然后目前单机的实现形式下，也需要按顺序来进行，这是因为模态对话框的特性决定的
@@ -67,7 +66,6 @@ class LuaAwaitWrapperSet extends Object:
 		awaitWrapperSet.await_wrappers = laws
 		return awaitWrapperSet
 
-
 # Lua状态机
 static var state: LuaState = null:
 	set(v): state = v
@@ -77,17 +75,12 @@ static var state: LuaState = null:
 		return state
 static var use_mods = [] # 使用中的Mod
 static var probe_mods = [] # 扫描到的Mod
-#static var lua_cache = {} # 缓存创建的表
 
 static func do_mod_file(file_path: String) -> Variant:
-	#if lua_cache.has(file_path):
-		#return lua_cache[file_path]
 	var load_table = state.do_file(file_path)
 	if load_table is LuaError:
 		assert(false, "DO MOD FILE ERROR: " + load_table.message)
-	#lua_cache[file_path] = load_table
 	return load_table
-
 
 static func run_lua_function(method, param, _self = null, _invoke_type = "TABLE") -> Variant:
 	assert(method is LuaFunction, "run_lua_function: method is not LuaFunction")
@@ -123,7 +116,6 @@ static func run_lua_function(method, param, _self = null, _invoke_type = "TABLE"
 		assert(false, "Async: [wait] 错误：" + _res.message)
 	return _res
 
-
 static func set_package_paths(paths: Array) -> void:
 	var pp = ""
 	for path in paths:
@@ -131,10 +123,8 @@ static func set_package_paths(paths: Array) -> void:
 	pp = pp.replace("/", "\\")
 	state.globals["package"]["path"] = pp
 
-
 static func reset_state() -> void:
 	state = LuaState.new()
-	#lua_cache = {}
 	# 基础库
 	state.open_libraries(LuaState.Library.LUA_ALL_LIBS | LuaState.Library.GODOT_UTILITY_FUNCTIONS)
 	state.globals["os"]["execute"] = null

@@ -92,7 +92,7 @@ extends Resource
 @export var animation_trans: Tween.TransitionType = Tween.TRANS_QUAD
 
 @export_group("Spawn")
-@export var default_origin: ToastEnums.ToastOrigin = ToastEnums.ToastOrigin.BOTTOM
+@export var default_origin: ToastEnums.ToastOrigin = ToastEnums.ToastOrigin.TOP
 
 func get_effective_padding(ui_scale: float = 1.0) -> Vector4i:
 	return Vector4i(

@@ -3,8 +3,8 @@ class_name CardView2D
 
 var entity: CardEntity = null
 var menu_key = false
-
 var relevance_menu = null
+var in_free = false
 
 
 func _ready() -> void:
@@ -14,10 +14,6 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	remove_from_group(&"CardView2D")
 
-
-
-
-var in_free = false
 
 func animate_free():
 	in_free = true
@@ -30,7 +26,6 @@ func animate_free():
 	sm.set_shader_parameter("noiseForce", 0.45)
 	sm.set_shader_parameter("borderWidth", 0.15)
 	sm.set_shader_parameter("noiseTexture", load("res://assets/noise_texture_2d.res"))
-	# use tweens to animate the progress value
 	material = sm
 	var tween = get_tree().create_tween()
 	tween.tween_method(func(value):
@@ -42,13 +37,11 @@ func animate_free():
 	)
 
 
-
 func set_card(card: CardEntity, is_check_see = true) -> void:
 	name = card.name
 	var img = GResourceManager.get_image_resoure(card.image)
 	texture_normal = img
 	entity = card
-
 	# 获取卡片的持有者
 	# is_check_see 用来检查 host_player 是否有查看权限
 	if is_check_see:
@@ -57,7 +50,6 @@ func set_card(card: CardEntity, is_check_see = true) -> void:
 			var ownership = GApiManager.card_api.get_ownership(card.name)
 			var player = FindUtils.find_player(ownership)
 			texture_normal = GResourceManager.get_image_resoure(player.use_card_back)
-			# texture_normal = GResourceManager.get_image_resoure(card.image)
 			return
 	texture_normal = GResourceManager.get_image_resoure(card.image)
 
@@ -81,20 +73,12 @@ func set_outline(k: bool):
 
 
 func _on_pressed() -> void:
-	#print("pressed 1")
 	if menu_key:
-		#print("pressed 2")
 		var gp = global_position
 		gp.y += 60
 		gp.x += 120
-		#$BehaviorPopupMenu.show_menu(gp, data.behavior_manager.behaviors, data)
-		#data.entity.behavior_manager.show_menu(gp)
 		var battle: Battle = Utils.get_current_scene()
 		var pos = gp
-		#var __ = await entity.behavior_manager.show_menu(pos)
-		#var __ = await entity.behavior_manager.show_menu(pos)
-		#pos += battle.get_node("SVC").position
-		#behavior_pop.show_menu(pos, entity.behavior_manager.behaviors, entity)
 		var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
 		battle.add_child(menu)
 		menu.show_menu(pos, entity.behavior_manager.behaviors, entity)
@@ -105,7 +89,6 @@ func _on_pressed() -> void:
 
 
 func _on_mouse_entered() -> void:
-	#if data and Utils.get_current_scene() is Battle:
-		#var c = FindUtils.find_card(data.name)
-		#c.show_in_panel()
-	pass
+	Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+		"params": entity
+	})

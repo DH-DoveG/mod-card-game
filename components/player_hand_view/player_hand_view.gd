@@ -25,20 +25,9 @@ func set_battle(_battle: Battle):
 	battle.event_manager.subscribe("CardSetUpdate", _update)
 
 
-#func check(card_set_id: String, config: Dictionary = {}) -> void:
-	#if not Utils.is_battle_scene():
-		#return
-	#if config.has("system_hand_component"):
-		#bind_card_set = card_set_id
-		#var battle: Battle = Utils.get_current_scene()
-		#user = battle.host_player_id
-		#update()
-
 func _update(args: Dictionary):
-	#print("HAND COMPONENT [user] : ", user)
 	if args["player_id"] != user:
 		return
-	#print("HAND COMPONENT [config] : ", args["sets"]["config"])
 	var sets = args["sets"]
 	if sets["config"].has("system_hand_component") and sets["config"]["system_hand_component"] == true:
 		update(sets)
@@ -70,9 +59,6 @@ func update(sets) -> void:
 	for cid in await_add_cards:
 		var ce := FindUtils.find_card(cid)
 		
-		#for v2d in ce.get_view_2d():
-			#v2d.animate_free()
-		
 		var view: CardView2D = load("res://components/card_view_2d/card_view_2d.tscn").instantiate()
 		view.custom_minimum_size = Vector2(78, 109)
 		view.set_card(ce)
@@ -86,13 +72,3 @@ func update(sets) -> void:
 		$Hand.dynamic_radius = false
 	else:
 		$Hand.dynamic_radius = true
-
-
-func _on_hand_card_hoverd(_card: Control, _index: int) -> void:
-	#print("hoverd")
-	pass # Replace with function body.
-
-
-func _on_hand_cards_unhovered() -> void:
-	#print("unhovered")
-	pass # Replace with function body.

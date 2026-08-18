@@ -340,3 +340,25 @@ func _on_round_end_btn_pressed() -> void:
 		btn.disabled = false
 	, ConnectFlags.CONNECT_ONE_SHOT)
 	pass # Replace with function body.
+
+
+func _on_area_info_show_btn_pressed() -> void:
+	$UI/AreaInfoPanel.visible = not $UI/AreaInfoPanel.visible
+	if $UI/AreaInfoPanel.visible: $UI/BottomBar/AreaInfoShowBtn.modulate = Color("FFF")
+	else: $UI/BottomBar/AreaInfoShowBtn.modulate = Color("C8C8C8")
+
+
+func _on_card_info_show_btn_pressed() -> void:
+	$UI/CardInfoPanel.visible = not $UI/CardInfoPanel.visible
+	if $UI/CardInfoPanel.visible: $UI/BottomBar/CardInfoShowBtn.modulate = Color("FFF")
+	else: $UI/BottomBar/CardInfoShowBtn.modulate = Color("C8C8C8")
+
+
+func _on_card_set_info_show_btn_pressed() -> void:
+	$UI/CardSetInfoPanel.visible = not $UI/CardSetInfoPanel.visible
+	if $UI/CardSetInfoPanel.visible: $UI/BottomBar/CardSetInfoShowBtn.modulate = Color("FFF")
+	else: $UI/BottomBar/CardSetInfoShowBtn.modulate = Color("C8C8C8")
+
+
+func _on_visual_angle_change_btn_pressed() -> void:
+	_on_switch_view_pressed()

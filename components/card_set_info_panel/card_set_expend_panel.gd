@@ -5,26 +5,7 @@ var is_expend := false
 var sets = null
 var current_show_set := ""
 
-#var change_show := 0
-
 var battle: Battle = null
-
-
-#! 这里使用事件来实现
-# battle.event_manager.emit("CardSetCreate", {
-# 	set_name: card_set_id,
-# 	config: config
-# })
-#
-# battle.event_manager.emit("CardSetUpdate", {
-# 	set_name: card_set_id,
-# 	player_id: player_id,
-# 	cards: battle.battle_data_bind_list.card_set[card_set_id]["data"][player_id]
-# })
-
-
-
-
 
 
 func _ready() -> void:
@@ -35,7 +16,6 @@ func _ready() -> void:
 func set_battle(_battle: Battle):
 	battle = _battle
 	battle.event_manager.subscribe("CardSetUpdate", _update)
-
 
 # battle.event_manager.emit("CardSetUpdate", {
 # 	set_name: card_set_id,
@@ -58,20 +38,15 @@ func _update(args: Dictionary):
 # }
 func show_card_set(card_set, _default_title := ""):
 	sets = card_set
-	#$Title/Label.text = card_set["config"].get("show_text", _default_title)
-	#_build_tab(sets["data"].keys())
 	_build_tab()
 	$Title/Label.text = card_set["config"].get("show_text", _default_title)
-	#print("_def: ", _default_title, " --- ", name, " ||| ", card_set["config"].get("show_text", _default_title))
 
 
 func update(card_set, _default_title := "", _player_id := ""):
 	sets = card_set
 	
 	_build_tab()
-	#$Title/Label.text = card_set["config"].get("show_text", _default_title)
 	
-	#print("_def: ", _default_title, " --- ", name, " ||| ", card_set["config"].get("show_text", _default_title), " | NOW SHOW: ", current_show_set)
 	if _player_id != current_show_set and not _player_id.is_empty():
 		return
 	
@@ -86,7 +61,6 @@ func update(card_set, _default_title := "", _player_id := ""):
 func _expend_reload_view():
 	# 从 battle 获取最新数据
 	_build_tab()
-	#var cards = battle.battle_data_bind_list.card_set[str(name)]["data"][current_show_set]
 	_build_reload_card_view_2d()
 	pass
 
@@ -118,14 +92,11 @@ func _build_tab():
 				t.get_node("Color").color = Color("3d3d3d")
 			view.get_node("Color").color = Color("ababab")
 			current_show_set = pid
-			#print("--> ", sets["data"], " | -->> ", current_show_set)
 			_build_reload_card_view_2d()
 		)
 		view.show()
 	
 	if current_show_set.is_empty():
-		#var t = $Tab.get_children()[0]
-		#t.pressed.emit()
 		var t = $Tab.get_child(0)
 		t.get_node("Color").color = Color("ababab")
 		current_show_set = str(t.name)
@@ -180,7 +151,6 @@ func _build_card_view_2d(cards: Array):
 		if str(card.name) in cards:
 			save_cards.append(str(card.name))
 		else:
-			#card.queue_free()
 			card.animate_free()
 			free_card_view_count += 1
 	var await_add_cards = []
@@ -192,7 +162,6 @@ func _build_card_view_2d(cards: Array):
 				view.animate_free()
 	
 	if not is_expend:
-		#$Label.text = str(await_add_cards.size() - free_card_view_count)
 		return
 	
 	if free_card_view_count == 0 and await_add_cards.size() == 0:
@@ -206,24 +175,8 @@ func _build_card_view_2d(cards: Array):
 				$Scroll/Grid.move_child(views[i], i)
 		return
 	
-	#for p in $Tab.get_children():
-		#if p.name == current_show_set:
-			#p.get_node("Label2").text = str(await_add_cards.size() - free_card_view_count)
-		#pass
-	#$Label.text = str(await_add_cards.size() - free_card_view_count)
-		
-	
-	#if name == "Hand":
 	for cid in await_add_cards:
 		var ce := FindUtils.find_card(cid)
-		
-		#if sets["config"].has("system_hand_component") and sets["config"]["system_hand_component"]:
-			#for view in ce.get_view_2d():
-				#if view.get_parent().name != "Hand":
-					#view.animate_free()
-		#else:
-			#for view in ce.get_view_2d():
-				#view.animate_free()
 		
 		var view: CardView2D = load("res://components/card_view_2d/card_view_2d.tscn").instantiate()
 		view.custom_minimum_size = Vector2(78, 109)
@@ -253,9 +206,6 @@ func _on_expend_pressed() -> void:
 		size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_FILL
 		tween.tween_property($Title/Icon, "rotation_degrees", 180, 0.25)
 		$Tab.show()
-		#_build_reload_card_view_2d()
-		#_build_reload_card_view_2d(sets["data"][current_show_set])
-		#_build_tab()
 		_expend_reload_view()
 	else:
 		size_flags_vertical = Control.SIZE_FILL

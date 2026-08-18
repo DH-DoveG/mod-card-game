@@ -12,7 +12,7 @@ var proportion: float = 30.0:
 		if _manager:
 			_manager.set_proportion(proportion)
 
-var default_origin: ToastEnums.ToastOrigin = ToastEnums.ToastOrigin.BOTTOM:
+var default_origin: ToastEnums.ToastOrigin = ToastEnums.ToastOrigin.TOP:
 	set(value):
 		default_origin = value
 		if _manager:

@@ -31,6 +31,38 @@ func get_top():
 	return pos
 
 
+func hightlight():
+	var am: ArrayMesh = $Body.mesh
+	var m: ShaderMaterial = am.surface_get_material(0)
+	#var m: ShaderMaterial = $Body.mesh
+	#.get_surface_override_material(0)
+	var color := Color.from_hsv(0.0, 0.0, 4.416, 1.0)
+	#m.set_shader_parameter("grid_color", color)
+	var c = m.get_shader_parameter("grid_color")
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_method(func(value: Color):
+		m.set_shader_parameter("grid_color", value)
+	, c, color, 0.2)
+
+
+func normallight():
+	var am: ArrayMesh = $Body.mesh
+	var m: ShaderMaterial = am.surface_get_material(0)
+	#var m: ShaderMaterial = $Body.mesh.get_surface_override_material(0)
+	
+	var c = m.get_shader_parameter("grid_color")
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_method(func(value: Color):
+		m.set_shader_parameter("grid_color", value)
+	, c, Color("c8c8c8"), 0.4)
+	
+	#m.set_shader_parameter("grid_color", Color("c8c8c8"))
+
+
+func trigger():
+	pass
+
+
 func _ready() -> void:
 	add_to_group(&"AreaView3D")
 

@@ -62,7 +62,7 @@ static func _register_builtin_styles() -> void:
 	success.font_color = Color.WHITE
 	success.border_color = Color(0.2, 0.7, 0.2, 1.0)
 	success.shadow_color = Color(0, 0, 0, 0.25)
-	success.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	success.default_origin = ToastEnums.ToastOrigin.TOP
 	register(SUCCESS, success)
 	
 	var warning = ToastStyle.new()
@@ -71,7 +71,7 @@ static func _register_builtin_styles() -> void:
 	warning.font_color = Color.BLACK
 	warning.border_color = Color(1.0, 0.76, 0.03, 1.0)
 	warning.shadow_color = Color(0, 0, 0, 0.25)
-	warning.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	warning.default_origin = ToastEnums.ToastOrigin.TOP
 	register(WARNING, warning)
 	
 	var info = ToastStyle.new()
@@ -80,7 +80,7 @@ static func _register_builtin_styles() -> void:
 	info.font_color = Color.WHITE
 	info.border_color = Color(0.25, 0.6, 0.9, 1.0)
 	info.shadow_color = Color(0, 0, 0, 0.25)
-	info.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	info.default_origin = ToastEnums.ToastOrigin.TOP
 	register(INFO, info)
 	
 	var error = ToastStyle.new()
@@ -89,7 +89,7 @@ static func _register_builtin_styles() -> void:
 	error.font_color = Color.WHITE
 	error.border_color = Color(0.95, 0.3, 0.3, 1.0)
 	error.shadow_color = Color(0, 0, 0, 0.3)
-	error.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	error.default_origin = ToastEnums.ToastOrigin.TOP
 	register(ERROR, error)
 	
 	var light = ToastStyle.new()
@@ -99,7 +99,7 @@ static func _register_builtin_styles() -> void:
 	light.border_enabled = true
 	light.border_color = Color(0.8, 0.8, 0.8, 1.0)
 	light.shadow_color = Color(0, 0, 0, 0.15)
-	light.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	light.default_origin = ToastEnums.ToastOrigin.TOP
 	register(LIGHT, light)
 	
 	var dark = ToastStyle.new()
@@ -109,7 +109,7 @@ static func _register_builtin_styles() -> void:
 	dark.border_enabled = true
 	dark.border_color = Color(0.4, 0.4, 0.4, 1.0)
 	dark.shadow_color = Color(0, 0, 0, 0.4)
-	dark.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	dark.default_origin = ToastEnums.ToastOrigin.TOP
 	register(DARK, dark)
 	
 	var loading = ToastStyle.new()
@@ -120,7 +120,7 @@ static func _register_builtin_styles() -> void:
 	loading.border_color = Color(0.5, 0.5, 0.5, 0.5)
 	loading.shadow_color = Color(0, 0, 0, 0.4)
 	loading.shadow_enabled = true
-	loading.default_origin = ToastEnums.ToastOrigin.BOTTOM
+	loading.default_origin = ToastEnums.ToastOrigin.TOP
 	# Spinner configuration
 	loading.spinner_type = ToastEnums.SpinnerType.DEFAULT
 	loading.spinner_tint = Color(0.4, 0.7, 1.0)
