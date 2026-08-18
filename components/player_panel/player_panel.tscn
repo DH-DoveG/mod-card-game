@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ddm4xshppnqi1"]
+
+[ext_resource type="Script" uid="uid://ulpuhixqg6ix" path="res://components/player_panel/player_panel.gd" id="1_6tlbu"]
+
+[node name="PlayerPanel" type="Control" unique_id=677830440]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 408.0
+offset_bottom = 184.0
+mouse_filter = 2
+script = ExtResource("1_6tlbu")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=1203489206]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_width = 4.0
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=623485845]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://m0mds4hmlg6c"]
+
+[ext_resource type="Script" uid="uid://bpvtwih0nwjtf" path="res://components/line/line.gd" id="1"]
+
+[node name="Line" type="Node3D" unique_id=1996725020]
+script = ExtResource("1")
+
+[node name="Path" type="Path3D" parent="." unique_id=1012569609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0101213)
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path" unique_id=67411414]

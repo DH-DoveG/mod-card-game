@@ -1,0 +1,187 @@
+[gd_scene format=3 uid="uid://drdawgvau588f"]
+
+[ext_resource type="Script" uid="uid://b8b61e7ejs83p" path="res://components/player_avatar/player_avatar.gd" id="1_d106d"]
+[ext_resource type="Shader" uid="uid://ejs7mjxnfds3" path="res://assets/shader/canvas_item/rainbow_barder.gdshader" id="1_x3rxl"]
+[ext_resource type="Texture2D" uid="uid://chxo4hsk18w4w" path="res://addons/material_icons_importer/icons/alarm.png" id="2_d106d"]
+[ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="2_n653b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rk6l7"]
+shader = ExtResource("1_x3rxl")
+shader_parameter/border_px = 2.0
+shader_parameter/speed = 0.9
+shader_parameter/glow_intensity = 2.0
+shader_parameter/node_size = Vector2(408, 88)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ljqu"]
+font_size = 26
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_so8dw"]
+font_size = 26
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_nup8q"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d106d"]
+gradient = SubResource("Gradient_nup8q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x3rxl"]
+shader = ExtResource("2_n653b")
+shader_parameter/thickness = 8.00000038
+shader_parameter/ring_count = 32
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[node name="PlayerAvatar" type="ColorRect" unique_id=798785341]
+custom_minimum_size = Vector2(408, 88)
+offset_right = 408.0
+offset_bottom = 88.0
+offset_transform_enabled = true
+color = Color(0.19607843, 0.19607843, 0.19607843, 0.78431374)
+script = ExtResource("1_d106d")
+
+[node name="ActiveOutline" type="ColorRect" parent="." unique_id=1387766787]
+visible = false
+material = SubResource("ShaderMaterial_rk6l7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="." unique_id=979838722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Info" type="Control" parent="HBox" unique_id=1053436723]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Nickname" type="Label" parent="HBox/Info" unique_id=231963366]
+custom_minimum_size = Vector2(0, 40)
+custom_maximum_size = Vector2(-1, 40)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = -5.0
+offset_right = -8.0
+offset_bottom = 35.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 16
+text = "一二三四五六七"
+label_settings = SubResource("LabelSettings_8ljqu")
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="Value" type="Label" parent="HBox/Info" unique_id=1094063022]
+custom_minimum_size = Vector2(232, 40)
+custom_maximum_size = Vector2(232, 40)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -40.0
+offset_right = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "LP20/B2/E6/P1"
+label_settings = SubResource("LabelSettings_so8dw")
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="IconBox" type="Control" parent="HBox" unique_id=1420106576]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="HBox/IconBox" unique_id=1381261548]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.818
+offset_bottom = 13.104
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_d106d")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="RoundTime" type="HBoxContainer" parent="." unique_id=1838875546]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -33.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="RoundTime" unique_id=71790849]
+material = SubResource("ShaderMaterial_x3rxl")
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("2_d106d")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="RoundTime" unique_id=395894779]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+text = "233s"
+
+[node name="State" type="ColorRect" parent="." unique_id=1504998823]
+visible = false
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.2592937, 0.2592937, 0.2592937, 1)
+
+[node name="Label" type="Label" parent="State" unique_id=1570850515]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "N
+E
+X
+T"
+horizontal_alignment = 1
+vertical_alignment = 1

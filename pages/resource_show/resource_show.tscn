@@ -1,0 +1,244 @@
+[gd_scene format=3 uid="uid://ctwux0535fdf1"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_vs6qn"]
+[ext_resource type="Script" uid="uid://b0b4oj18fnsxc" path="res://pages/resource_show/resource_show.gd" id="2_h3gf1"]
+[ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="3_3u2k4"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="5_ef7ls"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ef7ls"]
+shader = ExtResource("3_3u2k4")
+shader_parameter/graph_switch = false
+shader_parameter/intensity = 0.749999983236
+shader_parameter/blur = 3.0
+shader_parameter/diffusion = 0.4
+shader_parameter/zoom = 1.0
+shader_parameter/graph_type = 2
+shader_parameter/number = 2.0
+shader_parameter/size = 0.249999994412
+shader_parameter/rotate_speed = 0.01999999955296
+shader_parameter/offset_speed = 0.01999999955296
+shader_parameter/angle = 1.0
+shader_parameter/alpha = 0.1999999955296
+
+[node name="ResourceShow" unique_id=1308063280 instance=ExtResource("1_vs6qn")]
+script = ExtResource("2_h3gf1")
+
+[node name="Title" type="Control" parent="." index="1" unique_id=923057726]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 40.0
+offset_right = 320.0
+offset_bottom = 96.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Title" index="0" unique_id=1555892963]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "资源一览"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bottom" type="Panel" parent="." index="2" unique_id=438342960]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bottom" index="0" unique_id=489903040]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 8.0
+offset_right = -24.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="." index="3" unique_id=1412390596]
+custom_minimum_size = Vector2(1664, 840)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 128.0
+offset_top = 120.0
+offset_right = -128.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+tab_alignment = 1
+current_tab = 0
+
+[node name="Image" type="TabBar" parent="TabContainer" index="1" unique_id=273974030]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBox" type="VBoxContainer" parent="TabContainer/Image" index="1" unique_id=1086145958]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CR" type="ColorRect" parent="TabContainer/Image/VBox" index="0" unique_id=910825819]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+color = Color(0.5254902, 0.5254902, 0.5254902, 0.5568628)
+
+[node name="HBox" type="HBoxContainer" parent="TabContainer/Image/VBox/CR" index="0" unique_id=932309895]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -620.0
+offset_top = 4.0
+offset_right = -16.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Image/VBox/CR/HBox" index="0" unique_id=1853332903]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "资源标签："
+
+[node name="Option" type="OptionButton" parent="TabContainer/Image/VBox/CR/HBox" index="1" unique_id=2014860139]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Count" type="Label" parent="TabContainer/Image/VBox/CR" index="1" unique_id=201265606]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 528.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 24
+text = "标签类别图像资源数量："
+vertical_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="TabContainer/Image/VBox" index="1" unique_id=173897180]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GC" type="GridContainer" parent="TabContainer/Image/VBox/Scroll" index="0" unique_id=1200627601]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 6
+
+[node name="Sound" type="TabBar" parent="TabContainer" index="2" unique_id=220270333]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Card" type="TabBar" parent="TabContainer" index="3" unique_id=158872550]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Scroll" type="ScrollContainer" parent="TabContainer/Card" index="1" unique_id=710398800]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="GC" type="GridContainer" parent="TabContainer/Card/Scroll" index="0" unique_id=666857666]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 8
+
+[node name="BigShowMask" type="ColorRect" parent="." index="4" unique_id=2027723351]
+visible = false
+material = SubResource("ShaderMaterial_ef7ls")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Image" type="TextureRect" parent="BigShowMask" index="0" unique_id=1461509034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 168.0
+offset_top = 64.0
+offset_right = -166.22241
+offset_bottom = -124.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ID" type="Label" parent="BigShowMask" index="1" unique_id=1361178026]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -352.0
+offset_top = -92.0
+offset_right = 352.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "NAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Close" type="TextureButton" parent="." index="5" unique_id=1883841501]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = 96.0
+grow_horizontal = 0
+texture_normal = ExtResource("5_ef7ls")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TextureButton" type="TextureButton" parent="." index="6" unique_id=1759384030]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_container_tab_changed"]
+[connection signal="item_selected" from="TabContainer/Image/VBox/CR/HBox/Option" to="." method="_on_image_option_item_selected"]
+[connection signal="pressed" from="Close" to="." method="_on_close_pressed"]

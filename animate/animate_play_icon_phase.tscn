@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://brf4xnm075k7o"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_kibh0"]
+[ext_resource type="Script" uid="uid://e8fckjqryak5" path="res://animate/animate_play_icon_phase.gd" id="2_fi454"]
+
+[sub_resource type="Animation" id="Animation_t2gml"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animation/NextRoundAP:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-300, 476)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animation/NextRoundAP:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_k1kyq"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animation/NextRoundAP:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.85, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-1580, -76), Vector2(-300, -76), Vector2(-300, -76), Vector2(980, -76)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animation/NextRoundAP:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_sound"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_loyfg"]
+_data = {
+&"RESET": SubResource("Animation_t2gml"),
+&"show": SubResource("Animation_k1kyq")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_qadta"]
+font_size = 96
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 32
+shadow_color = Color(0, 0, 0, 0.298039)
+shadow_offset = Vector2(10, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0f5u"]
+bg_color = Color(0.6, 0.6, 0.6, 0.27451)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.701961, 0.701961, 0.701961, 0.392157)
+border_blend = true
+corner_radius_top_left = 115
+corner_radius_bottom_right = 90
+corner_detail = 1
+expand_margin_left = 45.0
+expand_margin_right = 45.0
+shadow_size = 24
+
+[node name="AnimatePlayIconPhase" unique_id=692784950 instance=ExtResource("1_kibh0")]
+script = ExtResource("2_fi454")
+
+[node name="UI" type="CanvasLayer" parent="." index="0" unique_id=1813070664]
+
+[node name="Animation" type="Control" parent="UI" index="0" unique_id=1946748416]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Animation" index="0" unique_id=776443859]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_loyfg")
+
+[node name="NextRoundAP" type="Label" parent="UI/Animation" index="1" unique_id=33306189]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = 456.0
+offset_right = 319.99927
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Next Round"
+label_settings = SubResource("LabelSettings_qadta")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="UI/Animation/NextRoundAP" index="0" unique_id=50227906]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 78.0
+offset_right = 0.000976563
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p0f5u")

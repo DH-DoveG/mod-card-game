@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://doqy8rylm1ny8"]
+
+[ext_resource type="Script" uid="uid://ctjyg2ha3clsm" path="res://components/background/background.gd" id="1_h84v1"]
+[ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="2_fhp43"]
+[ext_resource type="Shader" uid="uid://d1b40a0myfikf" path="res://assets/shader/canvas_item/bg9.gdshader" id="2_mpiq4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1pu42"]
+shader = ExtResource("2_mpiq4")
+shader_parameter/SCALE = Vector2(1920, 1080)
+
+[node name="Background" type="SubViewportContainer" unique_id=1604563716]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch = true
+script = ExtResource("1_h84v1")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=445337642]
+disable_3d = true
+handle_input_locally = false
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(1920, 1080)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="ColorRect4" type="ColorRect" parent="SubViewport" unique_id=580811736]
+material = SubResource("ShaderMaterial_1pu42")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="SubViewport/ColorRect4" unique_id=260578640]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fhp43")
+expand_mode = 1
+
+[connection signal="size_changed" from="SubViewport" to="." method="_on_sub_viewport_size_changed"]

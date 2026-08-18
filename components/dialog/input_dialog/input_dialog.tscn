@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c3djo6u018oak"]
+
+[ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_br4hi"]
+[ext_resource type="Script" uid="uid://0i84xaa1u72k" path="res://components/dialog/input_dialog/input_dialog.gd" id="2_niusp"]
+
+[node name="InputDialog" unique_id=64599099 instance=ExtResource("1_br4hi")]
+script = ExtResource("2_niusp")
+
+[node name="Dialog" parent="." index="1" unique_id=1235732902]
+offset_top = -156.0
+offset_bottom = 156.0
+
+[node name="VBox" type="VBoxContainer" parent="Dialog" index="3" unique_id=87679161]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 112.0
+offset_right = -64.0
+offset_bottom = -112.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="Dialog/VBox" index="0" unique_id=1638647060]
+layout_mode = 2
+theme_override_font_sizes/font_size = 38
+placeholder_text = "搜索预设……"

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://ekmwxsljbbed"]
+
+[ext_resource type="PackedScene" uid="uid://h36mkqf5pxlw" path="res://components/dialog/select_item_dialog/select_item_dialog.tscn" id="1_qnvjd"]
+[ext_resource type="Script" uid="uid://dnwvg8equphwj" path="res://components/dialog/select_image_dialog/select_image_dialog.gd" id="2_0gmbn"]
+[ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="3_xu67e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_43av6"]
+shader = ExtResource("3_xu67e")
+shader_parameter/thickness = 2.000000095
+shader_parameter/ring_count = 16
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_1kaja"]
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="SelectImageDialog" unique_id=2138887807 instance=ExtResource("1_qnvjd")]
+script = ExtResource("2_0gmbn")
+
+[node name="Visible" parent="Background" parent_id_path=PackedInt32Array(525143682) index="0" unique_id=1332550977]
+material = SubResource("ShaderMaterial_43av6")
+
+[node name="Title" parent="Dialog" parent_id_path=PackedInt32Array(1235732902) index="0" unique_id=1512743390]
+label_settings = SubResource("LabelSettings_1kaja")

@@ -1,0 +1,339 @@
+[gd_scene format=3 uid="uid://boh4vi8s6xeug"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_xh4p5"]
+[ext_resource type="Script" uid="uid://dxsl0yrvkwu3" path="res://pages/setting_page/setting_page.gd" id="2_vw1vr"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="3_ifjrh"]
+[ext_resource type="LabelSettings" uid="uid://dn7mgvxraqjqi" path="res://pages/setting_page/item_text_settings.tres" id="3_ngyab"]
+[ext_resource type="Texture2D" uid="uid://bkff633cqkn6s" path="res://addons/kenney_fantasy-ui-borders/PNG/Double/Divider Fade/divider-fade-001.png" id="8_dkm1i"]
+
+[node name="SettingPage" unique_id=742008028 instance=ExtResource("1_xh4p5")]
+script = ExtResource("2_vw1vr")
+
+[node name="Panel" type="TabContainer" parent="." index="1" unique_id=363495078]
+custom_minimum_size = Vector2(1664, 840)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 128.0
+offset_top = 120.0
+offset_right = -128.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+current_tab = 1
+
+[node name="Image" type="TabBar" parent="Panel" index="1" unique_id=1169432711]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Image" index="1" unique_id=205293790]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Sound" type="TabBar" parent="Panel" index="2" unique_id=156557192]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Sound" index="1" unique_id=2028050260]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Music" type="VBoxContainer" parent="Panel/Sound/VBox" index="0" unique_id=1314422399]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Sound/VBox/Music" index="0" unique_id=17469711]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Panel/Sound/VBox/Music/HBox" index="0" unique_id=1810447817]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+text = "音乐"
+label_settings = ExtResource("3_ngyab")
+vertical_alignment = 1
+
+[node name="Option" type="HSlider" parent="Panel/Sound/VBox/Music/HBox" index="1" unique_id=1895641693]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 10.0
+value = 5.0
+rounded = true
+tick_count = 10
+ticks_on_borders = true
+
+[node name="CheckBox" type="CheckBox" parent="Panel/Sound/VBox/Music/HBox" index="2" unique_id=1767631444]
+layout_mode = 2
+text = "静音"
+
+[node name="Detail" type="Label" parent="Panel/Sound/VBox/Music" index="1" unique_id=1822000092]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "音乐的音量"
+autowrap_mode = 2
+
+[node name="Sound" type="VBoxContainer" parent="Panel/Sound/VBox" index="1" unique_id=1285282147]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Sound/VBox/Sound" index="0" unique_id=1022099380]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Panel/Sound/VBox/Sound/HBox" index="0" unique_id=399386057]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+text = "音效"
+label_settings = ExtResource("3_ngyab")
+vertical_alignment = 1
+
+[node name="Option" type="HSlider" parent="Panel/Sound/VBox/Sound/HBox" index="1" unique_id=1377975647]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 10.0
+value = 5.0
+rounded = true
+tick_count = 10
+ticks_on_borders = true
+
+[node name="CheckBox" type="CheckBox" parent="Panel/Sound/VBox/Sound/HBox" index="2" unique_id=998062053]
+layout_mode = 2
+text = "静音"
+
+[node name="Detail" type="Label" parent="Panel/Sound/VBox/Sound" index="1" unique_id=1115876863]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "音效的音量"
+autowrap_mode = 2
+
+[node name="Mod" type="TabBar" parent="Panel" index="3" unique_id=361832342]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Mod" index="1" unique_id=1598398909]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Item" type="VBoxContainer" parent="Panel/Mod/VBox" index="0" unique_id=430170826]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Mod/VBox/Item" index="0" unique_id=1471086317]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/Mod/VBox/Item/HBox" index="0" unique_id=47797226]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+text = "模组搜索路径"
+label_settings = ExtResource("3_ngyab")
+vertical_alignment = 1
+
+[node name="Option" type="Button" parent="Panel/Mod/VBox/Item/HBox" index="1" unique_id=2060277114]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "添加路径"
+
+[node name="Detail" type="Label" parent="Panel/Mod/VBox/Item" index="1" unique_id=1948456532]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "游戏将从路径对应的文件夹下找寻可用的MOD，可以通过添加、删除以及启用来控制游戏对MOD的查找"
+autowrap_mode = 2
+
+[node name="Paths" type="VBoxContainer" parent="Panel/Mod/VBox/Item" index="2" unique_id=1126254277]
+layout_mode = 2
+
+[node name="Bottom" type="Panel" parent="." index="2" unique_id=802357465]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="Bottom" index="0" unique_id=1723721816]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 336.0
+offset_top = 15.5
+offset_right = -336.0
+offset_bottom = -15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Save" type="Button" parent="Bottom/HBox" index="0" unique_id=1988962628]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " 保存 "
+
+[node name="Quit" type="Button" parent="Bottom/HBox" index="1" unique_id=2050760431]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "退出"
+
+[node name="Title" type="Control" parent="." index="3" unique_id=1174861785]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 40.0
+offset_right = 320.0
+offset_bottom = 96.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Title" index="0" unique_id=799741955]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "游戏设置"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Left" type="TextureRect" parent="Title" index="1" unique_id=266816252]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+texture = ExtResource("8_dkm1i")
+
+[node name="Right" type="TextureRect" parent="Title" index="2" unique_id=1186739761]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_dkm1i")
+flip_h = true
+
+[node name="Template" type="Node" parent="." index="4" unique_id=429771131]
+
+[node name="ImageSetItem" type="VBoxContainer" parent="Template" index="0" unique_id=1033315039]
+visible = false
+offset_left = 148.0
+offset_top = 209.0
+offset_right = 1772.0
+offset_bottom = 319.0
+
+[node name="HBox" type="HBoxContainer" parent="Template/ImageSetItem" index="0" unique_id=137371325]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Template/ImageSetItem/HBox" index="0" unique_id=1539195699]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+text = "Title"
+label_settings = ExtResource("3_ngyab")
+vertical_alignment = 1
+
+[node name="Option" type="OptionButton" parent="Template/ImageSetItem/HBox" index="1" unique_id=1593939390]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+
+[node name="Detail" type="Label" parent="Template/ImageSetItem" index="1" unique_id=184983160]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "Details"
+autowrap_mode = 2
+
+[node name="ModPathItem" type="HBoxContainer" parent="Template" index="1" unique_id=1665769635]
+visible = false
+custom_minimum_size = Vector2(0, 67)
+offset_left = 148.0
+offset_top = 312.0
+offset_right = 1772.0
+offset_bottom = 379.0
+theme_override_constants/separation = 8
+
+[node name="Path" type="Label" parent="Template/ModPathItem" index="0" unique_id=684999847]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 4.0
+theme_override_font_sizes/font_size = 24
+text = "C://res..."
+vertical_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="Template/ModPathItem" index="1" unique_id=1769500075]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "启用"
+
+[node name="Remove" type="TextureButton" parent="Template/ModPathItem" index="2" unique_id=850035350]
+self_modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(67, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_ifjrh")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ChooseModFolderPathDialog" type="FileDialog" parent="." index="5" unique_id=1823901460]
+oversampling_override = 1.0
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(788, 720)
+file_mode = 2
+display_mode = 1
+access = 2
+
+[connection signal="pressed" from="Panel/Mod/VBox/Item/HBox/Option" to="." method="_on_option_pressed"]
+[connection signal="pressed" from="Bottom/HBox/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="Bottom/HBox/Quit" to="." method="_on_quit_pressed"]

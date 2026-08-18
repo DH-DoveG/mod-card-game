@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://h36mkqf5pxlw"]
+
+[ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_m7l24"]
+[ext_resource type="Script" uid="uid://cvtrnyy6r34qv" path="res://components/dialog/select_item_dialog/select_item_dialog.gd" id="2_ilhem"]
+[ext_resource type="Script" uid="uid://j6ck3vouovnk" path="res://addons/label_font_auto_sizer/label_auto_sizer.gd" id="3_m123k"]
+
+[node name="SelectItemDialog" unique_id=2138887807 instance=ExtResource("1_m7l24")]
+script = ExtResource("2_ilhem")
+
+[node name="Templates" type="Node" parent="." index="0" unique_id=1868892932]
+
+[node name="Item" type="ColorRect" parent="Templates" index="0" unique_id=728631678]
+visible = false
+custom_minimum_size = Vector2(253, 369)
+custom_maximum_size = Vector2(253, 369)
+offset_left = 589.0
+offset_top = 175.0
+offset_right = 842.0
+offset_bottom = 544.0
+color = Color(0.5058824, 0.5058824, 0.5058824, 0.627451)
+
+[node name="Image" type="TextureButton" parent="Templates/Item" index="0" unique_id=1836370443]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ColorRect" type="ColorRect" parent="Templates/Item" index="1" unique_id=1131576519]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -77.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.4862745)
+
+[node name="Label" type="Label" parent="Templates/Item" index="2" unique_id=2080158395]
+custom_minimum_size = Vector2(245, 73)
+custom_maximum_size = Vector2(245, 73)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -77.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+script = ExtResource("3_m123k")
+_size_just_modified_by_autosizer = false
+_set_defaults = true
+_base_font_size = 20
+_current_font_size = 20
+_last_size_state = 1
+metadata/_custom_type_script = "uid://j6ck3vouovnk"
+
+[node name="Dialog" parent="." index="2" unique_id=1235732902]
+offset_left = -704.0
+offset_top = -380.0
+offset_right = 704.0
+offset_bottom = 380.0
+
+[node name="Scroll" type="ScrollContainer" parent="Dialog" index="3" unique_id=2022332006]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -680.0
+offset_top = -168.0
+offset_right = 680.0
+offset_bottom = 214.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="Dialog/Scroll" index="0" unique_id=1881464031]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1

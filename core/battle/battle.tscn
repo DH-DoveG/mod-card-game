@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://8hs2s1hxxvrw"]
+
+[ext_resource type="Script" uid="uid://6r57jlvy8y4h" path="res://core/battle/battle.gd" id="1_tbwk6"]
+[ext_resource type="PackedScene" uid="uid://qlxyq7jma4yc" path="res://core/scene/scene.tscn" id="2_tbwk6"]
+[ext_resource type="PackedScene" uid="uid://doqy8rylm1ny8" path="res://components/background/background.tscn" id="2_xybuj"]
+[ext_resource type="PackedScene" uid="uid://bhccvwucsg6nr" path="res://data/callback_cache/callback_cache.tscn" id="8_354yc"]
+[ext_resource type="Script" uid="uid://b0dicnumx46f8" path="res://addons/rpc-await/rpc_await.gd" id="9_31d7y"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bye75"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_curve = 2.4000003
+
+[sub_resource type="Sky" id="Sky_pgeyw"]
+sky_material = SubResource("ProceduralSkyMaterial_bye75")
+
+[sub_resource type="Environment" id="Environment_tbwk6"]
+background_mode = 2
+sky = SubResource("Sky_pgeyw")
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+
+[node name="Battle" type="Node" unique_id=1101787654]
+script = ExtResource("1_tbwk6")
+
+[node name="Background" parent="." unique_id=1604563716 instance=ExtResource("2_xybuj")]
+show_behind_parent = true
+
+[node name="SVC" type="SubViewportContainer" parent="." unique_id=1034125951]
+top_level = true
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="SV" type="SubViewport" parent="SVC" unique_id=142721984]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_3d = true
+physics_object_picking = true
+physics_object_picking_sort = true
+physics_object_picking_first_only = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Scene" parent="SVC/SV" unique_id=999541222 instance=ExtResource("2_tbwk6")]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1932409307]
+
+[node name="Environment" type="Node" parent="." unique_id=768455844]
+
+[node name="World" type="WorldEnvironment" parent="Environment" unique_id=862726685]
+environment = SubResource("Environment_tbwk6")
+
+[node name="Light" type="DirectionalLight3D" parent="Environment" unique_id=129914062]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+light_energy = 3.0
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="CallbackCache" parent="." unique_id=418213418 instance=ExtResource("8_354yc")]
+
+[node name="RpcAwaiter" type="Node" parent="." unique_id=187534162]
+script = ExtResource("9_31d7y")

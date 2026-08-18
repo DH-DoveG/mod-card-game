@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://bdbodaeugsmgn"]
+
+[sub_resource type="Shader" id="Shader_wirxg"]
+code = "shader_type spatial;
+render_mode unshaded, depth_draw_never;
+
+group_uniforms Highlight;
+uniform vec4 shine_color : source_color = vec4(1.0);
+uniform float shine_speed : hint_range(0, 25) = 1.0;
+uniform float shine_width : hint_range(0, 2) = 1.0;
+uniform float cycle_interval : hint_range(0, 100) = 1.0;
+uniform float angle_fade : hint_range(0, 1) = 1.0;
+
+group_uniforms HighlightDirection;
+uniform float x_direction : hint_range(-1, 1) = 0.0;
+uniform float y_direction : hint_range(-1, 1) = 0.0;
+uniform float z_direction : hint_range(-1, 1) = 1.0;
+
+float sawtooth(float x) {
+	return 2.0 * ( (x + shine_speed * TIME) / (shine_width + cycle_interval) - floor( 0.5 + (x + shine_speed * TIME) / (shine_width + cycle_interval) ) );
+}
+
+void fragment() {
+	vec3 w_vertex = ( INV_VIEW_MATRIX * vec4(VERTEX, 1.0) ).xyz;
+	
+	float projection = dot( w_vertex, normalize(vec3(x_direction, y_direction, z_direction)) );
+	
+	float frequency = ceil( sawtooth(projection) - sawtooth(projection + shine_width) );
+	
+	ALBEDO = shine_color.xyz;
+	ALPHA = clamp( ( 1.0 - dot(NORMAL, VIEW) * angle_fade) * frequency * shine_color.a, 0.0, 1.0 );	
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmpch"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_wirxg")
+shader_parameter/shine_color = Color(1, 1, 1, 0.49803922)
+shader_parameter/shine_speed = 1.0
+shader_parameter/shine_width = 1.0
+shader_parameter/cycle_interval = 1.0
+shader_parameter/angle_fade = 1.0
+shader_parameter/x_direction = -0.49999997625
+shader_parameter/y_direction = 0.0
+shader_parameter/z_direction = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_65p0j"]
+resource_local_to_scene = true
+next_pass = SubResource("ShaderMaterial_dmpch")
+transparency = 4
+albedo_color = Color(0.47843137, 0.47843137, 0.47843137, 0.47843137)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_78qem"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_65p0j")
+size = Vector2(0.9, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v0na3"]
+size = Vector3(0.9, 0.08, 0.9)
+
+[node name="AreaMask" type="StaticBody3D" unique_id=23407174]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1908939726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
+mesh = SubResource("PlaneMesh_78qem")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1799547253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+shape = SubResource("BoxShape3D_v0na3")

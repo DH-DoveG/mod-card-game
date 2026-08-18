@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://c3ipunxga8s3y"]
+
+[ext_resource type="Script" uid="uid://blxeb4wvn8rbj" path="res://components/area_info_panel/area_info_panel.gd" id="1_d7ok5"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="1_udmxe"]
+[ext_resource type="Texture2D" uid="uid://c848c3jnvt4qi" path="res://assets/images/icon/Unlock.png" id="2_d7ok5"]
+
+[node name="AreaInfoPanel" type="ColorRect" unique_id=79139102]
+offset_right = 336.0
+offset_bottom = 144.0
+color = Color(0.34117648, 0.34117648, 0.34117648, 0.8980392)
+script = ExtResource("1_d7ok5")
+
+[node name="Back" type="ColorRect" parent="." unique_id=2116849964]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+color = Color(0.22352941, 0.22352941, 0.22352941, 1)
+
+[node name="Title" type="Label" parent="Back" unique_id=97428768]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_right = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "区域信息（X=?,Y=?,Z=?）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Close" type="TextureButton" parent="Back" unique_id=543267580]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 24.0
+grow_vertical = 2
+texture_normal = ExtResource("1_udmxe")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Lock" type="TextureButton" parent="Back" unique_id=1731832619]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("2_d7ok5")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Info" type="RichTextLabel" parent="." unique_id=111423839]
+custom_minimum_size = Vector2(328, 112)
+custom_maximum_size = Vector2(328, 112)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 28.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true

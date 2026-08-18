@@ -1,0 +1,239 @@
+[gd_scene format=3 uid="uid://12gqpvqtj6t5"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_c6c3c"]
+[ext_resource type="Script" uid="uid://bl5nadolipyit" path="res://pages/mod_page/mod_page.gd" id="2_u6xjg"]
+
+[node name="ModPage" unique_id=1017827596 instance=ExtResource("1_c6c3c")]
+script = ExtResource("2_u6xjg")
+
+[node name="AllMod" type="Panel" parent="." index="1" unique_id=638901702]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 352.0
+offset_bottom = -96.0
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="AllMod" index="0" unique_id=231333285]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.05
+offset_top = 5.0
+offset_bottom = -0.40000153
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "MOD列表"
+horizontal_alignment = 1
+
+[node name="List" type="ScrollContainer" parent="AllMod" index="1" unique_id=188369294]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 56.0
+offset_right = -16.0
+offset_bottom = -32.0
+
+[node name="VBox" type="VBoxContainer" parent="AllMod/List" index="0" unique_id=1396253387]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LoadMod" type="Panel" parent="." index="2" unique_id=1858527724]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -352.0
+offset_top = -524.0
+offset_right = -16.0
+offset_bottom = 444.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="LoadMod" index="0" unique_id=1814380961]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.05
+offset_top = 5.0
+offset_bottom = -0.40000153
+theme_override_font_sizes/font_size = 32
+text = "加载的Mod"
+horizontal_alignment = 1
+
+[node name="List" type="ScrollContainer" parent="LoadMod" index="1" unique_id=466693446]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 56.0
+offset_right = -16.0
+offset_bottom = -32.0
+
+[node name="VBox" type="VBoxContainer" parent="LoadMod/List" index="0" unique_id=978649233]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ModContent" type="Panel" parent="." index="3" unique_id=1150915449]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -592.0
+offset_top = -524.0
+offset_right = 592.0
+offset_bottom = 444.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scroll" type="ScrollContainer" parent="ModContent" index="0" unique_id=1668793154]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichText" type="RichTextLabel" parent="ModContent/Scroll" index="0" unique_id=2124742300]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 32
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+bbcode_enabled = true
+threaded = true
+
+[node name="Menu" type="Panel" parent="." index="4" unique_id=1361782120]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu" index="0" unique_id=1441279896]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 12.0
+offset_right = -8.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="Use" type="Button" parent="Menu/HBoxContainer" index="0" unique_id=1793082297]
+layout_mode = 2
+text = "    应用模组    "
+
+[node name="ReturnBack" type="Button" parent="Menu/HBoxContainer" index="1" unique_id=2066418938]
+layout_mode = 2
+text = "    返回主页    "
+
+[node name="Templates" type="Node" parent="." index="5" unique_id=1426900566]
+
+[node name="LoadModListItemTemplate" type="Button" parent="Templates" index="0" unique_id=1299709661]
+custom_minimum_size = Vector2(304, 120)
+offset_left = 24.0
+offset_top = -264.0
+offset_right = 328.0
+offset_bottom = -144.0
+
+[node name="Label" type="Label" parent="Templates/LoadModListItemTemplate" index="0" unique_id=2059458542]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -112.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "BD01
+作者: Ensoulor
+版本: 1.0.0"
+autowrap_mode = 3
+clip_text = true
+
+[node name="Remove" type="Button" parent="Templates/LoadModListItemTemplate" index="1" unique_id=1320041300]
+self_modulate = Color(1, 0.24565339, 0.18392599, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "移除"
+
+[node name="AllModListItemTemplate" type="Button" parent="Templates" index="1" unique_id=1351545574]
+custom_minimum_size = Vector2(304, 120)
+offset_left = 24.0
+offset_top = -136.0
+offset_right = 328.0
+offset_bottom = -16.0
+
+[node name="Label" type="Label" parent="Templates/AllModListItemTemplate" index="0" unique_id=1282462771]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -112.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "BD01
+作者: Ensoulor
+版本: 1.0.0"
+autowrap_mode = 3
+clip_text = true
+
+[node name="Add" type="Button" parent="Templates/AllModListItemTemplate" index="1" unique_id=1718658855]
+self_modulate = Color(0, 0.8862745, 0.72156864, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "添加"
+
+[connection signal="pressed" from="Menu/HBoxContainer/Use" to="." method="_on_use_pressed"]
+[connection signal="pressed" from="Menu/HBoxContainer/ReturnBack" to="." method="_on_return_back_pressed"]

@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bcodu34fu6uv4"]
+
+[ext_resource type="Script" uid="uid://d23jm62t8nhsg" path="res://components/option/option_base.gd" id="1_5gcr6"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="4_p81cg"]
+[ext_resource type="Texture2D" uid="uid://dsfe0glfs20i1" path="res://assets/images/icon/right.png" id="5_qp8qf"]
+
+[node name="OptionBase" type="CanvasLayer" unique_id=37317475]
+script = ExtResource("1_5gcr6")
+
+[node name="Side" type="TextureRect" parent="." unique_id=910851392]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -552.0
+offset_right = -120.0
+offset_bottom = -304.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBox" type="VBoxContainer" parent="Side" unique_id=586582439]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Confirmed" type="TextureButton" parent="Side/HBox" unique_id=1614012062]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+texture_normal = ExtResource("5_qp8qf")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Close" type="TextureButton" parent="Side/HBox" unique_id=2038566723]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+texture_normal = ExtResource("4_p81cg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="pressed" from="Side/HBox/Confirmed" to="." method="_on_confirmed_pressed"]
+[connection signal="pressed" from="Side/HBox/Close" to="." method="_on_close_pressed"]

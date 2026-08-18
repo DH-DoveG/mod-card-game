@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bh48gkl7a8dbc"]
+
+[ext_resource type="Script" uid="uid://bd173l0npm4k8" path="res://components/behavior_popup_menu/behavior_popup_menu.gd" id="1_2ao2e"]
+
+[node name="BehaviorPopupMenu" type="PopupMenu" unique_id=564442218]
+oversampling_override = 1.0
+size = Vector2i(100, 120)
+script = ExtResource("1_2ao2e")
+
+[connection signal="id_pressed" from="." to="." method="_on_id_pressed"]
+[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]

@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://p0u8qxclkljo"]
+
+[ext_resource type="Script" uid="uid://cr1nelkovxaa" path="res://components/round_info/round_info.gd" id="1_o65wf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jq3mk"]
+font_size = 14
+font_color = Color(1, 1, 0.4392157, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_o65wf"]
+font_size = 14
+font_color = Color(0.7058824, 0.7058824, 0, 1)
+
+[node name="RoundInfo" type="Panel" unique_id=2054481868]
+offset_right = 192.0
+offset_bottom = 240.0
+script = ExtResource("1_o65wf")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=153195660]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 10.0
+offset_right = -3.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Num" type="Label" parent="VBox" unique_id=1082023498]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 26
+text = "第 10 回合"
+horizontal_alignment = 1
+
+[node name="MC" type="MarginContainer" parent="VBox" unique_id=1083958829]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="Btn" type="Button" parent="VBox/MC" unique_id=722221577]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "回合结束"
+
+[node name="CurrentVBox" type="VBoxContainer" parent="VBox" unique_id=603602522]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CurrentTitle" type="Label" parent="VBox/CurrentVBox" unique_id=714829751]
+layout_mode = 2
+text = "--- 回合玩家 ---"
+label_settings = SubResource("LabelSettings_jq3mk")
+horizontal_alignment = 1
+
+[node name="CurrentPlayerName" type="Label" parent="VBox/CurrentVBox" unique_id=465054027]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.4392157, 1)
+theme_override_font_sizes/font_size = 18
+text = "123"
+horizontal_alignment = 1
+
+[node name="NextVBox" type="VBoxContainer" parent="VBox" unique_id=1731380252]
+layout_mode = 2
+
+[node name="NextTitle" type="Label" parent="VBox/NextVBox" unique_id=1100600259]
+layout_mode = 2
+text = "--- 下一回合玩家 ---"
+label_settings = SubResource("LabelSettings_o65wf")
+horizontal_alignment = 1
+
+[node name="NextPlayerName" type="Label" parent="VBox/NextVBox" unique_id=454632870]
+modulate = Color(0.7058824, 0.7058824, 0, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "456"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="VBox/MC/Btn" to="." method="_on_btn_pressed"]

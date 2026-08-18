@@ -1,0 +1,15 @@
+~ start
+Nathan: [[Hi|Hello|Howdy]], this is some dialogue.
+Nathan: {{ data.a }} Here are some [b]{{ data.v }}[/b] choices.
+- First one
+	Nathan: [shake rate=20 level=10]You picked[/shake] the first one.
+- Second one
+	Nathan: You [next=auto] one.[wait=1] => today
+- Start again => start
+- End the conversation => END
+Nathan: For more information see the online documentation.
+=> END
+
+~ today
+Sun: this is new day
+=> END

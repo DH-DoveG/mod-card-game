@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://btge1np0rqr"]
+
+[ext_resource type="Script" uid="uid://dao1mgars5lcr" path="res://pages/start.gd" id="1_pdm3f"]
+
+[node name="Start" type="Control" unique_id=1676217195]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pdm3f")

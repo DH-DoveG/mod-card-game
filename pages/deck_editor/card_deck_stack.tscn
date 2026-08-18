@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://dftoo7s8u7bir"]
+
+[ext_resource type="Script" uid="uid://5ac817ng12lf" path="res://pages/deck_editor/card_stack.gd" id="1_tj7r1"]
+[ext_resource type="Texture2D" uid="uid://b5d03ibtb5h0d" path="res://assets/images/icon/show.png" id="4_5vdvn"]
+[ext_resource type="Texture2D" uid="uid://dgm5eo3l287j4" path="res://addons/material_icons_importer/icons/add.png" id="5_0kca7"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="5_5vdvn"]
+
+[node name="CardDeckStack" type="Panel" unique_id=246662510]
+custom_minimum_size = Vector2(1392, 246)
+offset_right = 1392.0
+offset_bottom = 246.0
+script = ExtResource("1_tj7r1")
+
+[node name="Top" type="ColorRect" parent="." unique_id=303819906]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 48.0
+grow_horizontal = 2
+color = Color(1, 1, 1, 0.49803922)
+
+[node name="LineEdit" type="LineEdit" parent="Top" unique_id=287784196]
+layout_mode = 0
+offset_top = -1.5
+offset_right = 1392.0
+offset_bottom = 49.5
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Card Set"
+placeholder_text = "卡堆的名字"
+alignment = 1
+
+[node name="Remove" type="TextureButton" parent="Top" unique_id=1212946958]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+texture_normal = ExtResource("5_5vdvn")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Grid" type="GridContainer" parent="." unique_id=643951562]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 56.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 10
+
+[node name="Template" type="Node" parent="." unique_id=323649616]
+
+[node name="CVOption" type="ColorRect" parent="Template" unique_id=1527013442]
+visible = false
+custom_minimum_size = Vector2(130, 182)
+custom_maximum_size = Vector2(130, 182)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0.23529412)
+
+[node name="VBox" type="VBoxContainer" parent="Template/CVOption" unique_id=1490133571]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Info" type="TextureButton" parent="Template/CVOption/VBox" unique_id=222529595]
+modulate = Color(0, 0.9372549, 1, 1)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+texture_normal = ExtResource("4_5vdvn")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Remove" type="TextureButton" parent="Template/CVOption/VBox" unique_id=2142368261]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+texture_normal = ExtResource("5_5vdvn")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="AddOption" type="ColorRect" parent="Template" unique_id=448015471]
+visible = false
+custom_minimum_size = Vector2(130, 182)
+custom_maximum_size = Vector2(130, 182)
+offset_left = -160.0
+offset_right = -30.0
+offset_bottom = 182.0
+
+[node name="Info" type="TextureButton" parent="Template/AddOption" unique_id=675444918]
+modulate = Color(0, 0.9372549, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+texture_normal = ExtResource("5_0kca7")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="pressed" from="Top/Remove" to="." method="_on_remove_pressed"]

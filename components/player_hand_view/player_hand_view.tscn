@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cst8gj65puneo"]
+
+[ext_resource type="Script" uid="uid://diqh41b5stl72" path="res://addons/godot_card_layout/layouts/hand_layout/gcard_hand_layout.gd" id="1_8yfjb"]
+[ext_resource type="Script" uid="uid://do8qrn7o02n2g" path="res://components/player_hand_view/player_hand_view.gd" id="1_evv30"]
+
+[node name="PlayerHandView" type="Control" unique_id=922754167]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_evv30")
+
+[node name="Hand" type="Control" parent="." unique_id=1394027226]
+layout_mode = 1
+anchors_preset = 0
+script = ExtResource("1_8yfjb")
+dynamic_radius_factor = 228.5
+radius = 1600.0
+circle_percentage = 0.08
+hover_padding = 25.0
+hovered_scale = Vector2(1.5, 1.5)
+hover_relative_position = Vector2(0, -180)
+metadata/_custom_type_script = "uid://diqh41b5stl72"
+
+[connection signal="card_hoverd" from="Hand" to="." method="_on_hand_card_hoverd"]
+[connection signal="cards_unhovered" from="Hand" to="." method="_on_hand_cards_unhovered"]

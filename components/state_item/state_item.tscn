@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://wja7l6wusfkp"]
+
+[ext_resource type="Script" uid="uid://h2h4ac3rus66" path="res://components/state_item/state_item.gd" id="1_2vdhe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2vdhe"]
+font_size = 18
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="StateItem" type="TextureButton" unique_id=1781920014]
+custom_minimum_size = Vector2(392, 68)
+offset_right = 392.0
+offset_bottom = 68.0
+script = ExtResource("1_2vdhe")
+
+[node name="Back" type="ColorRect" parent="." unique_id=1245535102]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+
+[node name="TopBack" type="ColorRect" parent="." unique_id=908112973]
+layout_mode = 0
+offset_right = 392.0
+offset_bottom = 40.0
+mouse_filter = 2
+color = Color(0.6255971, 0.6255971, 0.6255971, 0.7058824)
+
+[node name="Entry" type="Label" parent="." unique_id=524635301]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 280.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+text = "State Name"
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="Num" type="Label" parent="." unique_id=1192843387]
+layout_mode = 0
+offset_left = 320.0
+offset_right = 392.0
+offset_bottom = 40.0
+text = "Num"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Serialization" type="Label" parent="." unique_id=375060961]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 6.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "Description"
+label_settings = SubResource("LabelSettings_2vdhe")
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+text_overrun_behavior = 3
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

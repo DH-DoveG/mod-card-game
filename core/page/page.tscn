@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://sby2fmbtgdh7"]
+
+[ext_resource type="Script" uid="uid://c22fnymt6gffx" path="res://core/page/page.gd" id="1_2a72f"]
+[ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="2_hq8bw"]
+
+[node name="Page" type="Control" unique_id=900443675]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2a72f")
+
+[node name="Background" type="TextureRect" parent="." unique_id=440980873]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_hq8bw")
+expand_mode = 1
+stretch_mode = 6
+metadata/_edit_lock_ = true

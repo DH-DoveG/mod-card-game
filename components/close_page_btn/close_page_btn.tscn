@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b0be8i58lh1w6"]
+
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="1_n2eb8"]
+[ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="1_owe5w"]
+[ext_resource type="Script" uid="uid://dcsr04qcscj4p" path="res://components/close_page_btn/close_page_btn.gd" id="2_0ibyi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m3wgd"]
+shader = ExtResource("1_owe5w")
+shader_parameter/thickness = 4.00000019
+shader_parameter/ring_count = 16
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[node name="ClosePageBtn" type="TextureButton" unique_id=918793476]
+material = SubResource("ShaderMaterial_m3wgd")
+offset_right = 64.0
+offset_bottom = 64.0
+texture_normal = ExtResource("1_n2eb8")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_0ibyi")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

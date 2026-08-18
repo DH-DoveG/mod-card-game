@@ -1,0 +1,644 @@
+[gd_scene format=3 uid="uid://btijyp8q563r8"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_jim4i"]
+[ext_resource type="Script" uid="uid://ucedu7qjr3k8" path="res://pages/deck_editor/deck_editor.gd" id="2_6nn07"]
+[ext_resource type="Texture2D" uid="uid://bksrckp62an65" path="res://addons/material_icons_importer/icons/formatListBulleted.png" id="3_7tsol"]
+[ext_resource type="Texture2D" uid="uid://bqnvhv6pmwb4r" path="res://addons/material_icons_importer/icons/addBox.png" id="5_7tsol"]
+[ext_resource type="Texture2D" uid="uid://c2pceev6cd4a6" path="res://addons/material_icons_importer/icons/autorenew.png" id="5_nrcgo"]
+[ext_resource type="Texture2D" uid="uid://cocibpbl1oqkp" path="res://addons/material_icons_importer/icons/tableRows.png" id="6_nkxgb"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="8_bryou"]
+[ext_resource type="Texture2D" uid="uid://bcduexgpwn77l" path="res://addons/material_icons_importer/icons/save.png" id="8_hraqk"]
+[ext_resource type="Texture2D" uid="uid://cajx7hafjj3lk" path="res://addons/material_icons_importer/icons/saveAs.png" id="9_basw7"]
+[ext_resource type="Texture2D" uid="uid://5752pnt717e6" path="res://addons/material_icons_importer/icons/arrowBackIosNew.png" id="10_fm7hn"]
+[ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="10_uh6xe"]
+[ext_resource type="Texture2D" uid="uid://dgm5eo3l287j4" path="res://addons/material_icons_importer/icons/add.png" id="12_uh6xe"]
+
+[sub_resource type="Theme" id="Theme_7tsol"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_btkoy"]
+shader = ExtResource("10_uh6xe")
+shader_parameter/graph_switch = false
+shader_parameter/intensity = 0.749999983236
+shader_parameter/blur = 3.0
+shader_parameter/diffusion = 0.4
+shader_parameter/zoom = 1.0
+shader_parameter/graph_type = 5
+shader_parameter/number = 8.0
+shader_parameter/size = 0.1
+shader_parameter/rotate_speed = 0.1
+shader_parameter/offset_speed = 0.1
+shader_parameter/angle = 0.7854
+shader_parameter/alpha = 0.1
+
+[sub_resource type="LabelSettings" id="LabelSettings_btkoy"]
+font_size = 32
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DeckEditer" unique_id=1856679440 instance=ExtResource("1_jim4i")]
+theme = SubResource("Theme_7tsol")
+script = ExtResource("2_6nn07")
+
+[node name="Scroll" type="ScrollContainer" parent="." index="1" unique_id=1592961127]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.007
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 8.44
+offset_right = -432.0
+offset_bottom = -72.0
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Scroll" index="0" unique_id=438612072]
+custom_maximum_size = Vector2(1392, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="SearchBox" type="Panel" parent="." index="2" unique_id=261063518]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.007
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1504.0
+offset_top = -7.5600004
+offset_bottom = -56.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Top" type="Panel" parent="SearchBox" index="0" unique_id=1386253410]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 0
+offset_right = 416.0
+offset_bottom = 80.0
+size_flags_horizontal = 3
+
+[node name="HBox" type="HBoxContainer" parent="SearchBox/Top" index="0" unique_id=227041556]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SearchPopup" type="TextureButton" parent="SearchBox/Top/HBox" index="0" unique_id=1570681792]
+modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(68, 40)
+layout_mode = 2
+texture_normal = ExtResource("3_7tsol")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="SearchOption" type="OptionButton" parent="SearchBox/Top/HBox" index="1" unique_id=1571241350]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Result" type="ScrollContainer" parent="SearchBox" index="1" unique_id=1406351566]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 96.0
+offset_right = 408.0
+offset_bottom = 1024.0
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="SearchBox/Result" index="0" unique_id=1239614097]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="EMenu" type="Panel" parent="." index="3" unique_id=949570962]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="EMenu" index="0" unique_id=353908901]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CreateCardSet" type="TextureButton" parent="EMenu/VBox" index="0" unique_id=712445744]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("5_7tsol")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label6" type="Label" parent="EMenu/VBox" index="1" unique_id=515314651]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "卡堆"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="---" type="Control" parent="EMenu/VBox" index="2" unique_id=261824498]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CheckDeck" type="TextureButton" parent="EMenu/VBox" index="3" unique_id=1511152454]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("5_nrcgo")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="EMenu/VBox" index="4" unique_id=1191049556]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "检查"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="----" type="Control" parent="EMenu/VBox" index="5" unique_id=1808962538]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CreateFile" type="TextureButton" parent="EMenu/VBox" index="6" unique_id=1624099120]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("5_7tsol")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="EMenu/VBox" index="7" unique_id=1028731585]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "新建"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveFile" type="TextureButton" parent="EMenu/VBox" index="8" unique_id=719684707]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("8_hraqk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label3" type="Label" parent="EMenu/VBox" index="9" unique_id=1722051862]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "保存"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveAsFile" type="TextureButton" parent="EMenu/VBox" index="10" unique_id=858458006]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("9_basw7")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label4" type="Label" parent="EMenu/VBox" index="11" unique_id=1396043567]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "另存"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeckList" type="TextureButton" parent="EMenu/VBox" index="12" unique_id=462179832]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("6_nkxgb")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label5" type="Label" parent="EMenu/VBox" index="13" unique_id=2064234652]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "列表"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Delete" type="TextureButton" parent="EMenu/VBox" index="14" unique_id=1468962668]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("8_bryou")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label7" type="Label" parent="EMenu/VBox" index="15" unique_id=734192439]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "删除"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="-----" type="Control" parent="EMenu/VBox" index="16" unique_id=1400212058]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Close" type="TextureButton" parent="EMenu/VBox" index="17" unique_id=2067613482]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+texture_normal = ExtResource("10_fm7hn")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Status" type="Panel" parent="." index="4" unique_id=63891810]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Status" index="0" unique_id=240898740]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+vertical_alignment = 1
+
+[node name="SearchCardDialog" type="CanvasLayer" parent="." index="5" unique_id=64599099]
+layer = 5
+visible = false
+
+[node name="Background" type="ColorRect" parent="SearchCardDialog" index="0" unique_id=525143682]
+material = SubResource("ShaderMaterial_btkoy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dialog" type="Panel" parent="SearchCardDialog" index="1" unique_id=1235732902]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -476.0
+offset_right = 640.0
+offset_bottom = 476.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="SearchCardDialog/Dialog" index="0" unique_id=1512743390]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 27.0
+offset_right = 160.0
+offset_bottom = 72.0
+grow_horizontal = 2
+text = "——    卡片搜索    ——"
+label_settings = SubResource("LabelSettings_btkoy")
+horizontal_alignment = 1
+
+[node name="Detail" type="Label" parent="SearchCardDialog/Dialog" index="1" unique_id=1177301859]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -544.0
+offset_top = 83.0
+offset_right = 544.0
+offset_bottom = 123.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+text = "—— 搜索条件的关系是：都满足 ——"
+horizontal_alignment = 1
+
+[node name="Option" type="HBoxContainer" parent="SearchCardDialog/Dialog" index="2" unique_id=1346335070]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -608.0
+offset_top = -91.0
+offset_right = 608.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 40
+
+[node name="Search" type="Button" parent="SearchCardDialog/Dialog/Option" index="0" unique_id=1050803015]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "搜索"
+
+[node name="Save" type="Button" parent="SearchCardDialog/Dialog/Option" index="1" unique_id=800857194]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "保存预设"
+
+[node name="Close" type="Button" parent="SearchCardDialog/Dialog/Option" index="2" unique_id=326530631]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "取消"
+
+[node name="VBox" type="VBoxContainer" parent="SearchCardDialog/Dialog" index="3" unique_id=457154934]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -608.0
+offset_top = -356.0
+offset_right = 624.0
+offset_bottom = 372.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="HBox" type="HBoxContainer" parent="SearchCardDialog/Dialog/VBox" index="0" unique_id=1958333125]
+custom_minimum_size = Vector2(1216, 0)
+custom_maximum_size = Vector2(1216, -1)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SearchCardDialog/Dialog/VBox/HBox" index="0" unique_id=1425728487]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "搜索预设："
+
+[node name="Option" type="OptionButton" parent="SearchCardDialog/Dialog/VBox/HBox" index="1" unique_id=69505735]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Delete" type="TextureButton" parent="SearchCardDialog/Dialog/VBox/HBox" index="2" unique_id=2076990753]
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+texture_normal = ExtResource("8_bryou")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="--" type="ColorRect" parent="SearchCardDialog/Dialog/VBox" index="1" unique_id=1649164017]
+custom_minimum_size = Vector2(1216, 2)
+custom_maximum_size = Vector2(1216, -1)
+layout_mode = 2
+color = Color(0.34901962, 0.34901962, 0.34901962, 0.39215687)
+
+[node name="Scroll" type="ScrollContainer" parent="SearchCardDialog/Dialog/VBox" index="2" unique_id=1982747544]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll" index="0" unique_id=1823528551]
+custom_minimum_size = Vector2(1216, 0)
+custom_maximum_size = Vector2(1216, -1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Top" type="GridContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="0" unique_id=1989922398]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="CardName" type="HBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top" index="0" unique_id=1107566355]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/CardName" index="0" unique_id=1531270744]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "卡名："
+
+[node name="LineEdit" type="LineEdit" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/CardName" index="1" unique_id=346826174]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+
+[node name="Type" type="HBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top" index="1" unique_id=2229972]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/Type" index="0" unique_id=1762260481]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "类型："
+
+[node name="Option" type="OptionButton" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/Type" index="1" unique_id=1691702549]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+
+[node name="---" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="1" unique_id=1396449900]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.34901962, 0.34901962, 0.34901962, 0.39215687)
+
+[node name="Values" type="VBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="2" unique_id=1374887543]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Values" index="0" unique_id=658711217]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "数值"
+
+[node name="Grid" type="GridContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Values" index="1" unique_id=15834987]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="Add" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid" index="0" unique_id=515307283]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.41598046, 0.41598043, 0.4159804, 1)
+
+[node name="Btn" type="TextureButton" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid/Add" index="0" unique_id=148092484]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("12_uh6xe")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="----" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="3" unique_id=443012921]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.34901962, 0.34901962, 0.34901962, 0.39215687)
+
+[node name="Tags" type="VBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="4" unique_id=933261235]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags" index="0" unique_id=949327084]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "标签"
+
+[node name="Grid" type="GridContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags" index="1" unique_id=918382033]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+
+[node name="Add" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid" index="0" unique_id=166833910]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.41598046, 0.41598043, 0.4159804, 1)
+
+[node name="Btn" type="TextureButton" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid/Add" index="0" unique_id=1879885176]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("12_uh6xe")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="-----" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="5" unique_id=1907098638]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.34901962, 0.34901962, 0.34901962, 0.39215687)
+
+[node name="Behaviors" type="VBoxContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox" index="6" unique_id=564469069]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors" index="0" unique_id=639430933]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "行为文本（根据文本作为片段匹配，这个匹配条件是任意）"
+
+[node name="Grid" type="GridContainer" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors" index="1" unique_id=1230270862]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="Add" type="ColorRect" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid" index="0" unique_id=693034785]
+custom_minimum_size = Vector2(0, 52)
+custom_maximum_size = Vector2(-1, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.41598046, 0.41598043, 0.4159804, 1)
+
+[node name="Btn" type="TextureButton" parent="SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid/Add" index="0" unique_id=1521686821]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("12_uh6xe")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Template" type="Node" parent="SearchCardDialog" index="2" unique_id=1234973651]
+
+[node name="ValueTemplate" type="HBoxContainer" parent="SearchCardDialog/Template" index="0" unique_id=1610314872]
+visible = false
+custom_minimum_size = Vector2(600, 52)
+custom_maximum_size = Vector2(600, 52)
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Delete" type="TextureButton" parent="SearchCardDialog/Template/ValueTemplate" index="0" unique_id=654079581]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+texture_normal = ExtResource("8_bryou")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Item" type="OptionButton" parent="SearchCardDialog/Template/ValueTemplate" index="1" unique_id=937788697]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Line" type="SpinBox" parent="SearchCardDialog/Template/ValueTemplate" index="2" unique_id=1836105091]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 114514.0
+
+[node name="TagTemplate" type="HBoxContainer" parent="SearchCardDialog/Template" index="1" unique_id=66198815]
+visible = false
+custom_minimum_size = Vector2(300, 52)
+custom_maximum_size = Vector2(300, 52)
+offset_right = 300.0
+offset_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Delete" type="TextureButton" parent="SearchCardDialog/Template/TagTemplate" index="0" unique_id=1135411184]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+texture_normal = ExtResource("8_bryou")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Line" type="LineEdit" parent="SearchCardDialog/Template/TagTemplate" index="1" unique_id=1801301278]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+placeholder_text = "卡片标签"
+
+[node name="BehaviorTextTemplate" type="HBoxContainer" parent="SearchCardDialog/Template" index="2" unique_id=1517938540]
+visible = false
+custom_minimum_size = Vector2(1216, 100)
+custom_maximum_size = Vector2(1216, 100)
+offset_right = 1216.0
+offset_bottom = 100.0
+
+[node name="Delete" type="TextureButton" parent="SearchCardDialog/Template/BehaviorTextTemplate" index="0" unique_id=1785421400]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = ExtResource("8_bryou")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Text" type="TextEdit" parent="SearchCardDialog/Template/BehaviorTextTemplate" index="1" unique_id=103316219]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+placeholder_text = "行为文本片段"
+wrap_mode = 1
+
+[connection signal="pressed" from="SearchBox/Top/HBox/SearchPopup" to="." method="_on_search_popup_pressed"]
+[connection signal="item_selected" from="SearchBox/Top/HBox/SearchOption" to="." method="_on_search_option_item_selected"]
+[connection signal="pressed" from="EMenu/VBox/CreateCardSet" to="." method="_on_create_card_set_pressed"]
+[connection signal="pressed" from="EMenu/VBox/CheckDeck" to="." method="_on_deck_check_tool_pressed"]
+[connection signal="pressed" from="EMenu/VBox/CreateFile" to="." method="_on_deck_create_file_pressed"]
+[connection signal="pressed" from="EMenu/VBox/SaveFile" to="." method="_on_save_file_pressed"]
+[connection signal="pressed" from="EMenu/VBox/SaveAsFile" to="." method="_on_deck_save_as_file_pressed"]
+[connection signal="pressed" from="EMenu/VBox/DeckList" to="." method="_on_deck_list_pressed"]
+[connection signal="pressed" from="EMenu/VBox/Delete" to="." method="_on_deck_delete_pressed"]
+[connection signal="pressed" from="EMenu/VBox/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/Option/Search" to="." method="_on_search_card_dialog_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/Option/Save" to="." method="_on_search_card_dialog_save_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/Option/Close" to="." method="_on_search_card_dialog_close_pressed"]
+[connection signal="item_selected" from="SearchCardDialog/Dialog/VBox/HBox/Option" to="." method="_on_option_item_selected"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/VBox/HBox/Delete" to="." method="_on_sc_delete_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid/Add/Btn" to="." method="_on_scd_values_add_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid/Add/Btn" to="." method="_on_scd_tag_add_pressed"]
+[connection signal="pressed" from="SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid/Add/Btn" to="." method="_on_scd_behavior_add_pressed"]

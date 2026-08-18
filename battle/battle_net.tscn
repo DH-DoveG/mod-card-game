@@ -1,0 +1,261 @@
+[gd_scene format=3 uid="uid://bkrk4i1uur18x"]
+
+[ext_resource type="PackedScene" uid="uid://8hs2s1hxxvrw" path="res://core/battle/battle.tscn" id="1_elvdx"]
+[ext_resource type="Script" uid="uid://br8n6fxhx88jy" path="res://battle/battle_net.gd" id="2_elvdx"]
+[ext_resource type="PackedScene" uid="uid://ddm4xshppnqi1" path="res://components/player_panel/player_panel.tscn" id="3_vxj5u"]
+[ext_resource type="Texture2D" uid="uid://dj4f63xwxcsxv" path="res://assets/images/icon/v.png" id="4_0k3r2"]
+[ext_resource type="PackedScene" uid="uid://bxfw0huwxxgo4" path="res://components/card_info_panel/card_info_panel.tscn" id="4_grut4"]
+[ext_resource type="Texture2D" uid="uid://b68yhkllka34p" path="res://addons/material_icons_importer/icons/square.png" id="4_vmnpc"]
+[ext_resource type="PackedScene" uid="uid://clu4dj0711y3u" path="res://components/card_set_info_panel/card_set_info_panel.tscn" id="5_8w61a"]
+[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://addons/material_icons_importer/icons/ampStories.png" id="5_j3p8a"]
+[ext_resource type="PackedScene" uid="uid://c8ejnte1obkse" path="res://components/lua_memory_panel/lua_memory_panel.tscn" id="9_8w61a"]
+[ext_resource type="PackedScene" uid="uid://cst8gj65puneo" path="res://components/player_hand_view/player_hand_view.tscn" id="9_grut4"]
+[ext_resource type="Texture2D" uid="uid://cwyae4lmo6cfl" path="res://assets/images/icon/stack-solid.png" id="9_o21fp"]
+[ext_resource type="PackedScene" uid="uid://c3ipunxga8s3y" path="res://components/area_info_panel/area_info_panel.tscn" id="10_8w61a"]
+[ext_resource type="PackedScene" uid="uid://coeapgd7rpgmq" path="res://components/loading_panel/loading_panel.tscn" id="12_j3p8a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j3p8a"]
+font_size = 22
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Battle" unique_id=1874265480 instance=ExtResource("1_elvdx")]
+script = ExtResource("2_elvdx")
+
+[node name="BottomBar" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="0" unique_id=1183252841]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.2784314, 0.2784314, 0.2784314, 0.7058824)
+
+[node name="RoundEndBtn" type="Button" parent="UI/BottomBar" index="0" unique_id=1818815454]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = 4.0
+offset_right = -16.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "回合结束"
+
+[node name="CardSetInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="1" unique_id=1360632198]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 160.0
+offset_right = 216.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("9_o21fp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/BottomBar/CardSetInfoShowBtn" index="0" unique_id=1034841865]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "卡堆"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VisualAngleChangeBtn" type="TextureButton" parent="UI/BottomBar" index="2" unique_id=284874316]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 232.0
+offset_right = 288.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("4_0k3r2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/BottomBar/VisualAngleChangeBtn" index="0" unique_id=980115544]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "视角"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="AreaInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="3" unique_id=140021862]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = 72.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("4_vmnpc")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label2" type="Label" parent="UI/BottomBar/AreaInfoShowBtn" index="0" unique_id=1896936838]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "区域"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CardInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="4" unique_id=454600040]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 88.0
+offset_right = 144.0
+offset_bottom = -8.0
+grow_vertical = 2
+texture_normal = ExtResource("5_j3p8a")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label3" type="Label" parent="UI/BottomBar/CardInfoShowBtn" index="0" unique_id=1628220831]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "卡片"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="PlayerPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="1" unique_id=283840371 instance=ExtResource("3_vxj5u")]
+offset_left = -76.0
+offset_top = 56.0
+offset_right = 292.0
+offset_bottom = 240.0
+
+[node name="CardSetInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="2" unique_id=1985442569 instance=ExtResource("5_8w61a")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -484.0
+offset_right = -24.0
+offset_bottom = 444.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="CardInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="3" unique_id=806327608 instance=ExtResource("4_grut4")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -276.0
+offset_right = 360.0
+offset_bottom = 284.0
+grow_vertical = 2
+
+[node name="AreaInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="4" unique_id=79139102 instance=ExtResource("10_8w61a")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = 300.0
+offset_right = 360.0
+offset_bottom = 444.0
+grow_vertical = 2
+
+[node name="PlayerHandView" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="5" unique_id=922754167 instance=ExtResource("9_grut4")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -152.0
+offset_right = -80.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TopBar" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="6" unique_id=163419537]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+color = Color(0.2784314, 0.2784314, 0.2784314, 0.7058824)
+
+[node name="LuaMemoryPanel" parent="UI/TopBar" index="0" unique_id=1065636026 instance=ExtResource("9_8w61a")]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = 512.0
+offset_bottom = 0.0
+grow_vertical = 2
+
+[node name="RoundNum" type="Label" parent="UI/TopBar" index="1" unique_id=1379283710]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_right = 192.0
+offset_bottom = 32.0
+grow_horizontal = 2
+text = "————<< 第 0 回合 >>————"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadingPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=1625845037 instance=ExtResource("12_j3p8a")]
+visible = false
+
+[node name="Label" type="Label" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="8" unique_id=1129569061]
+visible = false
+offset_left = 1520.0
+offset_top = 76.0
+offset_right = 1560.0
+offset_bottom = 116.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 26
+text = "+1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Light" parent="Environment" parent_id_path=PackedInt32Array(768455844) index="1" unique_id=129914062]
+transform = Transform3D(0.90630776, 0.014749165, -0.42236084, 0, 0.99939084, 0.034899496, 0.42261827, -0.031629685, 0.9057557, 0, 25, 0)
+light_energy = 1.0
+
+[connection signal="pressed" from="UI/BottomBar/RoundEndBtn" to="." method="_on_round_end_btn_pressed"]

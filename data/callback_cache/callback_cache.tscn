@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bhccvwucsg6nr"]
+
+[ext_resource type="Script" uid="uid://dr6rgalh4viuj" path="res://data/callback_cache/callback_cache.gd" id="1_ejryr"]
+
+[node name="CallbackCache" type="Node" unique_id=418213418]
+script = ExtResource("1_ejryr")

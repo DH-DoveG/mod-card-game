@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://drs61113hfp26"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_ib162"]
+[ext_resource type="Script" uid="uid://cy3prebt0gamu" path="res://animate/animate_card_degrees.gd" id="1_la574"]
+
+[node name="AnimateCardDegrees" unique_id=1019545918 instance=ExtResource("1_ib162")]
+script = ExtResource("1_la574")

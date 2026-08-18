@@ -1,0 +1,552 @@
+[gd_scene format=3 uid="uid://by1l1hyh8pfdr"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_vca1q"]
+[ext_resource type="Script" uid="uid://0s1ijs5y1gnf" path="res://pages/multiplayer_hall/multiplayer_hall.gd" id="2_a8nmn"]
+[ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="4_e3xuk"]
+
+[node name="MultiplayerHall" unique_id=1473763366 instance=ExtResource("1_vca1q")]
+script = ExtResource("2_a8nmn")
+
+[node name="Title" type="Control" parent="." index="1" unique_id=329152421]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 40.0
+offset_right = 360.0
+offset_bottom = 96.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Title" index="0" unique_id=1755809876]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "多人连接配置"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Left" type="TextureRect" parent="Title" index="1" unique_id=727967704]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="Right" type="TextureRect" parent="Title" index="2" unique_id=416693338]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+flip_h = true
+
+[node name="Panel" type="Control" parent="." index="2" unique_id=279084658]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -412.0
+offset_right = 512.0
+offset_bottom = 524.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Panel" index="0" unique_id=561232385]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.437
+anchor_top = -0.015000001
+anchor_right = 1.437
+anchor_bottom = 1.0150001
+offset_left = 455.488
+offset_top = 39.72
+offset_right = -455.48804
+offset_bottom = -39.720093
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Scroll" index="0" unique_id=911989907]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="VBox" type="VBoxContainer" parent="." index="3" unique_id=1980091268]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -220.0
+offset_right = -16.0
+offset_bottom = 220.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="OpenConfigPanel" type="Button" parent="VBox" index="0" unique_id=2062820725]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+text = "添加联机配置"
+
+[node name="HBox" type="HBoxContainer" parent="VBox" index="1" unique_id=1693695105]
+layout_mode = 2
+alignment = 1
+
+[node name="ExitPage" type="Button" parent="VBox/HBox" index="0" unique_id=1078381537]
+self_modulate = Color(1, 0.4745098, 0.44705883, 0.76862746)
+layout_mode = 2
+text = "返回上一页"
+
+[node name="AddConfig" type="ColorRect" parent="." index="4" unique_id=679859930]
+visible = false
+self_modulate = Color(0, 0, 0, 0.78431374)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Control" parent="AddConfig" index="0" unique_id=1095563138]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -344.0
+offset_top = 232.0
+offset_right = 344.0
+offset_bottom = 288.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="AddConfig/Title" index="0" unique_id=418399318]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "添加联机配置"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Left" type="TextureRect" parent="AddConfig/Title" index="1" unique_id=553486134]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="Right" type="TextureRect" parent="AddConfig/Title" index="2" unique_id=860878952]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+flip_h = true
+
+[node name="Panel" type="Panel" parent="AddConfig" index="1" unique_id=676006367]
+custom_minimum_size = Vector2(964, 544)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -482.0
+offset_top = -348.0
+offset_right = 482.0
+offset_bottom = 348.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Btns" type="HBoxContainer" parent="AddConfig/Panel" index="0" unique_id=1615607933]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -224.0
+offset_top = -96.0
+offset_right = 224.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 32
+
+[node name="AddConfig" type="Button" parent="AddConfig/Panel/Btns" index="0" unique_id=1862558322]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "保存配置到列表"
+
+[node name="CloseConfig" type="Button" parent="AddConfig/Panel/Btns" index="1" unique_id=280498643]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "取消"
+
+[node name="Edit" type="VBoxContainer" parent="AddConfig/Panel" index="1" unique_id=176398039]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 112.0
+offset_right = 192.0
+offset_bottom = 576.0
+grow_horizontal = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="HBoxContainer" parent="AddConfig/Panel/Edit" index="0" unique_id=2113197775]
+custom_minimum_size = Vector2(384, 48)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="AddConfig/Panel/Edit/Title" index="0" unique_id=1484023384]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "标题："
+
+[node name="LineEdit" type="LineEdit" parent="AddConfig/Panel/Edit/Title" index="1" unique_id=1644279876]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "联机预配置"
+placeholder_text = "昵称"
+max_length = 9
+
+[node name="Nick" type="HBoxContainer" parent="AddConfig/Panel/Edit" index="1" unique_id=1301443072]
+custom_minimum_size = Vector2(384, 48)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="AddConfig/Panel/Edit/Nick" index="0" unique_id=215121707]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "昵称："
+
+[node name="LineEdit" type="LineEdit" parent="AddConfig/Panel/Edit/Nick" index="1" unique_id=1942871687]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DoveAnon"
+placeholder_text = "昵称"
+max_length = 9
+
+[node name="Address" type="HBoxContainer" parent="AddConfig/Panel/Edit" index="2" unique_id=218208776]
+custom_minimum_size = Vector2(384, 48)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="AddConfig/Panel/Edit/Address" index="0" unique_id=624883948]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "地址："
+
+[node name="LineEdit" type="LineEdit" parent="AddConfig/Panel/Edit/Address" index="1" unique_id=504227119]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "服务端的IP地址"
+
+[node name="Port" type="HBoxContainer" parent="AddConfig/Panel/Edit" index="3" unique_id=574939208]
+custom_minimum_size = Vector2(384, 48)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="AddConfig/Panel/Edit/Port" index="0" unique_id=1200518057]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "端口："
+
+[node name="LineEdit" type="LineEdit" parent="AddConfig/Panel/Edit/Port" index="1" unique_id=1918563978]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "11451"
+
+[node name="Detail" type="VBoxContainer" parent="AddConfig/Panel/Edit" index="4" unique_id=574170435]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="AddConfig/Panel/Edit/Detail" index="0" unique_id=353765712]
+layout_mode = 2
+text = "描述："
+
+[node name="TextEdit" type="TextEdit" parent="AddConfig/Panel/Edit/Detail" index="1" unique_id=255000629]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "添加描述..."
+
+[node name="Avatar" type="TextureButton" parent="AddConfig/Panel" index="2" unique_id=1076976506]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -432.0
+offset_top = 164.0
+offset_right = -240.0
+offset_bottom = 356.0
+texture_normal = ExtResource("4_e3xuk")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="AvatarLabel" type="Label" parent="AddConfig/Panel" index="3" unique_id=970260262]
+modulate = Color(1, 1, 1, 0.50980395)
+layout_mode = 0
+offset_left = 58.0
+offset_top = 364.0
+offset_right = 234.0
+offset_bottom = 392.0
+theme_override_font_sizes/font_size = 18
+text = "点击头像进行切换"
+horizontal_alignment = 1
+
+[node name="CardBackLabel" type="Label" parent="AddConfig/Panel" index="4" unique_id=296970979]
+modulate = Color(1, 1, 1, 0.50980395)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 256.0
+offset_top = 392.0
+offset_right = 436.0
+offset_bottom = 420.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 18
+text = "点击卡背进行切换"
+horizontal_alignment = 1
+
+[node name="CardBack" type="TextureButton" parent="AddConfig/Panel" index="5" unique_id=83611478]
+custom_minimum_size = Vector2(180.5, 252.7)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 255.75
+offset_top = 128.0
+offset_right = 436.25
+offset_bottom = 380.7
+grow_horizontal = 2
+texture_normal = ExtResource("4_e3xuk")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ConnectMask" type="ColorRect" parent="." index="5" unique_id=2135426028]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.78431374)
+
+[node name="Label" type="Label" parent="ConnectMask" index="0" unique_id=156306240]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -14.0
+offset_right = 0.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 120
+text = "连接中"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseConnect" type="Button" parent="ConnectMask" index="1" unique_id=1386472039]
+self_modulate = Color(1, 0.31023875, 0.35809767, 1)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -216.0
+offset_right = 128.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 40
+text = "取消连接"
+
+[node name="MaskTimer" type="Timer" parent="." index="6" unique_id=1860281778]
+
+[node name="Templates" type="Node" parent="." index="7" unique_id=1325583857]
+
+[node name="ItemPanel" type="Panel" parent="Templates" index="0" unique_id=926824171]
+visible = false
+self_modulate = Color(0.8352941, 0.8352941, 0.8352941, 0.78431374)
+custom_minimum_size = Vector2(1008, 176)
+offset_left = 456.0
+offset_top = 24.0
+offset_right = 1464.0
+offset_bottom = 200.0
+
+[node name="Title" type="Label" parent="Templates/ItemPanel" index="0" unique_id=1045208979]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 16.0
+offset_right = -344.0
+offset_bottom = -117.0
+theme_override_font_sizes/font_size = 32
+text = "这是联机标题"
+vertical_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Templates/ItemPanel" index="1" unique_id=1444324042]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 72.0
+offset_right = -749.0
+offset_bottom = -16.0
+grow_vertical = 0
+
+[node name="Address" type="Label" parent="Templates/ItemPanel/VBox" index="0" unique_id=1941324454]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "地址：XXX.XXX.XXX.XXX"
+
+[node name="Port" type="Label" parent="Templates/ItemPanel/VBox" index="1" unique_id=170787755]
+layout_mode = 2
+text = "端口：11451"
+
+[node name="Control" type="Control" parent="Templates/ItemPanel/VBox" index="2" unique_id=802675201]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Templates/ItemPanel/VBox" index="3" unique_id=1159797185]
+layout_mode = 2
+text = "昵称：DoveG"
+
+[node name="CardBack" type="TextureRect" parent="Templates/ItemPanel" index="2" unique_id=1267971866]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 368.0
+offset_top = 72.0
+offset_right = -552.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Avatar" type="TextureRect" parent="Templates/ItemPanel" index="3" unique_id=525022299]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 272.0
+offset_top = 72.0
+offset_right = -648.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Btns" type="VBoxContainer" parent="Templates/ItemPanel" index="4" unique_id=1365740726]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 696.0
+offset_top = 14.5
+offset_right = -32.0
+offset_bottom = -14.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="SC" type="HBoxContainer" parent="Templates/ItemPanel/Btns" index="0" unique_id=1432125891]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="BeServer" type="Button" parent="Templates/ItemPanel/Btns/SC" index="0" unique_id=348248156]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "作为服务器"
+
+[node name="BeClient" type="Button" parent="Templates/ItemPanel/Btns/SC" index="1" unique_id=880848211]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "作为客户端"
+
+[node name="HBox" type="HBoxContainer" parent="Templates/ItemPanel/Btns" index="1" unique_id=198147557]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Edit" type="Button" parent="Templates/ItemPanel/Btns/HBox" index="0" unique_id=377457240]
+self_modulate = Color(0.6415982, 0.95522386, 0.9327052, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "编辑"
+
+[node name="Remove" type="Button" parent="Templates/ItemPanel/Btns/HBox" index="1" unique_id=200353187]
+self_modulate = Color(1, 0.73065215, 0.71689254, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "删除"
+
+[node name="Detail" type="RichTextLabel" parent="Templates/ItemPanel" index="5" unique_id=865733732]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 72.0
+offset_right = 664.0
+offset_bottom = 160.0
+
+[connection signal="pressed" from="VBox/OpenConfigPanel" to="." method="_on_open_config_panel_pressed"]
+[connection signal="pressed" from="VBox/HBox/ExitPage" to="." method="_on_exit_page_pressed"]
+[connection signal="pressed" from="AddConfig/Panel/Btns/AddConfig" to="." method="_on_add_config_pressed"]
+[connection signal="pressed" from="AddConfig/Panel/Btns/CloseConfig" to="." method="_on_close_config_pressed"]
+[connection signal="pressed" from="AddConfig/Panel/Avatar" to="." method="_on_avatar_pressed"]
+[connection signal="pressed" from="AddConfig/Panel/CardBack" to="." method="_on_card_back_pressed"]
+[connection signal="pressed" from="ConnectMask/CloseConnect" to="." method="_on_close_connect_pressed"]
+[connection signal="timeout" from="MaskTimer" to="." method="_on_mask_timer_timeout"]

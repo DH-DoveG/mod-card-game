@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://1fddqtqe8qx8"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_jq4ks"]
+[ext_resource type="Script" uid="uid://cc44myw1ihplk" path="res://pages/pack_page/pack_page.gd" id="2_d8caa"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="3_12i6q"]
+
+[node name="PackPage" unique_id=1928854323 instance=ExtResource("1_jq4ks")]
+script = ExtResource("2_d8caa")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." index="1" unique_id=434762678]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 128.0
+offset_right = -16.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer" index="0" unique_id=1855238377]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 15
+
+[node name="Close" type="TextureButton" parent="." index="2" unique_id=192753827]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 80.0
+grow_horizontal = 0
+texture_normal = ExtResource("3_12i6q")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="Close" to="." method="_on_close_pressed"]

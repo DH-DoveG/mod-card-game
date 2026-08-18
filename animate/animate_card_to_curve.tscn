@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://oauveuvyw3k3"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_nuc7n"]
+[ext_resource type="Script" uid="uid://0pgjooyxn0n6" path="res://animate/animate_card_to_curve.gd" id="2_3j4k6"]
+[ext_resource type="PackedScene" uid="uid://m0mds4hmlg6c" path="res://components/line/line.tscn" id="3_drke3"]
+
+[node name="AnimateCardToCurve" unique_id=800000472 instance=ExtResource("1_nuc7n")]
+script = ExtResource("2_3j4k6")
+
+[node name="Line" parent="." index="0" unique_id=1132686869 instance=ExtResource("3_drke3")]
+
+[node name="PathFollow3D" parent="Line/Path" parent_id_path=PackedInt32Array(1132686869, 1012569609) index="0" unique_id=67411414]
+loop = false
+tilt_enabled = false
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Line/Path/PathFollow3D" index="0" unique_id=1526032808]
+update_rotation = false
+update_scale = false
+
+[connection signal="finished" from="Line" to="." method="_on_line_finished"]
+
+[editable path="Line"]

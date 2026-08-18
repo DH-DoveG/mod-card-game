@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b77lemcn2nifp"]
+
+[ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_0mopy"]
+[ext_resource type="Script" uid="uid://bbgejg6k1j85a" path="res://components/dialog/option_dialog/option_dialog.gd" id="2_o3n5p"]
+
+[node name="OptionDialog" unique_id=64599099 instance=ExtResource("1_0mopy")]
+script = ExtResource("2_o3n5p")
+
+[node name="Dialog" parent="." index="1" unique_id=1235732902]
+offset_top = -160.0
+offset_bottom = 160.0
+
+[node name="VBox" type="VBoxContainer" parent="Dialog" index="3" unique_id=87679161]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 114.0
+offset_right = -64.0
+offset_bottom = -106.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="LineEdit" type="OptionButton" parent="Dialog/VBox" index="0" unique_id=708669448]
+custom_minimum_size = Vector2(0, 92)
+custom_maximum_size = Vector2(-1, 92)
+layout_mode = 2
+theme_override_font_sizes/font_size = 38

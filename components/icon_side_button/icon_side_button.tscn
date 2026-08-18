@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cnohiaufulm0r"]
+
+[ext_resource type="Script" uid="uid://cd6fjoxt0jcgf" path="res://components/icon_side_button/icon_side_button.gd" id="1_vl0le"]
+
+[node name="IconSideButton" type="TextureButton" unique_id=974971872]
+custom_minimum_size = Vector2(56, 56)
+custom_maximum_size = Vector2(208, 56)
+offset_right = 208.0
+offset_bottom = 56.0
+offset_transform_enabled = true
+offset_transform_visual_only = false
+script = ExtResource("1_vl0le")
+left = false
+
+[node name="Background" type="ColorRect" parent="." unique_id=1964567577]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.61960787, 0.61960787, 0.61960787, 1)
+metadata/_edit_lock_ = true
+
+[node name="Text" type="Label" parent="." unique_id=882160077]
+custom_minimum_size = Vector2(120, 56)
+custom_maximum_size = Vector2(120, 56)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -28.0
+offset_right = 128.0
+offset_bottom = 28.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1557161060]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 152.0
+offset_top = -20.0
+offset_right = 192.0
+offset_bottom = 20.0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+
+[node name="Outline" type="ColorRect" parent="." unique_id=1775822759]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 200.0
+offset_top = -28.0
+offset_right = 208.0
+offset_bottom = 28.0
+grow_vertical = 2

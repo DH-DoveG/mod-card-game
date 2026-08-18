@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://ove5rfdqqwyq"]
+
+[ext_resource type="Script" uid="uid://c3wf4kddd44iv" path="res://components/chat/chat.gd" id="1_k5lin"]
+
+[node name="Chat" type="VBoxContainer" unique_id=1367449612]
+custom_minimum_size = Vector2(460, 816)
+size_flags_vertical = 3
+script = ExtResource("1_k5lin")
+
+[node name="Message" type="ColorRect" parent="." unique_id=1065948224]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.42352942, 0.42352942, 0.42352942, 0.49803922)
+
+[node name="TextEdit" type="RichTextLabel" parent="Message" unique_id=764484459]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+scroll_following = true
+scroll_following_visible_characters = true
+
+[node name="Input" type="HBoxContainer" parent="." unique_id=2126424353]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Input" unique_id=1130237020]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "发送消息"
+
+[node name="Sumbit" type="Button" parent="Input" unique_id=1188897366]
+layout_mode = 2
+text = "  发 送  "
+
+[connection signal="pressed" from="Input/Sumbit" to="." method="_on_sumbit_pressed"]

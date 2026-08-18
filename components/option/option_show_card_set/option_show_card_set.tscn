@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://b84ld1dhw2lds"]
+
+[ext_resource type="PackedScene" uid="uid://bcodu34fu6uv4" path="res://components/option/option_base.tscn" id="1_n3yoa"]
+[ext_resource type="Script" uid="uid://tci0pib1s7c5" path="res://components/option/option_show_card_set/option_show_card_set.gd" id="2_q4xv1"]
+[ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="3_w0um4"]
+[ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="3_x6ney"]
+[ext_resource type="Script" uid="uid://0v4hxyxqypup" path="res://components/option/option_show_card_set/item.gd" id="4_v4ry4"]
+[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://addons/material_icons_importer/icons/keyboardArrowDown.png" id="6_1dy46"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnnub"]
+shader = ExtResource("3_w0um4")
+shader_parameter/graph_switch = false
+shader_parameter/intensity = 0.499999988824
+shader_parameter/blur = 3.0
+shader_parameter/diffusion = 0.4
+shader_parameter/zoom = 1.0
+shader_parameter/graph_type = 5
+shader_parameter/number = 0.0
+shader_parameter/size = 0.0
+shader_parameter/rotate_speed = 0.0
+shader_parameter/offset_speed = 0.0
+shader_parameter/angle = 0.7854
+shader_parameter/alpha = 0.1
+
+[node name="OptionShowCardSet" unique_id=37317475 instance=ExtResource("1_n3yoa")]
+layer = 10
+script = ExtResource("2_q4xv1")
+
+[node name="ColorRect2" type="TextureRect" parent="." index="0" unique_id=2134635099]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_x6ney")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="ColorRect" type="ColorRect" parent="." index="1" unique_id=1005410104]
+material = SubResource("ShaderMaterial_hnnub")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Mask" parent_id_path=PackedInt32Array(747709707) index="0" unique_id=2109921847]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 1488.0
+offset_bottom = 960.0
+
+[node name="List" type="VBoxContainer" parent="Mask/Scroll" index="0" unique_id=46237467]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="CustomOption" type="VBoxContainer" parent="Mask" parent_id_path=PackedInt32Array(747709707) index="1" unique_id=1449268607]
+layout_mode = 0
+offset_left = 1536.0
+offset_top = 64.0
+offset_right = 1904.0
+offset_bottom = 872.0
+
+[node name="Label" type="Label" parent="." index="5" unique_id=2025302740]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -200.0
+offset_right = -16.0
+offset_bottom = -96.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 48
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Template" type="Node" parent="." index="6" unique_id=2116225135]
+
+[node name="Item" type="ColorRect" parent="Template" index="0" unique_id=1947329701]
+visible = false
+custom_minimum_size = Vector2(1408, 288)
+clip_contents = true
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 1472.0
+offset_bottom = 352.0
+color = Color(1, 1, 1, 0.25882354)
+script = ExtResource("4_v4ry4")
+
+[node name="PlayerName" type="ColorRect" parent="Template/Item" index="0" unique_id=1617397574]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 64.0
+color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+
+[node name="Label" type="Label" parent="Template/Item/PlayerName" index="0" unique_id=417048704]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Player Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Count" type="ColorRect" parent="Template/Item" index="1" unique_id=1046140752]
+layout_mode = 0
+offset_left = 384.0
+offset_right = 1408.0
+offset_bottom = 64.0
+color = Color(0.48570347, 0.48570353, 0.48570347, 1)
+
+[node name="Label" type="Label" parent="Template/Item/Count" index="0" unique_id=1773828009]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Count: 40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Switch" type="TextureButton" parent="Template/Item" index="2" unique_id=334177811]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -96.0
+offset_top = 72.0
+offset_right = -16.0
+offset_bottom = 280.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("6_1dy46")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Template/Item" index="3" unique_id=1475411283]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 72.0
+offset_right = 1296.0
+offset_bottom = 280.0
+
+[node name="Grid" type="GridContainer" parent="Template/Item/Scroll" index="0" unique_id=523036217]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 8
+
+[node name="Hbox" type="HBoxContainer" parent="Template/Item/Scroll" index="1" unique_id=1922651832]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16

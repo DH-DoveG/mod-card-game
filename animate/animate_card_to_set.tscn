@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c0v5bcmm77dwx"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_d1j3g"]
+[ext_resource type="Script" uid="uid://j1xkbdbvxjnw" path="res://animate/animate_card_to_set.gd" id="2_5f4d1"]
+
+[node name="AnimateCardToSet" unique_id=1401670750 instance=ExtResource("1_d1j3g")]
+script = ExtResource("2_5f4d1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="0" unique_id=514282004]
+
+[node name="Label" type="Label" parent="CanvasLayer" index="0" unique_id=717990538]
+offset_right = 40.0
+offset_bottom = 22.0
+text = "+1"

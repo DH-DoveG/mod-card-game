@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cl7rfvo7qlsw1"]
+
+[ext_resource type="Script" uid="uid://dakkbmd8bdj7t" path="res://components/sidebar/sidebar.gd" id="1_1bqev"]
+[ext_resource type="PackedScene" uid="uid://cnohiaufulm0r" path="res://components/icon_side_button/icon_side_button.tscn" id="1_dygoq"]
+[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://addons/material_icons_importer/icons/ampStories.png" id="2_qhwwe"]
+[ext_resource type="Texture2D" uid="uid://c1grat628csw7" path="res://addons/material_icons_importer/icons/info.png" id="3_tkbf3"]
+[ext_resource type="Texture2D" uid="uid://bhj1r8qqdcofb" path="res://addons/material_icons_importer/icons/link.png" id="4_flkow"]
+[ext_resource type="Texture2D" uid="uid://ds8hhul47phdi" path="res://addons/material_icons_importer/icons/extension.png" id="5_j24hk"]
+[ext_resource type="Texture2D" uid="uid://deq02fm13b4wj" path="res://addons/material_icons_importer/icons/borderColor.png" id="6_3e56s"]
+[ext_resource type="Texture2D" uid="uid://p3e7qqnslkps" path="res://addons/material_icons_importer/icons/upcoming.png" id="7_qqxwt"]
+[ext_resource type="Texture2D" uid="uid://b4j80kgvhnmpk" path="res://addons/material_icons_importer/icons/chat.png" id="8_svu1p"]
+
+[sub_resource type="Gradient" id="Gradient_631em"]
+offsets = PackedFloat32Array(0, 0.9556314, 1)
+colors = PackedColorArray(0, 0.14901961, 0.18039216, 0.90588236, 0, 0.14901961, 0.18039216, 0.8235294, 0, 0.14901961, 0.18039216, 0.5647059)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_v0na3"]
+gradient = SubResource("Gradient_631em")
+
+[node name="Sidebar" type="Control" unique_id=145587128]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 576.0
+offset_bottom = 1080.0
+script = ExtResource("1_1bqev")
+
+[node name="Tab" type="Control" parent="." unique_id=874153296]
+clip_contents = true
+anchors_preset = 0
+offset_top = 64.0
+offset_right = 207.99957
+offset_bottom = 504.0
+
+[node name="VBox" type="VBoxContainer" parent="Tab" unique_id=1482096255]
+layout_mode = 1
+offset_left = -128.0
+offset_right = 80.0
+offset_bottom = 440.0
+theme_override_constants/separation = 8
+
+[node name="CardStack" parent="Tab/VBox" unique_id=974971872 instance=ExtResource("1_dygoq")]
+layout_mode = 2
+bg_color = Color(4.1392445e-06, 0.68878716, 0.83285934, 1)
+content = "卡堆列表"
+icon = ExtResource("2_qhwwe")
+
+[node name="GameInfo" parent="Tab/VBox" unique_id=1419179179 instance=ExtResource("1_dygoq")]
+layout_mode = 2
+bg_color = Color(0.3203316, 0.6261656, 1, 1)
+content = "对局信息"
+icon = ExtResource("3_tkbf3")
+
+[node name="ActionLog" parent="Tab/VBox" unique_id=1199694029 instance=ExtResource("1_dygoq")]
+visible = false
+layout_mode = 2
+bg_color = Color(0.47872478, 0.70012176, 0, 1)
+content = "行动日志"
+icon = ExtResource("6_3e56s")
+
+[node name="ActionList" parent="Tab/VBox" unique_id=1717016016 instance=ExtResource("1_dygoq")]
+visible = false
+layout_mode = 2
+bg_color = Color(0.78883404, 0.0020542205, 0.96164674, 1)
+content = "行动一览"
+icon = ExtResource("7_qqxwt")
+
+[node name="Timepoint" parent="Tab/VBox" unique_id=1770850025 instance=ExtResource("1_dygoq")]
+visible = false
+layout_mode = 2
+bg_color = Color(0.9399763, 0.23219496, 0.99999994, 1)
+content = "时点信息"
+icon = ExtResource("4_flkow")
+
+[node name="Expansion" parent="Tab/VBox" unique_id=477015187 instance=ExtResource("1_dygoq")]
+visible = false
+layout_mode = 2
+bg_color = Color(1, 0.40601534, 0.1654476, 1)
+content = "插件状态"
+icon = ExtResource("5_j24hk")
+
+[node name="ChatInfo" parent="Tab/VBox" unique_id=480015891 instance=ExtResource("1_dygoq")]
+visible = false
+layout_mode = 2
+bg_color = Color(0.6784314, 0.12156863, 0, 1)
+content = "行动一览"
+icon = ExtResource("8_svu1p")
+
+[node name="Content" type="TextureRect" parent="." unique_id=967672145]
+layout_mode = 0
+offset_left = -576.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_v0na3")

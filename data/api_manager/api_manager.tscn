@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7fo7l8vb43vc"]
+
+[ext_resource type="Script" uid="uid://btvthesc03xyv" path="res://data/api_manager/api_manager.gd" id="1_ia6p0"]
+
+[node name="ApiManager" type="Node" unique_id=1872828455]
+script = ExtResource("1_ia6p0")

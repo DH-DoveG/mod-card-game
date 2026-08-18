@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba6e3j7yhqctt"]
+
+[ext_resource type="Script" uid="uid://c6uqey5dme4cs" path="res://components/cards/card_module_attribute.gd" id="1_51deh"]
+
+[node name="CardModuleAttribute" type="Node3D"]
+top_level = true
+script = ExtResource("1_51deh")
+
+[node name="Name" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, -0.15)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+text = "辉翼极光龙"
+font_size = 14
+outline_size = 8
+
+[node name="LV" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.05)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(0.976471, 0.427451, 0.290196, 1)
+text = "LV"
+font_size = 14
+outline_size = 8
+
+[node name="Karling" type="Node3D" parent="."]
+
+[node name="AP" type="Label3D" parent="Karling"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.13, 0.01, 0.14)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(1, 0, 0, 1)
+text = "AP"
+font_size = 14
+outline_size = 8
+
+[node name="DP" type="Label3D" parent="Karling"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.13, 0.01, 0.14)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(0.227451, 1, 1, 1)
+text = "DP"
+font_size = 14
+outline_size = 8
+
+[node name="SP" type="Label3D" parent="Karling"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.14)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(1, 1, 0.0117647, 1)
+text = "SP"
+font_size = 14
+outline_size = 8
+
+[node name="Building" type="Node3D" parent="."]
+
+[node name="GP" type="Label3D" parent="Building"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0.14)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(1, 0.556863, 0, 1)
+text = "GP"
+font_size = 14
+outline_size = 8
+
+[node name="Attribute" type="Node3D" parent="."]
+
+[node name="Primary" type="Label3D" parent="Attribute"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.13, 0.01, 0.05)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(0.715764, 0.252899, 1, 1)
+text = "光"
+font_size = 14
+outline_size = 8
+
+[node name="Secondary" type="Label3D" parent="Attribute"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.13, 0.01, 0.05)
+layers = 8
+pixel_size = 0.004
+render_priority = 5
+outline_render_priority = 4
+modulate = Color(9.14484e-07, 0.640829, 0.329209, 1)
+text = "风"
+font_size = 14
+outline_size = 8

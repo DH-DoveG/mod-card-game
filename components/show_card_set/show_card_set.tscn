@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dfuyqld30gr8"]
+
+[ext_resource type="Script" uid="uid://cv1e03xmgugli" path="res://components/show_card_set/show_card_set.gd" id="1_xwa6h"]
+
+[node name="ShowCardSet" type="MenuButton" unique_id=1718265088]
+offset_right = 192.0
+offset_bottom = 40.0
+text = "展览卡堆情况"
+flat = false
+script = ExtResource("1_xwa6h")
+
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1495641882]
+oversampling_override = 1.0
+item_count = 1
+item_0/id = 0
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]

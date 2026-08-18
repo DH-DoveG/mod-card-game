@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://qlxyq7jma4yc"]
+
+[ext_resource type="Script" uid="uid://c0y2we877wx7s" path="res://core/scene/scene.gd" id="1_0cb1q"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="3_mkvcr"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_ulk14"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_ifqmy"]
+
+[sub_resource type="Resource" id="Resource_mmnul"]
+script = ExtResource("4_ulk14")
+duration = 0.0
+transition = 4
+ease = 1
+
+[node name="Scene" type="Node3D" unique_id=1969502030]
+script = ExtResource("1_0cb1q")
+
+[node name="AreaMount" type="Node3D" parent="." unique_id=2014653824]
+
+[node name="CardMount" type="Node3D" parent="." unique_id=793340467]
+
+[node name="PCDown" type="Node3D" parent="." unique_id=1486102678]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0, 0)
+script = ExtResource("3_mkvcr")
+tween_resource = SubResource("Resource_mmnul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="PCUp" type="Node3D" parent="." unique_id=1405322258]
+transform = Transform3D(-1, -8.444392e-08, 2.2626683e-08, 0, 0.25881907, 0.9659258, -8.742278e-08, 0.9659258, -0.25881907, 0, 0, 0)
+script = ExtResource("3_mkvcr")
+tween_resource = SubResource("Resource_mmnul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="PCRight" type="Node3D" parent="." unique_id=384702659]
+transform = Transform3D(-4.371139e-08, 0.9659258, -0.25881907, 0, 0.25881907, 0.9659258, 1, 4.222196e-08, -1.1313341e-08, 0, 0, 0)
+script = ExtResource("3_mkvcr")
+priority = 1
+tween_resource = SubResource("Resource_mmnul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="PCLeft" type="Node3D" parent="." unique_id=1052464775]
+transform = Transform3D(-4.371139e-08, -0.9659258, 0.25881907, 0, 0.25881907, 0.9659258, -1, 4.222196e-08, -1.1313341e-08, 0, 0, 0)
+script = ExtResource("3_mkvcr")
+tween_resource = SubResource("Resource_mmnul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="PCTop" type="Node3D" parent="." unique_id=340202797]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+script = ExtResource("3_mkvcr")
+tween_resource = SubResource("Resource_mmnul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=209453241]
+transform = Transform3D(-4.371139e-08, 0.86602545, -0.49999997, 0, 0.49999997, 0.86602545, 1, 3.7855173e-08, -2.1855692e-08, 0, 0, 0)
+top_level = true
+current = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=234065175]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("5_ifqmy")
+
+[node name="Ray" type="Node3D" parent="." unique_id=548296634]
+
+[node name="DeepRayCast3D" type="DeepRayCast3D" parent="Ray" unique_id=118219581]
+hit_back_faces = false
+raycast_visible = false

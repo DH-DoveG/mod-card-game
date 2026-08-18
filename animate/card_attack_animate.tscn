@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://2cqb51i35h3w"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_mye2l"]
+[ext_resource type="Script" uid="uid://52dkxoinuich" path="res://animate/card_attack_animate.gd" id="2_wtykx"]
+
+[node name="CardAttackAnimate" unique_id=1401670750 instance=ExtResource("1_mye2l")]
+script = ExtResource("2_wtykx")

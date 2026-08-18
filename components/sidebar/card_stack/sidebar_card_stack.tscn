@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dqv1n5tjyg02s"]
+
+[ext_resource type="Script" uid="uid://drlnw5bksibd" path="res://components/sidebar/card_stack/sidebar_card_stack.gd" id="1_jgani"]
+
+[node name="SidebarCardStack" type="Control" unique_id=2107105822]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 576.0
+offset_bottom = 1080.0
+script = ExtResource("1_jgani")
+
+[node name="Title" type="Label" parent="." unique_id=1180005011]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 32
+text = "—— 卡堆列表 ——"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1293706428]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 64.0
+grow_horizontal = 2
+grow_vertical = 2

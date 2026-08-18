@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://coeapgd7rpgmq"]
+
+[ext_resource type="Script" uid="uid://cobp243froy1o" path="res://components/loading_panel/loading_panel.gd" id="1_8jjmy"]
+[ext_resource type="Shader" uid="uid://brqdrp4dsqt7w" path="res://assets/shader/canvas_item/边缘模糊.gdshader" id="3_igc15"]
+[ext_resource type="Texture2D" uid="uid://c2pceev6cd4a6" path="res://addons/material_icons_importer/icons/autorenew.png" id="3_ikmh5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ikmh5"]
+shader = ExtResource("3_igc15")
+shader_parameter/blur_radius = 0.5370000255075
+shader_parameter/blur_amount = 3.2810001558475
+shader_parameter/blur_inner = 0.800000038
+shader_parameter/blur_outer = 0.66000003135
+
+[sub_resource type="Animation" id="Animation_ikmh5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_igc15"]
+resource_name = "loop"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.2831855]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ikmh5"]
+_data = {
+&"RESET": SubResource("Animation_ikmh5"),
+&"loop": SubResource("Animation_igc15")
+}
+
+[node name="LoadingPanel" type="ColorRect" unique_id=1625845037]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2159017, 0.21590173, 0.21590167, 1)
+script = ExtResource("1_8jjmy")
+
+[node name="Image" type="TextureRect" parent="." unique_id=82618334]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1085352093]
+material = SubResource("ShaderMaterial_ikmh5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="." unique_id=39697975]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0040001
+anchor_bottom = 1.0
+offset_left = 1024.0
+offset_top = -104.0
+offset_right = -135.68018
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1939877064]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -80.0
+offset_right = -40.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("3_ikmh5")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1296078126]
+libraries/ = SubResource("AnimationLibrary_ikmh5")
+autoplay = &"loop"

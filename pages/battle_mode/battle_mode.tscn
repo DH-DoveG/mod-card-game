@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://cbo3efme6fgmd"]
+
+[ext_resource type="PackedScene" uid="uid://sby2fmbtgdh7" path="res://core/page/page.tscn" id="1_hth3v"]
+[ext_resource type="Script" uid="uid://bbj5grnk58s0w" path="res://pages/battle_mode/battle_mode.gd" id="2_gry1q"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="3_u2sh1"]
+
+[node name="BattleReady" unique_id=1302407112 instance=ExtResource("1_hth3v")]
+script = ExtResource("2_gry1q")
+
+[node name="HBox" type="HBoxContainer" parent="." index="1" unique_id=1793675139]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 168.0
+offset_right = -64.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 48
+
+[node name="PVE" type="TextureButton" parent="HBox" index="0" unique_id=195068027]
+modulate = Color(1, 1, 1, 0.49019608)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="HBox/PVE" index="0" unique_id=1268736469]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_outline_size = 24
+theme_override_font_sizes/font_size = 64
+text = "单机模式"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PVP" type="TextureButton" parent="HBox" index="1" unique_id=439168494]
+layout_mode = 2
+size_flags_horizontal = 3
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="HBox/PVP" index="0" unique_id=1206607650]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 64
+text = "联机模式"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Story" type="TextureButton" parent="HBox" index="2" unique_id=344558834]
+modulate = Color(1, 1, 1, 0.49019608)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="HBox/Story" index="0" unique_id=466156029]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 64
+text = "故事模式"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Close" type="TextureButton" parent="." index="2" unique_id=378854651]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 80.0
+grow_horizontal = 0
+texture_normal = ExtResource("3_u2sh1")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Title" type="Control" parent="." index="3" unique_id=106271002]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 40.0
+offset_right = 320.0
+offset_bottom = 96.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Title" index="0" unique_id=77532179]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "模式选择"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HBox/PVE" to="." method="_on_pve_pressed"]
+[connection signal="pressed" from="HBox/PVP" to="." method="_on_pvp_pressed"]
+[connection signal="pressed" from="HBox/Story" to="." method="_on_story_pressed"]
+[connection signal="pressed" from="Close" to="." method="_on_close_pressed"]

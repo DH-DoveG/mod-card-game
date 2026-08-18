@@ -1,0 +1,8 @@
+[gd_resource type="Resource" format=3 uid="uid://fmex0mp7jdgn"]
+
+[ext_resource type="Script" uid="uid://lcf8uedn57am" path="res://addons/tooltips_pro/scripts/tooltip_settings.gd" id="1_x70rx"]
+
+[resource]
+script = ExtResource("1_x70rx")
+tooltip_template_dir_path = "res://components/tooltips/"
+step_limit_color = Color(0, 0, 0, 0.156863)

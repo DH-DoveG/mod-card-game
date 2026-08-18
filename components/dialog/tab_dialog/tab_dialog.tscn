@@ -1,0 +1,262 @@
+[gd_scene format=3 uid="uid://1654vk7r7xcy"]
+
+[ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_7dfbx"]
+[ext_resource type="Script" uid="uid://cpdxer2jpf5hy" path="res://components/dialog/tab_dialog/tab_dialog.gd" id="2_cqbdv"]
+[ext_resource type="Texture2D" uid="uid://cm1x7vh52w0fk" path="res://sn-0008.png" id="3_cqbdv"]
+[ext_resource type="Texture2D" uid="uid://b5d03ibtb5h0d" path="res://assets/images/icon/show.png" id="4_cqbdv"]
+
+[node name="TabDialog" unique_id=64599099 instance=ExtResource("1_7dfbx")]
+script = ExtResource("2_cqbdv")
+
+[node name="Template" type="Node" parent="." index="1" unique_id=876066966]
+
+[node name="Option" type="Button" parent="Template" index="0" unique_id=1504123778]
+visible = false
+offset_right = 40.0
+offset_bottom = 190.0
+text = "Option"
+autowrap_mode = 1
+
+[node name="Item" type="ColorRect" parent="Template" index="1" unique_id=420011576]
+visible = false
+custom_minimum_size = Vector2(195, 270)
+custom_maximum_size = Vector2(195, 270)
+offset_right = 195.0
+offset_bottom = 270.0
+color = Color(0.24477637, 0.2447764, 0.24477637, 1)
+
+[node name="Image" type="TextureButton" parent="Template/Item" index="0" unique_id=839657733]
+custom_minimum_size = Vector2(184, 258)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -92.0
+offset_top = 5.5
+offset_right = 92.0
+offset_bottom = 263.5
+grow_horizontal = 2
+texture_normal = ExtResource("3_cqbdv")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Info" type="ColorRect" parent="Template/Item" index="1" unique_id=95179501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 152.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.5882353)
+
+[node name="Label" type="Label" parent="Template/Item/Info" index="0" unique_id=2063718991]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="__TabItem" type="Control" parent="Template" index="2" unique_id=1851866451]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+metadata/_tab_index = 0
+
+[node name="Info" type="HBoxContainer" parent="Template/__TabItem" index="0" unique_id=1587249878]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 216.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+
+[node name="TabDetails" type="RichTextLabel" parent="Template/__TabItem/Info" index="0" unique_id=1601459683]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TabOptions" type="ScrollContainer" parent="Template/__TabItem/Info" index="1" unique_id=699412965]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Template/__TabItem/Info/TabOptions" index="0" unique_id=444911039]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="TabItemList" type="ScrollContainer" parent="Template/__TabItem" index="1" unique_id=33927366]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -620.0
+offset_top = -276.0
+offset_right = 620.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="Template/__TabItem/TabItemList" index="0" unique_id=945014311]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="TabItem" type="Control" parent="Template" index="3" unique_id=1188084167]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 215.0
+offset_right = 40.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Info" type="VBoxContainer" parent="Template/TabItem" index="0" unique_id=17674329]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 263.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Template/TabItem/Info" index="0" unique_id=1132413447]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="VBoxContainer" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="0" unique_id=1305702486]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.66656864, 0.6665687, 0.6665685, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="0" unique_id=1160908433]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer/ColorRect" index="0" unique_id=1738241163]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="1" unique_id=675838871]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 39.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="1" unique_id=576944205]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.5529556, 0.55295557, 0.55295557, 1)
+
+[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="0" unique_id=2026410951]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2/ColorRect" index="0" unique_id=1422124573]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="1" unique_id=1003993969]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 39.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TabItemList" type="ScrollContainer" parent="Template/TabItem" index="1" unique_id=876046033]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -620.0
+offset_top = -276.0
+offset_right = 620.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="Template/TabItem/TabItemList" index="0" unique_id=1530475827]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Visible" type="TextureButton" parent="." index="2" unique_id=1332550977]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 128.0
+grow_horizontal = 0
+texture_normal = ExtResource("4_cqbdv")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Dialog" parent="." index="3" unique_id=1235732902]
+offset_left = -680.0
+offset_top = -444.0
+offset_right = 680.0
+offset_bottom = 444.0
+
+[node name="TabContainer" type="TabContainer" parent="Dialog" index="3" unique_id=1060893933]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 112.0
+offset_right = -40.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="Visible" to="." method="_on_visible_pressed"]
