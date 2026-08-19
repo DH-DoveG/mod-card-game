@@ -27,7 +27,7 @@ offset_left = 24.0
 offset_right = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "区域信息（X=?,Y=?,Z=?）"
+text = "区域坐标"
 horizontal_alignment = 1
 vertical_alignment = 1
 

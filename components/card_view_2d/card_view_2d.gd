@@ -92,3 +92,8 @@ func _on_mouse_entered() -> void:
 	Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
 		"params": entity
 	})
+	set_outline(true)
+
+
+func _on_mouse_exited() -> void:
+	set_outline(false)

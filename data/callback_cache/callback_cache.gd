@@ -3,6 +3,8 @@ class_name CallbackCache
 
 var caches = {}
 
+var card_info_show_method = null
+var area_info_show_method = null
 
 @rpc("any_peer", "call_remote", "reliable")
 func call_cache(id, args) -> Variant:

@@ -29,6 +29,8 @@ grow_horizontal = 2
 text = "卡名"
 horizontal_alignment = 1
 vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 1
 
 [node name="Close" type="TextureButton" parent="Back" unique_id=614329890]
 custom_minimum_size = Vector2(24, 24)
@@ -67,15 +69,5 @@ offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "---------------属性---------------
-LV：2 | AP： 2 | DP： 2 | SP： 2 | ATTACK：1 | MOVE：1
----------------特征---------------
-Tag1，Tag2，Tag3，Tag4，Tag5，Tag6，Tag7，Tag8
----------------效果---------------
-【启动】：文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述，文本描述。
-【瞬发】
----------------行为---------------
-【降临】：xxx
-【】"
 
 [connection signal="pressed" from="Back/Close" to="." method="_on_close_pressed"]

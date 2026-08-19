@@ -226,6 +226,8 @@ func _init_starter(arg: Dictionary):
 func _exec_rule(_arg: Dictionary):
 	$UI/CardSetInfoPanel.set_battle(self)
 	$UI/PlayerHandView.set_battle(self)
+	$UI/CardInfoPanel.battle = self
+	$UI/AreaInfoPanel.battle = self
 	
 	# 期待的数据格式： { players: {string : string[] }
 	var param = { "players": [] }
@@ -362,3 +364,9 @@ func _on_card_set_info_show_btn_pressed() -> void:
 
 func _on_visual_angle_change_btn_pressed() -> void:
 	_on_switch_view_pressed()
+
+
+func _on_log_show_btn_pressed() -> void:
+	$UI/LogPanel.visible = not $UI/LogPanel.visible
+	if $UI/LogPanel.visible: $UI/BottomBar/LogShowBtn.modulate = Color("FFF")
+	else: $UI/BottomBar/LogShowBtn.modulate = Color("C8C8C8")

@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b68yhkllka34p" path="res://addons/material_icons_importer/icons/square.png" id="4_vmnpc"]
 [ext_resource type="PackedScene" uid="uid://clu4dj0711y3u" path="res://components/card_set_info_panel/card_set_info_panel.tscn" id="5_8w61a"]
 [ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://addons/material_icons_importer/icons/ampStories.png" id="5_j3p8a"]
+[ext_resource type="Texture2D" uid="uid://djvkatr3gcy37" path="res://assets/images/icon/log.png" id="6_o21fp"]
 [ext_resource type="PackedScene" uid="uid://c8ejnte1obkse" path="res://components/lua_memory_panel/lua_memory_panel.tscn" id="9_8w61a"]
 [ext_resource type="PackedScene" uid="uid://cst8gj65puneo" path="res://components/player_hand_view/player_hand_view.tscn" id="9_grut4"]
 [ext_resource type="Texture2D" uid="uid://cwyae4lmo6cfl" path="res://assets/images/icon/stack-solid.png" id="9_o21fp"]
@@ -130,8 +131,8 @@ label_settings = SubResource("LabelSettings_j3p8a")
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="VisualAngleChangeBtn" type="TextureButton" parent="UI/BottomBar" index="4" unique_id=284874316]
-visible = false
+[node name="LogShowBtn" type="TextureButton" parent="UI/BottomBar" index="4" unique_id=284874316]
+modulate = Color(0.78431374, 0.78431374, 0.78431374, 1)
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 1
 anchors_preset = 9
@@ -140,11 +141,40 @@ offset_left = 232.0
 offset_right = 288.0
 offset_bottom = -8.0
 grow_vertical = 2
+texture_normal = ExtResource("6_o21fp")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/BottomBar/LogShowBtn" index="0" unique_id=980115544]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "日志"
+label_settings = SubResource("LabelSettings_j3p8a")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VisualAngleChangeBtn2" type="TextureButton" parent="UI/BottomBar" index="5" unique_id=248735936]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 304.0
+offset_right = 360.0
+offset_bottom = -8.0
+grow_vertical = 2
 texture_normal = ExtResource("4_0k3r2")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="UI/BottomBar/VisualAngleChangeBtn" index="0" unique_id=980115544]
+[node name="Label" type="Label" parent="UI/BottomBar/VisualAngleChangeBtn2" index="0" unique_id=92739801]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -240,7 +270,8 @@ text = "————<< 第 0 回合 >>————"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Log" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=647268735]
+[node name="LogPanel" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=647268735]
+visible = false
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -252,7 +283,7 @@ grow_horizontal = 0
 grow_vertical = 2
 color = Color(0.31061712, 0.31061712, 0.3106171, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/Log" index="0" unique_id=652132006]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/LogPanel" index="0" unique_id=652132006]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -276,4 +307,5 @@ light_energy = 1.0
 [connection signal="pressed" from="UI/BottomBar/AreaInfoShowBtn" to="." method="_on_area_info_show_btn_pressed"]
 [connection signal="pressed" from="UI/BottomBar/CardInfoShowBtn" to="." method="_on_card_info_show_btn_pressed"]
 [connection signal="pressed" from="UI/BottomBar/CardSetInfoShowBtn" to="." method="_on_card_set_info_show_btn_pressed"]
-[connection signal="pressed" from="UI/BottomBar/VisualAngleChangeBtn" to="." method="_on_visual_angle_change_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/LogShowBtn" to="." method="_on_log_show_btn_pressed"]
+[connection signal="pressed" from="UI/BottomBar/VisualAngleChangeBtn2" to="." method="_on_visual_angle_change_btn_pressed"]

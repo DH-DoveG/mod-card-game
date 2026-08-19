@@ -11,7 +11,7 @@ class_name Battle
 var rule_manager = RuleManager.new() 
 var event_manager = EventManager.new()
 var timepoint_manager = TimepointManager.new()
-@onready var callback_cache: Node = $CallbackCache
+@onready var callback_cache: CallbackCache = $CallbackCache
 @onready var rpc_awaiter: RpcAwaiter = $RpcAwaiter
 
 var host_player_id = "" # 主机玩家的ID（或许应该说是本地玩家的）

@@ -6,11 +6,13 @@ static func require(state: LuaState) -> void:
 	var table = state.create_table()
 	table.set("create", state.create_function(create))
 	table.set("remove", state.create_function(remove))
+	table.set("get_area", state.create_function(get_area))
 	table.set("get_size", state.create_function(get_size))
 	table.set("get_position", state.create_function(get_position))
 	table.set("get_heap", state.create_function(get_heap))
 	# table.set("set_heap", state.create_function(set_heap))
-	table.set("set_owner", state.create_function(set_owner))
+	table.set("set_controller", state.create_function(set_controller))
+	table.set("get_controllers", state.create_function(get_controllers))
 	table.set("set_color", state.create_function(set_color))
 	table.set("get_height_level", state.create_function(get_height_level))
 	table.set("set_height_level", state.create_function(set_height_level))
@@ -111,6 +113,27 @@ static func get_all(param: LuaTable):
 	return LuaUtils.array_to_table(result)
 
 
+static func get_area(param: LuaTable):
+	var id: String = param["id"] if param["id"] != null else ""
+	if id.is_empty():
+		return null
+	var all = Utils.get_current_scene().areas.values()
+	for area in all:
+		if area.name == id:
+			return area.meta
+	return null
+
+
+static func get_controllers(param: LuaTable):
+	var id: String = param["id"] if param["id"] != null else ""
+	var result = []
+	if id.is_empty():
+		return LuaUtils.array_to_table(result)
+	var battle: Battle = Utils.get_current_scene()
+	result = battle.battle_data_bind_list.area_bind_players[id]
+	return LuaUtils.array_to_table(result)
+
+
 static func get_height_level(param: LuaTable) -> int:
 	# 提取参数
 	var id = param["id"] if param["id"] != null else ""
@@ -154,7 +177,7 @@ static func get_size() -> LuaTable:
 	return ModManager.state.create_table(GApiManager.area_api.get_size())
 
 
-static func set_owner(param: LuaTable) -> void:
+static func set_controller(param: LuaTable) -> void:
 	# 提取参数
 	var id = param["id"] if param["id"] != null else ""
 	var owners = param["owners"].to_array() if param["owners"] != null else []

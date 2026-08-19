@@ -64,9 +64,8 @@ func update(sets) -> void:
 		view.set_card(ce)
 		$Hand.add_child(view)
 		view.set_menu(true)
-		view.set_outline(true)
+		#view.set_outline(true)
 		view.custom_minimum_size = Vector2(164, 228)
-		
 	
 	if $Hand.get_child_count() >= 7:
 		$Hand.dynamic_radius = false
