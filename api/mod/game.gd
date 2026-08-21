@@ -43,7 +43,7 @@ static func get_battle_info(param) -> LuaTable:
 			var cards = battle.battle_data_bind_list.card_set[cs]["data"][pid]
 			var public = []
 			for card in cards:
-				if GApiManager.card_api.get_public_information(player_id, card):
+				if player_id in GApiManager.card_api.get_public_information(card):
 					public.append(card)
 			card_sets[cs].append({"id": pid, "size": cards.size(), "public": public})
 
@@ -53,13 +53,13 @@ static func get_battle_info(param) -> LuaTable:
 		var top = heap.pop_back()
 		var pc = []
 		for index in range(heap.size() - 1, -1, -1):
-			if not GApiManager.card_api.get_public_information(player_id, heap[index]):
+			if player_id not in GApiManager.card_api.get_public_information(heap[index]):
 				# heap.remove_at(index)
 				heap[index] = "<Private>"
 			else:
 				pc.push_back(heap[index])
 		if top != null:
-			if not GApiManager.card_api.get_public_information(player_id, top):
+			if player_id not in GApiManager.card_api.get_public_information(top):
 				top = "<Private>"
 		if top:
 			pc.push_back(top)

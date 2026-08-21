@@ -18,8 +18,22 @@ static func require(state: LuaState) -> void:
 	table.set("set_index", state.create_function(set_index))
 	table.set("find_condition", state.create_function(find_condition))
 	table.set("set_border_color", state.create_function(set_border_color))
+	table.set("set_public_information", state.create_function(set_public_information))
+	table.set("get_public_information", state.create_function(get_public_information))
 	
 	state.globals["package"]["loaded"]["std.api.card-api"] = table
+
+
+static func set_public_information(param):
+	var cid = param["card_id"] if param["card_id"] != null else ""
+	var pids = param["player_ids"].to_array() if param["player_ids"] != null else []
+	print("[CORE] cid: ", cid, " | pids: ", pids)
+	GApiManager.card_api.rpc("set_public_information", cid, pids)
+
+
+static func get_public_information(param):
+	var cid = param["card_id"] if param["card_id"] != null else ""
+	return GApiManager.card_api.get_public_information(cid)
 
 
 static func set_border_color(param):
@@ -40,11 +54,7 @@ static func get_card(param: LuaTable) -> LuaTable:
 	
 	if not id:
 		return null
-
-	if id is LuaTable:
-		print("GetCard: ", LuaUtils.table_to_dictionary(id))
-		print("stop")
-
+	
 	var card = FindUtils.find_card(id)
 	if card is not CardEntity:
 		return null

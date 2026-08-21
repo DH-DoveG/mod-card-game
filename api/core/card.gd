@@ -31,7 +31,7 @@ func create_battle(card_id: String, card_resource_id: String, card_owner: String
 	battle.battle_data_bind_list.player_bind_cards_of_ownership[card_owner].append(card_id)
 	battle.battle_data_bind_list.player_bind_cards_of_controller[card_owner].append(card_id)
 	battle.battle_data_bind_list.card_bind_behaviors[card_id] = PackedStringArray()
-	battle.battle_data_bind_list.card_public_information[card_owner].append(card_id)
+	battle.battle_data_bind_list.card_public_information[card_id] = [card_owner]
 	
 	# print("CARD OWNER: ", card_owner, " | CARD ID: ", card_id)
 	
@@ -93,31 +93,21 @@ func set_border_color(card_id: String, color: Color) -> void:
 
 # front: true card_id 给所有玩家可见; false card_id 仅给卡片的持有者可见
 @rpc("any_peer", "call_local", "reliable")
-func set_public_information(card_id: String, front: bool):
+func set_public_information(card_id: String, player_ids: Array):
 	var battle = Utils.get_current_scene()
 	if battle is Battle:
-		var player_id = GApiManager.card_api.get_ownership(card_id)
-		for pid in battle.battle_data_bind_list.card_public_information:
-			if front:
-				var index = battle.battle_data_bind_list.card_public_information[pid].find(card_id)
-				if index == -1:
-					battle.battle_data_bind_list.card_public_information[pid].push_back(card_id)
-			else:
-				if pid != player_id:
-					var index = battle.battle_data_bind_list.card_public_information[pid].find(card_id)
-					if index != -1:
-						battle.battle_data_bind_list.card_public_information[pid].remove_at(index)
+		battle.battle_data_bind_list.card_public_information[card_id] = player_ids
 
 
-func get_public_information(player_id: String, card_id: String) -> bool:
+#落实更新卡片的 公开属性
+# 1. card_public_information = { "CardID": ["PlayerID1", "PlayerID2"] }
+
+
+func get_public_information(card_id: String) -> Array:
 	var battle = Utils.get_current_scene()
 	if battle is Battle:
-		for pid in battle.battle_data_bind_list.card_public_information:
-			if pid == player_id:
-				var index = battle.battle_data_bind_list.card_public_information[pid].find(card_id)
-				if index:
-					return true
-	return false
+		return battle.battle_data_bind_list.card_public_information[card_id]
+	return []
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -130,7 +120,7 @@ func set_front(card_id: String, front: bool) -> void:
 	card.is_front = front
 	#card.card_info_show.update()
 	
-	rpc("set_public_information", card_id, front)
+	#rpc("set_public_information", card_id, front)
 	# FIXME: 这里需要找到 CardEntity 对应的 CardView3D
 	#adjust_card_rotation(card)
 

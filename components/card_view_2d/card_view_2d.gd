@@ -46,7 +46,8 @@ func set_card(card: CardEntity, is_check_see = true) -> void:
 	# is_check_see 用来检查 host_player 是否有查看权限
 	if is_check_see:
 		var battle: Battle = Utils.get_current_scene()
-		if card.name not in battle.battle_data_bind_list.card_public_information[battle.host_player_id]:
+		var cpi = battle.battle_data_bind_list.card_public_information[card.name]
+		if (battle.host_player_id not in cpi) and ("PUBLIC" not in cpi):
 			var ownership = GApiManager.card_api.get_ownership(card.name)
 			var player = FindUtils.find_player(ownership)
 			texture_normal = GResourceManager.get_image_resoure(player.use_card_back)

@@ -152,27 +152,27 @@ static func set_timepoint_queue_sort_method(param) -> void:
 static func set_card_info_show_method(param) -> void:
 	var method = param["method"]
 	Utils.get_current_scene().callback_cache.card_info_show_method = func(player_id, card_id):
-		print("调用 card_info_show_method ： ", player_id, " | ", card_id)
+		#print("调用 card_info_show_method ： ", player_id, " | ", card_id)
 		var res = method.invoke(card_id, player_id)
 		if res is LuaError:
-			assert(false, "时点队列排序方法错误:" + res.message)
+			assert(false, "卡片信息自定义方法错误:" + res.message)
 		if res is LuaCoroutine:
 			var error = res.resume(card_id, player_id)
 			if error is LuaError:
-				assert(false, "时点队列排序方法错误[Coroutine]:" + error.message)
+				assert(false, "卡片信息自定义方法错误[Coroutine]:" + error.message)
 			if res.status == LuaCoroutine.STATUS_YIELD:
 				res = await res.completed
 			else:
 				res = error
 		if res is not String:
-			assert(false, "时点队列排序方法返回值不是 LuaTable 类型")
+			assert(false, "卡片信息自定义方法返回值不是 LuaTable 类型")
 		# res: { chain: { chain: index<int>这个是连锁的索引, behavior: Behavior 这是进行连锁的行为 }, context: context }
 		return res
 	pass
 static func set_area_info_show_method(param) -> void:
 	var method = param["method"]
 	Utils.get_current_scene().callback_cache.area_info_show_method = func(player_id, area_id):
-		print("调用 area_info_show_method ： ", player_id, " | ", area_id)
+		#print("调用 area_info_show_method ： ", player_id, " | ", area_id)
 		var res = method.invoke(area_id, player_id)
 		if res is LuaError:
 			assert(false, "时点队列排序方法错误:" + res.message)

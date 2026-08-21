@@ -17,6 +17,14 @@ func _event_bus_callable(args) -> void:
 		if args["params"] is CardEntity:
 			if current_show_card == args["params"]:
 				return
+			
+			var entity: CardEntity = args["params"]
+			
+			# 检查主机玩家是否有查看的权利
+			var cpi = battle.battle_data_bind_list.card_public_information[entity.name]
+			if (battle.host_player_id not in cpi) and ("PUBLIC" not in cpi):
+				return
+			
 			show()
 			set_card_show(args["params"])
 

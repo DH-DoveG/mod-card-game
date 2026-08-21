@@ -14,8 +14,6 @@ var current_hoverd_card = null
 
 var battle: Battle = null
 
-#TODO: 让特殊配置生效
-
 
 func set_battle(_battle: Battle):
 	battle = _battle
