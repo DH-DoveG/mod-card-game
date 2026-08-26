@@ -123,7 +123,8 @@ func on_scene_loaded(_arg):
 	else: host_is_audience = false
 	
 	if host_is_audience: 
-		$UI/BottomPanel/PlayerHandView.hide()
+		$UI/PlayerHandView.hide()
+		$UI/BottomBar/VisualAngleChangeBtn.show()
 	
 	#players = _players
 	# 这里需要将玩家与阵营对应做处理
@@ -224,11 +225,6 @@ func _init_starter(arg: Dictionary):
 # 	"start_rule": "Battle Start Rule"
 # }
 func _exec_rule(_arg: Dictionary):
-	$UI/CardSetInfoPanel.set_battle(self)
-	$UI/PlayerHandView.set_battle(self)
-	$UI/CardInfoPanel.battle = self
-	$UI/AreaInfoPanel.battle = self
-	
 	# 期待的数据格式： { players: {string : string[] }
 	var param = { "players": [] }
 	for key in _arg["camp"]:
@@ -236,7 +232,19 @@ func _exec_rule(_arg: Dictionary):
 		for array in key["list"]:
 			_camps.append(array["pid"])
 		param["players"].append({ "camp": key["camp"], "list": _camps })
+	
+	rpc("set_battle_to_component")
+	
 	Utils.get_current_scene().rule_manager.exec_rule(_arg["start_rule"], LuaUtils.dictionary_to_table(param))
+
+
+@rpc("call_local", "any_peer")
+func set_battle_to_component():
+	$UI/CardSetInfoPanel.set_battle(self)
+	$UI/PlayerHandView.set_battle(self)
+	$UI/CardInfoPanel.battle = self
+	$UI/AreaInfoPanel.battle = self
+	print("~~~")
 
 
 ## 这里做分解动作，首先这里只将玩家进行实例化
@@ -252,6 +260,7 @@ func _init_player(_camps):
 			if typeof(item["uid"]) != TYPE_STRING or not item["uid"].begins_with("R"):
 				node.use_card_back = GNetManager.players[item["uid"]]["card_back"]
 			if str(item["uid"]) == str(uid):
+				print("UID: ", uid, " | ", item["uid"])
 				host_player_id = item["pid"]
 				host_player = node
 			cbp.append(item["pid"])
@@ -293,11 +302,14 @@ func _init_deck(_players: Dictionary) -> void:
 		var card_count = 0
 		for template in use_cards:
 			var card_id = IDUtils.generate("CARD_")
-			battle_data_bind_list.card_public_information[item.name].append(card_id)
+			#battle_data_bind_list.card_public_information[item.name].append(card_id)
 			
-			#var ce: CardEntity = GApiManager.card_api.rpc("create_battle", card_id, template, item.name)
-			var ce: CardEntity = GApiManager.card_api.create_battle(card_id, template, item.name)
-			cards[card_id] = ce
+			#var ce: CardEntity = 
+			GApiManager.card_api.rpc("create_battle", card_id, template, item.name)
+			#var ce: CardEntity = 
+			#GApiManager.card_api.create_battle(card_id, template, item.name)
+			#GApiManager.card_api.create_battle(card_id, template, item.name)
+			#cards[card_id] = ce
 			#for _behavior in ce.behavior_manager:
 				#pass
 			

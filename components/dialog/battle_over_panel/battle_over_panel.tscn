@@ -7,11 +7,19 @@
 process_mode = 3
 script = ExtResource("2_w46o3")
 
-[node name="Title" parent="Dialog" parent_id_path=PackedInt32Array(1235732902) index="0" unique_id=1512743390]
+[node name="Dialog" parent="." index="2" unique_id=361497538]
+offset_left = -576.0
+offset_top = -236.0
+offset_right = 576.0
+offset_bottom = 236.0
+
+[node name="Title" parent="Dialog/ColorRect" parent_id_path=PackedInt32Array(1878783790) index="0" unique_id=1512743390]
 text = "——    对局结束    ——"
 
-[node name="Detail" parent="Dialog" parent_id_path=PackedInt32Array(1235732902) index="1" unique_id=1177301859]
-offset_bottom = 496.0
+[node name="Detail" parent="Dialog" index="1" unique_id=1177301859]
+offset_left = 8.0
+offset_right = -8.0
+offset_bottom = -64.0
 theme_override_font_sizes/font_size = 24
 text = "本场游戏胜负已分
 
@@ -22,12 +30,7 @@ xxx, yyy, zzz
 败
 aaa, bbb, ccc"
 
-[node name="Option" parent="Dialog" parent_id_path=PackedInt32Array(1235732902) index="2" unique_id=1346335070]
+[node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
+offset_left = -552.0
+offset_right = 552.0
 alignment = 1
-
-[node name="Button" type="Button" parent="Dialog/Option" index="0" unique_id=1903725496]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "确认"
-
-[connection signal="pressed" from="Dialog/Option/Button" to="." method="_on_button_pressed"]

@@ -6,7 +6,7 @@ var list = []
 
 
 func get_value():
-	var le = $Dialog/VBox/LineEdit
+	var le = $Dialog/LineEdit
 	return le.get_item_text(le.selected)
 
 
@@ -16,13 +16,13 @@ func set_value(param: Dictionary) -> void:
 	if param["can_hide"] == false:
 		$Background/Visible.hide()
 	if param.get("value"):
-		$Dialog/VBox/LineEdit.selected = list.find(param["value"])
+		$Dialog/LineEdit.selected = list.find(param["value"])
 
 
 func _build_list(_list):
 	list = _list
 	for i in list:
-		$Dialog/VBox/LineEdit.add_item(i)
+		$Dialog/LineEdit.add_item(i)
 
 
 # override

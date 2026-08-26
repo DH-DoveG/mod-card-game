@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dsfe0glfs20i1" path="res://assets/images/icon/right.png" id="4_a62ex"]
 [ext_resource type="PackedScene" uid="uid://b0be8i58lh1w6" path="res://components/close_page_btn/close_page_btn.tscn" id="6_1pwr3"]
 [ext_resource type="PackedScene" uid="uid://ove5rfdqqwyq" path="res://components/chat/chat.tscn" id="6_0644t"]
+[ext_resource type="Script" uid="uid://b0dicnumx46f8" path="res://addons/rpc-await/rpc_await.gd" id="7_0644t"]
 
 [node name="PvpReady" unique_id=326196127 instance=ExtResource("1_tkjmc")]
 script = ExtResource("2_rypg5")
@@ -450,6 +451,9 @@ offset_top = 32.0
 offset_right = 100.0
 offset_bottom = 100.0
 expand_mode = 1
+
+[node name="RpcAwaiter" type="Node" parent="." index="6" unique_id=1009263693]
+script = ExtResource("7_0644t")
 
 [connection signal="pressed" from="HBox/List/Btns/ToJoinudience" to="." method="_on_to_joinudience_pressed"]
 [connection signal="pressed" from="HBox/List/Btns/AddRobot" to="." method="_on_add_robot_pressed"]

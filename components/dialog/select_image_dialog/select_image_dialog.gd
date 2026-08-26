@@ -12,13 +12,13 @@ func _build_list(list: Dictionary) -> void:
 	
 	var item_size = Vector2.ZERO
 	match tag:
-		"OTHER": item_size = Vector2(369, 369)
-		"CARD_BACK": item_size = Vector2(253, 369)
-		"CARD_FRONT": item_size = Vector2(253, 369)
-		"STANDING_SIGN": item_size = Vector2(253, 369)
-		"CARD_STANDING_SIGN": item_size = Vector2(369, 369)
-		"AVATAR": item_size = Vector2(369, 369)
-		"BACKGROUND": item_size = Vector2(656, 369)
+		"OTHER": item_size = Vector2(314, 314)
+		"CARD_BACK": item_size = Vector2(215, 314)
+		"CARD_FRONT": item_size = Vector2(215, 314)
+		"STANDING_SIGN": item_size = Vector2(215, 314)
+		"CARD_STANDING_SIGN": item_size = Vector2(314, 314)
+		"AVATAR": item_size = Vector2(314, 314)
+		"BACKGROUND": item_size = Vector2(558, 314)
 	temp_item.custom_minimum_size = item_size
 	temp_item.custom_maximum_size = item_size
 	

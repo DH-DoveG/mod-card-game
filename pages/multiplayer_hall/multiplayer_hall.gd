@@ -154,11 +154,14 @@ func reload_config() -> void:
 			.start()
 		)
 		dup.get_node("Btns/SC/BeClient").pressed.connect(func():
-			var finish = await GNetManager.be_connect("Client", {
+			print("BeClient: ", config)
+			GNetManager.be_connect("Client", {
 				"nick": config["nick"],
 				"avatar": config["avatar"],
 				"card_back": config["card_back"]
 			}, int(config["port"]), config["address"])
+			var finish = await GNetManager.be_finished
+			print("____", finish)
 			#if not finish:
 				#$ConnectMask.show()
 				#$MaskTimer.start()

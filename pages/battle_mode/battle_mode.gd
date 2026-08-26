@@ -17,7 +17,7 @@ func on_scene_loaded(__) -> void:
 # TODO 点击PVE后，进入PVE的准备页面，这里可以选择要对战的Robot并且可以选择卡组
 func _on_pve_pressed() -> void:
 	AsyncScene.new(
-		"res://pages/pve_ready/pve_ready.tscn",
+		"res://pages/pvp_ready/pvp_ready.tscn",
 		AsyncScene.LoadingOperation.ReplaceImmediate,
 		self
 	) \

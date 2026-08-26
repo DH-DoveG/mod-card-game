@@ -110,7 +110,7 @@ static func find_entity(id: StringName) -> Entity:
 
 static func find_for_name(group: StringName, name: StringName) -> Object:
 	var node = Utils.get_current_scene()
-	if node is Battle:
+	if node is Battle and not name.is_empty():
 		var battle: Battle = node
 		match group:
 			&"player": return battle.players[name]

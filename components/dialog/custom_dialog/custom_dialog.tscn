@@ -5,3 +5,17 @@
 
 [node name="CustomDialog" unique_id=64599099 instance=ExtResource("1_k4ifs")]
 script = ExtResource("2_goghc")
+
+[node name="Dialog" parent="." index="2" unique_id=361497538]
+offset_left = -448.0
+offset_top = -132.0
+offset_right = 448.0
+offset_bottom = 132.0
+
+[node name="Detail" parent="Dialog" index="1" unique_id=1177301859]
+offset_left = 8.0
+offset_right = -8.0
+
+[node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
+offset_left = -424.0
+offset_right = 424.0

@@ -2,6 +2,17 @@ extends Node
 class_name CoreCardApi
 
 
+@rpc("any_peer", "call_local", "reliable")
+func create_battle_more(configs) -> Array[CardEntity]:
+	# { CID: { resource: CardResourceID, owner: PlayerID }
+	var result = []
+	for key in configs:
+		var resource = configs[key]["resource"]
+		var _owner = configs[key]["owner"]
+		result.append(create_battle(key, resource, _owner))
+	return result
+
+
 func create_entity(card_id: String, card_resource_id: String) -> CardEntity:
 	var card_meta = ModManager.do_mod_file(GResourceManager.card_resource[card_resource_id]).invoke()
 	card_meta["entity"]["id"] = card_id
@@ -32,6 +43,8 @@ func create_battle(card_id: String, card_resource_id: String, card_owner: String
 	battle.battle_data_bind_list.player_bind_cards_of_controller[card_owner].append(card_id)
 	battle.battle_data_bind_list.card_bind_behaviors[card_id] = PackedStringArray()
 	battle.battle_data_bind_list.card_public_information[card_id] = [card_owner]
+	
+	battle.cards[card_id] = ce
 	
 	# print("CARD OWNER: ", card_owner, " | CARD ID: ", card_id)
 	

@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_7dfbx"]
 [ext_resource type="Script" uid="uid://cpdxer2jpf5hy" path="res://components/dialog/tab_dialog/tab_dialog.gd" id="2_cqbdv"]
 [ext_resource type="Texture2D" uid="uid://cm1x7vh52w0fk" path="res://sn-0008.png" id="3_cqbdv"]
-[ext_resource type="Texture2D" uid="uid://b5d03ibtb5h0d" path="res://assets/images/icon/show.png" id="4_cqbdv"]
 
 [node name="TabDialog" unique_id=64599099 instance=ExtResource("1_7dfbx")]
 script = ExtResource("2_cqbdv")
@@ -112,46 +111,38 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="TabItem" type="Control" parent="Template" index="3" unique_id=1188084167]
-visible = false
+[node name="TabItem" type="Control" parent="Template" index="3" unique_id=280457071]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 80.0
-offset_top = 215.0
-offset_right = 40.0
-offset_bottom = 106.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+metadata/_tab_index = 0
 
-[node name="Info" type="VBoxContainer" parent="Template/TabItem" index="0" unique_id=17674329]
+[node name="Info" type="VBoxContainer" parent="Template/TabItem" index="0" unique_id=713987668]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 263.0
+offset_bottom = 210.0
 grow_horizontal = 2
 theme_override_constants/separation = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Template/TabItem/Info" index="0" unique_id=1132413447]
+[node name="HBoxContainer" type="HBoxContainer" parent="Template/TabItem/Info" index="0" unique_id=2092048861]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="VBoxContainer" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="0" unique_id=1305702486]
+[node name="VBoxContainer" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="0" unique_id=1508025783]
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.66656864, 0.6665687, 0.6665685, 1)
 
-[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="0" unique_id=1160908433]
+[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="0" unique_id=1257719417]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer/ColorRect" index="0" unique_id=1738241163]
+[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer/ColorRect" index="0" unique_id=66218680]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -161,7 +152,7 @@ grow_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="1" unique_id=675838871]
+[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer" index="1" unique_id=1236885047]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -175,19 +166,19 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="1" unique_id=576944205]
+[node name="VBoxContainer2" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer" index="1" unique_id=814195799]
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.5529556, 0.55295557, 0.55295557, 1)
 
-[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="0" unique_id=2026410951]
+[node name="ColorRect" type="ColorRect" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="0" unique_id=574125300]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2/ColorRect" index="0" unique_id=1422124573]
+[node name="Label" type="Label" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2/ColorRect" index="0" unique_id=674072758]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -197,7 +188,7 @@ grow_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="1" unique_id=1003993969]
+[node name="TabDetails" type="RichTextLabel" parent="Template/TabItem/Info/HBoxContainer/VBoxContainer2" index="1" unique_id=1439085367]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -211,52 +202,56 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TabItemList" type="ScrollContainer" parent="Template/TabItem" index="1" unique_id=876046033]
+[node name="Label" type="Label" parent="Template/TabItem" index="1" unique_id=743524961]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -620.0
+offset_top = -304.0
+offset_bottom = -280.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "可连锁该效果发动的"
+
+[node name="TabItemList" type="ScrollContainer" parent="Template/TabItem" index="2" unique_id=1303007441]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_top = -276.0
-offset_right = 620.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HBox" type="HBoxContainer" parent="Template/TabItem/TabItemList" index="0" unique_id=1530475827]
+[node name="HBox" type="HBoxContainer" parent="Template/TabItem/TabItemList" index="0" unique_id=390761424]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="Visible" type="TextureButton" parent="." index="2" unique_id=1332550977]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -128.0
-offset_bottom = 128.0
-grow_horizontal = 0
-texture_normal = ExtResource("4_cqbdv")
-ignore_texture_size = true
-stretch_mode = 5
+[node name="Dialog" parent="." index="3" unique_id=361497538]
+offset_left = -520.0
+offset_top = -356.0
+offset_right = 520.0
+offset_bottom = 356.0
 
-[node name="Dialog" parent="." index="3" unique_id=1235732902]
-offset_left = -680.0
-offset_top = -444.0
-offset_right = 680.0
-offset_bottom = 444.0
+[node name="Detail" parent="Dialog" index="1" unique_id=1177301859]
+offset_top = 35.0
+offset_bottom = -630.0
+
+[node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
+offset_left = 8.0
+offset_right = -8.0
 
 [node name="TabContainer" type="TabContainer" parent="Dialog" index="3" unique_id=1060893933]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = 112.0
-offset_right = -40.0
-offset_bottom = -104.0
+offset_left = 8.0
+offset_top = 88.0
+offset_right = -8.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[connection signal="pressed" from="Visible" to="." method="_on_visible_pressed"]

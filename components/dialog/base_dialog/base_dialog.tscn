@@ -1,109 +1,220 @@
 [gd_scene format=3 uid="uid://ctgy0peorwfa2"]
 
-[ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="1_3378r"]
 [ext_resource type="Script" uid="uid://bm5d4bevjb044" path="res://components/dialog/base_dialog/base_dialog.gd" id="2_74ngt"]
 [ext_resource type="Texture2D" uid="uid://b5d03ibtb5h0d" path="res://assets/images/icon/show.png" id="3_btkoy"]
+[ext_resource type="Shader" uid="uid://ejs7mjxnfds3" path="res://assets/shader/canvas_item/rainbow_barder.gdshader" id="4_wcv0e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_btkoy"]
-shader = ExtResource("1_3378r")
-shader_parameter/graph_switch = false
-shader_parameter/intensity = 0.749999983236
-shader_parameter/blur = 3.0
-shader_parameter/diffusion = 0.4
-shader_parameter/zoom = 1.0
-shader_parameter/graph_type = 5
-shader_parameter/number = 8.0
-shader_parameter/size = 0.1
-shader_parameter/rotate_speed = 0.1
-shader_parameter/offset_speed = 0.1
-shader_parameter/angle = 0.7854
-shader_parameter/alpha = 0.1
+shader = ExtResource("4_wcv0e")
+shader_parameter/border_px = 2.0
+shader_parameter/speed = 0.9
+shader_parameter/glow_intensity = 2.0
+shader_parameter/node_size = Vector2(768, 48)
 
 [sub_resource type="LabelSettings" id="LabelSettings_btkoy"]
-font_size = 32
-outline_size = 12
-outline_color = Color(0, 0, 0, 1)
+font_size = 22
+font_color = Color(0, 0, 0, 1)
 
 [node name="BaseDialog" type="CanvasLayer" unique_id=99663563]
 layer = 5
 script = ExtResource("2_74ngt")
 
 [node name="Background" type="ColorRect" parent="." unique_id=525143682]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="HideBar" type="ColorRect" parent="." unique_id=9756147]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 576.0
+offset_top = 40.0
+offset_right = -576.0
+offset_bottom = -1008.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.78431374)
+
+[node name="Border" type="ColorRect" parent="HideBar" unique_id=57343351]
+visible = false
 material = SubResource("ShaderMaterial_btkoy")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Visible" type="TextureButton" parent="Background" unique_id=1332550977]
+[node name="ShowDialog" type="TextureButton" parent="HideBar" unique_id=1394557434]
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -128.0
-offset_bottom = 128.0
+anchor_bottom = 1.0
+offset_left = -40.0
 grow_horizontal = 0
+grow_vertical = 2
 texture_normal = ExtResource("3_btkoy")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Dialog" type="Panel" parent="." unique_id=1235732902]
+[node name="Title" type="Label" parent="HideBar" unique_id=306236729]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 1.0
+offset_right = -64.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "标题"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="HideBar" unique_id=2063743407]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_right = 53.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 14
+text = "待处理"
+vertical_alignment = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="HideBar" unique_id=1211974987]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true
+
+[node name="Dialog" type="ColorRect" parent="." unique_id=361497538]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -640.0
-offset_top = -300.0
-offset_right = 640.0
-offset_bottom = 300.0
+offset_left = -315.73334
+offset_top = -148.0
+offset_right = 315.7334
+offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.2665752, 0.26657522, 0.26657513, 0.78431374)
 
-[node name="Title" type="Label" parent="Dialog" unique_id=1512743390]
+[node name="ColorRect" type="ColorRect" parent="Dialog" unique_id=1878783790]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -160.0
-offset_top = 27.0
-offset_right = 160.0
-offset_bottom = 72.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
 grow_horizontal = 2
-text = "——    标题    ——"
+color = Color(1, 1, 1, 0.78431374)
+
+[node name="Title" type="Label" parent="Dialog/ColorRect" unique_id=1512743390]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 1.5
+offset_right = -48.0
+offset_bottom = -0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "标题"
 label_settings = SubResource("LabelSettings_btkoy")
-horizontal_alignment = 1
+
+[node name="Visible" type="TextureButton" parent="Dialog/ColorRect" unique_id=1332550977]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -47.0
+offset_right = -2.7333984
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("3_btkoy")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="Detail" type="Label" parent="Dialog" unique_id=1177301859]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -544.0
-offset_top = 83.0
-offset_right = 544.0
-offset_bottom = 123.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.7333374
+offset_top = 40.0
+offset_right = -3.7333984
+offset_bottom = -64.0
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
-text = "——说明——"
-horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true
 
-[node name="Option" type="HBoxContainer" parent="Dialog" unique_id=1346335070]
+[node name="Btns" type="ColorRect" parent="Dialog" unique_id=641750949]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -608.0
-offset_top = -91.0
-offset_right = 608.0
-offset_bottom = -24.0
+offset_top = -56.0
 grow_horizontal = 2
 grow_vertical = 0
+color = Color(1, 1, 1, 0.16862746)
+
+[node name="Option" type="HBoxContainer" parent="Dialog/Btns" unique_id=1346335070]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 40
 
-[connection signal="pressed" from="Background/Visible" to="." method="_on_visible_pressed"]
+[node name="ReferenceRect" type="ReferenceRect" parent="Dialog" unique_id=1759964744]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="HideBar/ShowDialog" to="." method="_on_show_dialog_pressed"]
+[connection signal="pressed" from="Dialog/ColorRect/Visible" to="." method="_on_visible_pressed"]

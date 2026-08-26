@@ -5,9 +5,6 @@ class_name CustomDialog
 ## 自定义弹窗，可以自定义内容与按钮
 ###########################################################
 
-@onready var top_title = $Dialog/Title
-@onready var detail = $Dialog/Detail
-@onready var option = $Dialog/Option
 
 signal select_clicked
 
@@ -16,15 +13,15 @@ signal select_clicked
 #var confirmed_call: Callable # 确认后的回调
 #var cancel: Callable # 取消后的回调
 func set_value(param: Dictionary) -> void:
-	top_title.text = param.title
+	title.text = param.title
 	detail.text = param.detail
 	_build_btns(param["btns"])
 
 
-func _build_btns(btns: Array) -> void:
+func _build_btns(_btns: Array) -> void:
 	# 遍历并生成按钮
-	for config in btns:
-		var btn = _build_btn_item(option, config["text"])
+	for config in _btns:
+		var btn = _build_btn_item(btns, config["text"])
 		btn.pressed.connect(_bind_btn_callback.bind(config["callback"]))
 
 

@@ -21,7 +21,7 @@ grow_vertical = 2
 theme_override_constants/separation = 48
 
 [node name="PVE" type="TextureButton" parent="HBox" index="0" unique_id=195068027]
-modulate = Color(1, 1, 1, 0.49019608)
+modulate = Color(0.50140655, 0.5014065, 0.5014065, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 disabled = true

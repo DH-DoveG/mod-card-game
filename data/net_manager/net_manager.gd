@@ -32,14 +32,13 @@ signal be_finished(k)
 
 
 func _ready() -> void:
-	
 	## 客户端
-	#multiplayer.server_disconnected.connect(_on_server_disconnected)
-	#multiplayer.connection_failed.connect(_on_connection_failed)
-	#multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	## 共用（主机和客户端都会收到通知）
-	#multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	#multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	multiplayer.peer_connected.connect(_on_peer_connected)
 	pass
 
 
@@ -55,12 +54,8 @@ func be_connect(mode: String, info: Dictionary, _port, _address):
 	port = _port
 	address = _address
 	
-	# print("port: ", port)
-	# print("address: ", address)
-	
 	if mode == "Client":
 		be_client(info)
-		return await be_finished
 	if mode == "Server":
 		return be_host(info)
 
@@ -117,8 +112,8 @@ func _on_server_disconnected():
 func _on_connection_failed():
 	# 这里是客户端连接时的失败信号，这里只需要提示一下用户即可
 	pass # 连接失败
-	be_finished.emit(false)
 	printerr("[Net Server] 连接失败")
+	be_finished.emit(false)
 
 
 func _on_connected_to_server():
@@ -129,8 +124,8 @@ func _on_connected_to_server():
 	players[peer_id] = player_info
 	uid = peer_id
 	pass # 连接到服务器
-	be_finished.emit(true)
 	print("[Net Server] 连接成功")
+	be_finished.emit(true)
 
 
 func _on_peer_disconnected(id: int):

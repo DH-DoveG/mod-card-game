@@ -17,6 +17,21 @@ func _ready() -> void:
 		title.text = ConfigManager.page_index_title
 	# 这里断开网络连接
 	multiplayer.multiplayer_peer = null
+	#LimboConsole.register_command(multiply)
+	#LimboConsole.register_command(arr)
+	#LimboConsole.info("arr: ~~~~")
+	#LimboConsole.execute_command()
+	#LimboConsole.toggle_console()
+
+#
+##func arr(a: Array) -> void:
+#func arr(a: String) -> void:
+	#LimboConsole.info("arr: " + str(a))
+	#LimboConsole.info(str(typeof(str_to_var(a))))
+#
+#
+#func multiply(a: float, b: float, ...aa) -> void:
+	#LimboConsole.info("a * b: " + str(a * b))
 
 
 # mod 页

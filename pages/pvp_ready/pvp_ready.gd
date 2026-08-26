@@ -20,6 +20,8 @@ extends Page
 
 @onready var chat_component = $HBox/InfoSide/VBox/Chat
 
+@onready var rpc_awaiter = $RpcAwaiter
+
 var deck_tool = ""
 var use_deck = ""
 var camp = "JOINUDIENCES":
