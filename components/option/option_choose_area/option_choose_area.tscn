@@ -31,50 +31,55 @@ shader_parameter/max_or_add = false
 [node name="OptionChooseArea" unique_id=37317475 instance=ExtResource("1_3bwkq")]
 script = ExtResource("2_vmulw")
 
-[node name="ColorRect2" type="ColorRect" parent="." index="0" unique_id=1506318636]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1664.0
-offset_top = 848.0
-offset_right = -128.0
-offset_bottom = -56.0
-grow_horizontal = 2
+[node name="Side" parent="." index="0" unique_id=910851392]
+anchors_preset = 6
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -504.0
+offset_top = -268.0
+offset_right = -376.0
+offset_bottom = 212.0
 grow_vertical = 2
-color = Color(0.41215244, 0.4121525, 0.41215235, 0.11764706)
-
-[node name="Side" parent="." index="1" unique_id=910851392]
-offset_left = -256.0
-offset_top = -504.0
-offset_right = -128.0
-offset_bottom = -248.0
 
 [node name="ColorRect" type="ColorRect" parent="Side" index="0" unique_id=1937286303]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 256.0
 grow_horizontal = 2
-grow_vertical = 2
 color = Color(1, 1, 1, 0.11764706)
 
-[node name="Confirmed" parent="Side/HBox" parent_id_path=PackedInt32Array(586582439) index="0" unique_id=1614012062]
+[node name="HBox" parent="Side" index="1" unique_id=586582439]
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_bottom = 256.0
+grow_vertical = 1
+
+[node name="Confirmed" parent="Side/HBox" index="0" unique_id=1614012062]
 material = SubResource("ShaderMaterial_vmulw")
 
-[node name="Close" parent="Side/HBox" parent_id_path=PackedInt32Array(586582439) index="1" unique_id=2038566723]
+[node name="Close" parent="Side/HBox" index="1" unique_id=2038566723]
 material = SubResource("ShaderMaterial_g1gu8")
 
-[node name="List" type="VBoxContainer" parent="." index="2" unique_id=1362925832]
-anchors_preset = -1
-anchor_left = 1.0370001
-anchor_top = 2.926
-anchor_right = 1.0370001
-anchor_bottom = 2.926
-offset_left = -327.04016
-offset_top = -2312.08
-offset_right = -199.04016
-offset_bottom = -2136.08
-grow_horizontal = 0
+[node name="ColorRect2" type="ColorRect" parent="Side" index="2" unique_id=1506318636]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -216.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.41215244, 0.4121525, 0.41215235, 0.11764706)
+
+[node name="List" type="VBoxContainer" parent="Side" index="3" unique_id=1362925832]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -216.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 16
 alignment = 2

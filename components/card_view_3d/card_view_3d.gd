@@ -73,19 +73,27 @@ func trigger():
 func set_entity(data: CardEntity):
 	name = data.name
 	entity = data
-	var player = FindUtils.find_player(GApiManager.card_api.get_ownership(entity.name))
+	var player: Player = FindUtils.find_player(GApiManager.card_api.get_ownership(entity.name))
 	var front = GResourceManager.get_image_resoure(data.image)
 	var back = GResourceManager.get_image_resoure(player.use_card_back)
 	var uv = ImageUtils.make_card_criterion_card_uv(front.get_image(), back.get_image())
 	var s: StandardMaterial3D = body.get_active_material(0)
 	s.albedo_texture = uv
+	
+	# 获取 player 的 camp
+	var camp = GApiManager.player_api.get_camp(player.name)
+	if camp is Camp:
+		set_outline_color(camp.color)
 
 
 func set_outline_visible(_visible: bool) -> void:
-	var shader: StandardMaterial3D = body.get_active_material(0).next_pass
-	shader.grow = _visible
+	var shader: ShaderMaterial = body.get_active_material(0).next_pass
+	if _visible:
+		shader.set_shader_parameter("size", 1.02)
+	else:
+		shader.set_shader_parameter("size", 1)
 
 
 func set_outline_color(color: Color) -> void:
-	var shader: StandardMaterial3D = body.get_active_material(0).next_pass
-	shader.albedo_color = color
+	var shader: ShaderMaterial = body.get_active_material(0).next_pass
+	shader.set_shader_parameter("color", color)

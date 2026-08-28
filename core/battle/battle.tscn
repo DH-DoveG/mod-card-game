@@ -34,6 +34,7 @@ offset_bottom = 1080.0
 [node name="SV" type="SubViewport" parent="SVC" unique_id=142721984]
 transparent_bg = true
 handle_input_locally = false
+screen_space_aa = 1
 audio_listener_enable_3d = true
 physics_object_picking = true
 physics_object_picking_sort = true

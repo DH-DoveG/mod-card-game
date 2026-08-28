@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://bmtlfl2jth7j"]
+
+[ext_resource type="Script" uid="uid://o5ufhtyphpfg" path="res://dev/neo_card_info_view_3d.gd" id="1_2c2ti"]
+[ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="1_bsu1i"]
+[ext_resource type="Texture2D" uid="uid://csitks4agugv2" path="res://sn-0006-standing_sign.png" id="2_2c2ti"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_26u7f"]
+viewport_path = NodePath("Sprite3D2/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s8sc3"]
+shader = ExtResource("1_bsu1i")
+shader_parameter/thickness = 8.00000038
+shader_parameter/ring_count = 16
+shader_parameter/ring_offset = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = false
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qmpeu"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[node name="NeoCardInfoView3D" type="Node3D" unique_id=13795515]
+script = ExtResource("1_2c2ti")
+
+[node name="Sprite3D2" type="Sprite3D" parent="." unique_id=153170428]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0.13974565, -0.16681896)
+pixel_size = 0.0025
+render_priority = 2
+texture = SubResource("ViewportTexture_26u7f")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D2" unique_id=632542771]
+transparent_bg = true
+size = Vector2i(400, 400)
+
+[node name="TextureRect2" type="TextureRect" parent="Sprite3D2/SubViewport" unique_id=694110296]
+material = SubResource("ShaderMaterial_s8sc3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2c2ti")
+expand_mode = 1
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=250014720]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0.14048049, 0)
+pixel_size = 0.005
+no_depth_test = true
+render_priority = 2
+texture = SubResource("ViewportTexture_qmpeu")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D" unique_id=1206673029]
+transparent_bg = true
+size = Vector2i(200, 200)
+size_2d_override_stretch = true
+
+[node name="Control2" type="Control" parent="Sprite3D/SubViewport" unique_id=1263501248]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Sprite3D/SubViewport/Control2" unique_id=728059196]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 20
+text = "A2/D4/S3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Sprite3D/SubViewport/Control2" unique_id=1529342486]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 144.0
+offset_bottom = 171.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 20
+text = "卡的名字"
+horizontal_alignment = 1
+vertical_alignment = 1

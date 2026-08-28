@@ -8,9 +8,16 @@ var z := 1
 
 var entity: AreaEntity = null
 
+var grid_color := Color("5a5a5a")
 
 func set_entity(meta: AreaEntity):
 	entity = meta
+
+
+func set_color(color: Color):
+	var shader: ShaderMaterial = $Body.get_active_material(0)
+	shader.set_shader_parameter("grid_color", color)
+	grid_color = color
 
 
 func set_height(level: int):
@@ -32,12 +39,10 @@ func get_top():
 
 
 func hightlight():
-	var am: ArrayMesh = $Body.mesh
-	var m: ShaderMaterial = am.surface_get_material(0)
-	#var m: ShaderMaterial = $Body.mesh
-	#.get_surface_override_material(0)
-	var color := Color.from_hsv(0.0, 0.0, 4.416, 1.0)
-	#m.set_shader_parameter("grid_color", color)
+	var m: ShaderMaterial = $Body.get_active_material(0)
+	var current_color = m.get_shader_parameter("grid_color")
+	#var color := Color.from_hsv(current_color.h, current_color.s, 4.416, 1.0)
+	var color := Color.from_hsv(current_color.h, current_color.s, 4, 1.0)
 	var c = m.get_shader_parameter("grid_color")
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_method(func(value: Color):
@@ -46,17 +51,12 @@ func hightlight():
 
 
 func normallight():
-	var am: ArrayMesh = $Body.mesh
-	var m: ShaderMaterial = am.surface_get_material(0)
-	#var m: ShaderMaterial = $Body.mesh.get_surface_override_material(0)
-	
-	var c = m.get_shader_parameter("grid_color")
+	var m: ShaderMaterial = $Body.get_active_material(0)
+	var current_color = m.get_shader_parameter("grid_color")
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_method(func(value: Color):
 		m.set_shader_parameter("grid_color", value)
-	, c, Color("c8c8c8"), 0.4)
-	
-	#m.set_shader_parameter("grid_color", Color("c8c8c8"))
+	, current_color, grid_color, 0.4)
 
 
 func trigger():

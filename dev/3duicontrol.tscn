@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://47qytswi2nkk"]
+
+[ext_resource type="Texture2D" uid="uid://csitks4agugv2" path="res://sn-0006-standing_sign.png" id="1_2u0mg"]
+
+[node name="Control" type="Control" unique_id=183085128]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1720.0
+offset_bottom = -880.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1765314994]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_2u0mg")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=560484159]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 20
+text = "A2/D4/S3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=936939422]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 144.0
+offset_bottom = 171.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 20
+text = "卡的名字"
+horizontal_alignment = 1
+vertical_alignment = 1

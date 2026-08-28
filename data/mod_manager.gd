@@ -123,6 +123,18 @@ static func set_package_paths(paths: Array) -> void:
 	pp = pp.replace("/", "\\")
 	state.globals["package"]["path"] = pp
 
+static func lua_dump(path: String) -> PackedByteArray:
+	var lua_state = LuaState.new()
+	lua_state.open_libraries(LuaState.ALL_LIBS)
+	#GResourceManager.
+	var source = """
+	function foo1(v) return v + 1 end
+	local bc = string.dump(foo1)
+	return (bc:gsub('.', function(c) return string.format("%02x", c:byte()) end))
+	"""
+	var lf1: String = lua_state.do_string(source)
+	return lf1.hex_decode()
+
 static func reset_state() -> void:
 	state = LuaState.new()
 	# 基础库

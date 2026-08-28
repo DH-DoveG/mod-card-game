@@ -94,7 +94,8 @@ func set_color(id: String, color: Variant) -> void:
 	var area = FindUtils.find_area(id)
 	if not area: return
 	color = Color(color)
-	#area.set_color(color)
+	for view in area.get_view_3d():
+		view.set_color(color)
 
 # @rpc("any_peer", "call_local", "reliable")
 func get_heap(id: String, start_index: int = 0, end_index: int = -1) -> Array:
