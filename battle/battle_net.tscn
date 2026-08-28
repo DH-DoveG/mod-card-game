@@ -161,7 +161,6 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="VisualAngleChangeBtn" type="TextureButton" parent="UI/BottomBar" index="5" unique_id=248735936]
-visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 1
 anchors_preset = 9
@@ -271,6 +270,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LogPanel" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=647268735]
+visible = false
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0

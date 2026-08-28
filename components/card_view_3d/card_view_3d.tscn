@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cm1x7vh52w0fk" path="res://sn-0008.png" id="3_vtwmq"]
 [ext_resource type="PackedScene" uid="uid://bmtlfl2jth7j" path="res://dev/neo_card_info_view_3d.tscn" id="4_u15ui"]
 
-[sub_resource type="Shader" id="Shader_s6eev"]
+[sub_resource type="Shader" id="Shader_u15ui"]
 resource_local_to_scene = true
 code = "shader_type spatial;
 render_mode blend_mix, cull_front, unshaded;
@@ -23,17 +23,17 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vtwmq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ijx77"]
 resource_local_to_scene = true
 render_priority = 0
-shader = SubResource("Shader_s6eev")
+shader = SubResource("Shader_u15ui")
 shader_parameter/color = Color(0.92156863, 0.92156863, 0.92156863, 1)
 shader_parameter/size = 1.01999999955296
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u15ui"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5w6tg"]
 resource_local_to_scene = true
 resource_name = "Material"
-next_pass = SubResource("ShaderMaterial_vtwmq")
+next_pass = SubResource("ShaderMaterial_ijx77")
 vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("3_vtwmq")
 emission_enabled = true
@@ -55,7 +55,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_5w6tg"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_fsf0w"]
 resource_local_to_scene = true
 resource_name = "BodyData_001"
 _surfaces = [{
@@ -65,7 +65,7 @@ _surfaces = [{
 "index_count": 276,
 "index_data": PackedByteArray("SgBLAEwATABNAEoATgBPAFAAUABRAE4AUgBTAFQAUgBVAFMABABSAFQABQAEAFQAVQBWAFMAVQBXAFYAVwAAAFYAAAADAFYAAwABAFYABgAFAFQAWAAGAFQAWQBYAFQABwBZAFQABwBUAAIACAAHAAIACAACAAkACgAIAAkACgAJAAsADAAKAAsADAALAFoAWwAMAFoAWwBaAFwAXQBeAF8AXwBgAF0AYQBiAGMAYwATAGEAZABlAGYAZABnAGUAFgBkAGYAZwBoAGUAZwBpAGgAaQAZAGgAGQAaAGgAGgAXAGgAGwAWAGYAHAAbAGYAagAcAGYAawBqAGYAbABrAGYAHQBsAGYAHQBmABgAHgAdABgAHgAYAB8AIAAeAB8AIAAfACEAbQAgACEAbQAhAG4AbQBuAG8AcABxAHIAcgBzAHAAdAB1AHYAdgB3AHQAeAB5AHoAegB7AHgAJgB8AH0AfQApACYAKgArACwALAAtACoALgAvADAAMAAxAC4AfgASABQAFAB/AH4AIgCAAIEAgQAlACIAMgAzADQANAA1ADIANgA3ADgAOAA5ADYAggAVABEAEQCDAIIADwCEAIUAhQAOAA8AOgA7ADwAPAA9ADoAPgA/AEAAQABBAD4AhgAjACQAJACHAIYAKACIAIkAiQAnACgAQgBDAEQARABFAEIARgBHAEgASABJAEYAigAQAA0ADQCLAIoAjACNAI4AjgCPAIwA"),
 "lods": [0.00015839231, PackedByteArray("AAABAAIAAAADAAEABAAAAAIABQAEAAIABgAFAAIABwAGAAIACAAHAAIACAACAAkACgAIAAkACgAJAAsADAAKAAsADQAOAA8ADwAQAA0AEQASABMAFAATABIAEwAVABEAFgAXABgAFgAZABcAGQAaABcAGwAWABgAHAAbABgAHQAcABgAHgAdABgAHgAYAB8AIAAeAB8AIAAfACEAIgAjACQAJAAlACIAJgAnACgAKAApACYAKgArACwALAAtACoALgAvADAAMAAxAC4AMgAzADQANAA1ADIANgA3ADgAOAA5ADYAOgA7ADwAPAA9ADoAPgA/AEAAQABBAD4AQgBDAEQARABFAEIARgBHAEgASABJAEYA")],
-"material": SubResource("StandardMaterial3D_u15ui"),
+"material": SubResource("StandardMaterial3D_5w6tg"),
 "name": "Material",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -82,7 +82,7 @@ data = PackedVector3Array(0, -0.0044, 0, 0.0030999999, -0.0044, 0, 0.0030999999,
 script = ExtResource("2_ijx77")
 
 [node name="Body" parent="." index="0" unique_id=44858893]
-mesh = SubResource("ArrayMesh_5w6tg")
+mesh = SubResource("ArrayMesh_fsf0w")
 
 [node name="CS3D" type="CollisionShape3D" parent="." index="1" unique_id=426185562]
 transform = Transform3D(100, 0, 0, 0, -1.1920929e-05, 99.99999, 0, -99.99999, -1.1920929e-05, 0, 0, 0)

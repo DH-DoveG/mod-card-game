@@ -147,15 +147,25 @@ func get_area_center() -> Dictionary:
 	#    第一个除2是得到这个形成的矩形的中心点，减去 TILE_SIZE / 2 是为了修正偏移量
 	var center_x = width / 2
 	var center_y = height / 2
+	
 	# 3. 在获得了中心点后，需要获取 UP、DOWN、LEFR、RIGHT 四个方向的位置（这个位置刚好在这个矩形外）
+	# 5*5 = (2.0, 0.5)
 	var up_x = center_x - 0.5
 	var up_y = center_y - height / 2 + 0.5 #- ConfigManager.AREA_SIZE
-	var down_x = center_x + 0.5
-	var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
+	
+	# 5*5 应得到 (2.0, 3.5)
+	var down_x = center_x - 0.5
+	#var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
+	var down_y = center_y + ConfigManager.AREA_SIZE
+	
+	# 5*5 应得到 (3.5, 2.0)
 	var left_x = center_x - width / 2 + 0.5 #ConfigManager.AREA_SIZE
 	var left_y = center_y
+	
+	# 5*5 应得到 (0.5, 2.0)
 	var right_x = center_x + width / 2 - 0.5 #ConfigManager.AREA_SIZE
 	var right_y = center_y
+	
 	# 结果
 	var result = {
 		"up": Vector2(up_x, up_y),
@@ -166,6 +176,7 @@ func get_area_center() -> Dictionary:
 		"height": height,
 		"width": width,
 	}
+	print("area center : ", result)
 	return result
 
 
