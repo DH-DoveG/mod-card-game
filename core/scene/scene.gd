@@ -159,12 +159,12 @@ func get_area_center() -> Dictionary:
 	var down_y = center_y + ConfigManager.AREA_SIZE
 	
 	# 5*5 应得到 (3.5, 2.0)
-	var left_x = center_x - width / 2 + 0.5 #ConfigManager.AREA_SIZE
-	var left_y = center_y
+	var left_x = center_x + ConfigManager.AREA_SIZE
+	var left_y = center_y - 0.5
 	
 	# 5*5 应得到 (0.5, 2.0)
-	var right_x = center_x + width / 2 - 0.5 #ConfigManager.AREA_SIZE
-	var right_y = center_y
+	var right_x = center_x - width / 2 + 0.5
+	var right_y = center_y - 0.5
 	
 	# 结果
 	var result = {
