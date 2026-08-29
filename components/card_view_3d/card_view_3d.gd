@@ -24,14 +24,13 @@ func animate_free():
 var is_hightlight := false
 
 func hightlight():
-	#var m: ShaderMaterial = body.get_active_material(0).next_pass
-	#var current_color = m.get_shader_parameter("color")
-	#var color := Color.from_hsv(current_color.h, current_color.s, 2, 1.0)
-	#var c = m.get_shader_parameter("color")
-	#var tween: Tween = get_tree().create_tween()
-	#tween.tween_method(func(value: Color):
-		#m.set_shader_parameter("color", value)
-	#, c, color, 0.2)
+	var m: ShaderMaterial = body.get_active_material(0).next_pass
+	var color := Color.from_hsv(outline_color.h, outline_color.s, 2, 1.0)
+	var c = m.get_shader_parameter("color")
+	var tween1: Tween = get_tree().create_tween()
+	tween1.tween_method(func(value: Color):
+		m.set_shader_parameter("color", value)
+	, c, color, 0.2)
 	pass
 	if is_hightlight: return
 	is_hightlight = true
@@ -43,32 +42,44 @@ func hightlight():
 	#position.y += 0.05
 	#rotation_degrees.x += 25
 	$NeoCardInfoView3D.set_rander_priority(4)
-	#print("> rotation_degrees ", rotation_degrees)
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(self, "position:y", position.y + 0.5, 0.2)
 	tween.tween_property(self, "rotation_degrees:x", rotation_degrees.x + 25, 0.2)
 	tween.tween_property(self, "scale", 1.2, 0.2)
+	
+	
+	var scene = get_tree().current_scene
+	var pos = scene.scene.camera.unproject_position(global_position)
+	pos.y -= 140
+	#trigger(pos)
+	#$NeoBehaviorPopupMenu.set_popup(pos)
+	#$NeoBehaviorPopupMenu.set_exp_mask(get_mesh_screen_rect())
+	await tween.finished
+	var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
+	get_tree().current_scene.add_child(n)
+	n.set_popup(pos)
+	n.set_exp_mask(get_mesh_screen_rect())
 
 
 func normallight():
 	if not is_hightlight: return
 	is_hightlight = false
-	#var m: ShaderMaterial = body.get_active_material(0).next_pass
-	#var current_color = m.get_shader_parameter("color")
-	#var tween: Tween = get_tree().create_tween()
-	#tween.tween_method(func(value: Color):
-		#m.set_shader_parameter("color", value)
-	#, current_color, outline_color, 0.4)
-	pass
+	var m: ShaderMaterial = body.get_active_material(0).next_pass
+	var current_color = m.get_shader_parameter("color")
+	var tween1: Tween = get_tree().create_tween()
+	tween1.tween_method(func(value: Color):
+		m.set_shader_parameter("color", value)
+	, current_color, outline_color, 0.2)
+	#pass
 	#scale = Vector3(1, 1, 1)
 	#position.y -= 0.05
 	#rotation_degrees.x -= 25
 	$NeoCardInfoView3D.set_rander_priority(2)
-	#
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(self, "position:y", position.y - 0.5, 0.2)
 	tween.tween_property(self, "rotation_degrees:x", rotation_degrees.x - 25, 0.2)
 	tween.tween_property(self, "scale", 1, 0.2)
+	pass
 
 
 func get_front() -> bool:
@@ -82,9 +93,11 @@ func get_front() -> bool:
 	return false
 
 
-func trigger():
+func trigger(_pos := Vector2(-1, -1)):
 	var scene = get_tree().current_scene
-	var pos = scene.scene.camera.unproject_position(global_position)
+	var pos = _pos
+	if pos == Vector2(-1, -1):
+		pos = scene.scene.camera.unproject_position(global_position)
 	if scene is Battle:
 		# 1. 检查这张卡的持有者是否是主机玩家的（除非这张卡的 abs(x) 是 0）
 		var battle: Battle = scene
@@ -163,9 +176,8 @@ func set_outline_color(color: Color) -> void:
 
 
 
-
-
-var cr: ColorRect
+# 获取相当的一个2D区域，这个区域可以用于实现：
+# 鼠标移在上方时：放大，并且显示出可操作项目
 
 # 获取物体在相机屏幕上的Rect2（屏幕像素空间）
 func get_mesh_screen_rect() -> Rect2:
@@ -182,8 +194,8 @@ func get_mesh_screen_rect() -> Rect2:
 			if local_aabb.intersects_plane(plane):
 				k = true
 				break
-		if cr:
-			cr.visible = k
+		if not k:
+			return Rect2()
 	
 	# AABB的8个角点（本地空间）
 	var corners = [local_aabb.get_endpoint(0), local_aabb.get_endpoint(1), local_aabb.get_endpoint(2),
@@ -204,17 +216,12 @@ func get_mesh_screen_rect() -> Rect2:
 		min_p = min_p.min(p)
 		max_p = max_p.max(p)
 	# 构建Rect2：x,y是左上角，size宽高
-	var rect := Rect2(min_p, max_p - min_p)
-	if cr:
-		cr.position = rect.position
-		cr.size = rect.size
-	else:
-		cr = ColorRect.new()
-		cr.color = Color(1, 0, 0, 0.25)
-		get_tree().current_scene.add_child(cr)
-		cr.position = rect.position
-		cr.size = rect.size
 	return Rect2(min_p, max_p - min_p)
+#
+#func _process(_delta: float) -> void:
+	#get_mesh_screen_rect()
 
-func _process(_delta: float) -> void:
-	get_mesh_screen_rect()
+#
+#func _input(p_event: InputEvent) -> void:
+	#if is_hightlight:
+		#get_viewport().set_input_as_handled()

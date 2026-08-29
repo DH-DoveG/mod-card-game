@@ -11,12 +11,17 @@ var visible_mode = false # 是否收缩
 
 func _ready() -> void:
 	add_to_group(&"Dialog")
+	var scene = get_tree().current_scene
+	if scene is Battle:
+		scene.in_option = true
+		scene.scene.enabled_ray(false)
 
 
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.in_option = false
+		scene.scene.enabled_ray(true)
 
 
 func _on_visible_pressed() -> void:
@@ -28,6 +33,7 @@ func _on_visible_pressed() -> void:
 		var scene = get_tree().current_scene
 		if scene is Battle:
 			scene.in_option = true
+			scene.scene.enabled_ray(true)
 
 
 func _on_show_dialog_pressed() -> void:
@@ -37,3 +43,4 @@ func _on_show_dialog_pressed() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.in_option = true
+		scene.scene.enabled_ray(false)

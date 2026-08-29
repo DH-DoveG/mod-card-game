@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://clxwp1jsuercc"]
+
+[ext_resource type="Script" uid="uid://c5ig4h67l5uhe" path="res://dev/neo_behavior_popup_menu.gd" id="1_k7nj7"]
+
+[node name="NeoBehaviorPopupMenu" type="CanvasLayer" unique_id=1848221144]
+process_mode = 3
+layer = 10
+script = ExtResource("1_k7nj7")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1452649256]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.011764706)
+
+[node name="Mask" type="ColorRect" parent="." unique_id=1086155748]
+offset_left = -40.0
+offset_top = -40.0
+color = Color(1, 1, 1, 0.78431374)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2090883473]
+offset_right = 256.0
+offset_bottom = 88.0
+theme_override_constants/separation = 12
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1972118589]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "ABC"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=339312379]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "DEF"
