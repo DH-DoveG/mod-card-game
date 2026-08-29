@@ -96,7 +96,7 @@ func set_angle_of_view(angle: String) -> void:
 			angle_v = Vector2i.UP
 		"RIGHT":
 			angle_v = Vector2i.RIGHT
-	Utils.get_current_scene().set_angle_of_view(angle_v)
+	Utils.get_current_scene().event_manager.emit("VISUAL_ANGLE_CHANGED", angle_v)
 
 @rpc("any_peer", "call_local", "reliable")
 func set_battle_ready_loading_state(state: bool) -> void:

@@ -41,7 +41,6 @@ func get_top():
 func hightlight():
 	var m: ShaderMaterial = $Body.get_active_material(0)
 	var current_color = m.get_shader_parameter("grid_color")
-	#var color := Color.from_hsv(current_color.h, current_color.s, 4.416, 1.0)
 	var color := Color.from_hsv(current_color.h, current_color.s, 4, 1.0)
 	var c = m.get_shader_parameter("grid_color")
 	var tween: Tween = get_tree().create_tween()

@@ -176,7 +176,6 @@ func get_area_center() -> Dictionary:
 		"height": height,
 		"width": width,
 	}
-	print("area center : ", result)
 	return result
 
 

@@ -26,8 +26,8 @@ func unsubscribe(event_name: StringName, id: String):
 		register[event_name].erase(id)
 
 
-func emit(event_name: StringName, args: Dictionary):
+func emit(event_name: StringName, ...args):
 	if register.has(event_name):
 		for listener in register[event_name]:
-			if is_instance_valid(listener): listener.callback.call(args)
+			if is_instance_valid(listener): listener.callback.callv(args)
 			else: register[event_name].erase(listener)
