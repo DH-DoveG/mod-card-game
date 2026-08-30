@@ -197,6 +197,7 @@ func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void
 	view_3d.global_position.y = area.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
 	#card.card_info_show.update()
 	#CoreCardSetApi.__update()
+	#view_3d.rotation_degrees.x = -90
 
 
 
@@ -289,12 +290,23 @@ func get_area(id: String) -> Dictionary:
 
 # 待修复
 static func adjust_card_rotation(card: CardView3D) -> void:
-	var _rotation := Vector3.ZERO
+	#return
+	#var _rotation := Vector3.ZERO
+	#var _transform := Transform3D()
+	var _quaternion := Quaternion()
+	
 	# if card.entity.is_front:
-	if card.entity.is_front:
-		_rotation = Vector3.ZERO
-	else:
-		_rotation = Vector3(0, 0, 180)
+	#if card.entity.is_front:
+		#_rotation = Vector3(-90, -90, 90)
+		##_basis.y.z = 1
+		##_basis.z.y = -1
+	#else:
+		#_rotation = Vector3(90, -90, 90)
+		##_rotation = Vector3(90, 180, 0)
+		#pass
+		#_basis.x.x = -1
+		#_basis.y.z = -1
+		#_basis.z.y = -1
 	var battle: Battle = Utils.get_current_scene()
 	var card_ownership = ""
 	for key in battle.battle_data_bind_list.player_bind_cards_of_controller:
@@ -311,21 +323,78 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 			break
 	# var camps = Utils.get_scene_tree().get_nodes_in_group(&"camp")
 	var camps = Utils.get_current_scene().camps.values()
-	for camp in camps:
+	for camp: Camp in camps:
 		if camp.title == _camp:
-			_rotation.y = camp.orientation.y * 90
+			if camp.orientation.y == 1:
+				if card.entity.is_front:
+					_quaternion.x = 0
+					_quaternion.y = 0.707107
+					_quaternion.z = 0.707107
+					_quaternion.w = 0
+				else:
+					_quaternion.x = 0.707107
+					_quaternion.y = 0
+					_quaternion.z = 0
+					_quaternion.w = 0.707107
+				#_rotation.x = -90
+			elif camp.orientation.y == -1:
+				if card.entity.is_front:
+					_quaternion.x = -0.707107
+					_quaternion.y = 0
+					_quaternion.z = 0
+					_quaternion.w = 0.707107
+				else:
+					_quaternion.x = 0
+					_quaternion.y = 0.707107
+					_quaternion.z = -0.707107
+					_quaternion.w = 0
+				#_rotation.x = 90
+			elif camp.orientation.x == 1:
+				if card.entity.is_front:
+					_quaternion.x = -0.5
+					_quaternion.y = -0.5
+					_quaternion.z = -0.5
+					_quaternion.w = 0.5
+				else:
+					_quaternion.x = 0.5
+					_quaternion.y = 0.5
+					_quaternion.z = -0.5
+					_quaternion.w = 0.5
+				#_rotation.y = -180
+			elif camp.orientation.x == -1:
+				if card.entity.is_front:
+					_quaternion.x = 0.5
+					_quaternion.y = -0.5
+					_quaternion.z = -0.5
+					_quaternion.w = -0.5
+				else:
+					_quaternion.x = 0.5
+					_quaternion.y = -0.5
+					_quaternion.z = 0.5
+					_quaternion.w = 0.5
+				#_rotation.y = 0
 			break
-	if _camp == "RED":
-		# if card.entity.is_orientation:
-		if card.entity.is_orientation:
-			_rotation = Vector3(_rotation.x, -180, _rotation.z)
-		else:
-			_rotation = Vector3.ZERO
-	else:
-		# if card.entity.is_orientation:
-		if card.entity.is_orientation:
-			_rotation = Vector3(_rotation.x, 0, _rotation.z)
-		else:
-			_rotation = Vector3(_rotation.x, 0, _rotation.z)
-	card.global_rotation_degrees = _rotation
+	#if _camp == "RED":
+		## if card.entity.is_orientation:
+		#if card.entity.is_orientation:
+			#_rotation = Vector3(_rotation.x, -180, _rotation.z)
+		#else:
+			#_rotation = Vector3(-90, 0, 0)#Vector3.ZERO
+	#else:
+		## if card.entity.is_orientation:
+		#if card.entity.is_orientation:
+			#_rotation = Vector3(_rotation.x, 0, _rotation.z)
+		#else:
+			#_rotation = Vector3(_rotation.x, 0, _rotation.z)
+	
+	#_rotation.x = deg_to_rad(_rotation.x)
+	#_rotation.y = deg_to_rad(_rotation.y)
+	#_rotation.z = deg_to_rad(_rotation.z)
+	#card.global_rotation_degrees = _rotation
+	#card.global_rotation_degrees.z = _rotation.z
+	#card.global_rotation_degrees.y = _rotation.y
+	#card.global_rotation_degrees.x = _rotation.x
+	card.quaternion = _quaternion
+	
+	#card.transform.basis = Basis.from_euler(_rotation)
 	#card.card_info_show.adjust_card_rotation()

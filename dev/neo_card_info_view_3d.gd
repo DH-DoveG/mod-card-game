@@ -21,7 +21,26 @@ func _exit_tree() -> void:
 
 func set_rander_priority(priority):
 	$Sprite3D2.render_priority = priority
-	$Sprite3D.render_priority = priority
+	$Sprite3D.render_priority = priority + 1
+
+
+# 是否立起
+func change_x(status: bool):
+	var tween = get_tree().create_tween().set_parallel(true)
+	if status:
+		#$Sprite3D2.rotation_degrees.x = -75
+		#$Sprite3D.rotation_degrees.x = -75
+		tween.tween_property($Sprite3D2, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($Sprite3D, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($Sprite3D2, "position:y", 0.14, 0.2)
+		tween.tween_property($Sprite3D, "position:y", 0.14, 0.2)
+	else:
+		#$Sprite3D2.rotation_degrees.x = 0
+		#$Sprite3D.rotation_degrees.x = 0
+		tween.tween_property($Sprite3D2, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($Sprite3D, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($Sprite3D2, "position:y", 0.02, 0.2)
+		tween.tween_property($Sprite3D, "position:y", 0.02, 0.2)
 
 
 func change_dirction(visual):

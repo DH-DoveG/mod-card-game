@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://b28jw1r00s0qm"]
+
+[ext_resource type="PackedScene" uid="uid://b7aipm4ygh1yx" path="res://components/card_view_3d/card_view_3d.tscn" id="1_6u735"]
+[ext_resource type="Script" uid="uid://cy2wybfry6gwf" path="res://dev/look_at.gd" id="1_kb7ib"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v0na3"]
+size = Vector3(0.75, 0.75, 0.75)
+
+[node name="LookAt" type="Node3D" unique_id=227617919]
+script = ExtResource("1_kb7ib")
+
+[node name="CardView3D" parent="." unique_id=1992877273 instance=ExtResource("1_6u735")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=369392388]
+transform = Transform3D(0.48628983, 0.2963229, -0.8220188, 0.71485007, 0.4060914, 0.56927955, 0.50250536, -0.86445504, -0.014348347, -1.7070751, 2, 0.614)
+current = true
+
+[node name="Button" type="Button" parent="." unique_id=104417302]
+offset_right = 128.0
+offset_bottom = 64.0
+text = "Left"
+
+[node name="Button2" type="Button" parent="." unique_id=1055226114]
+offset_top = 72.0
+offset_right = 128.0
+offset_bottom = 136.0
+text = "Right"
+
+[node name="Button3" type="Button" parent="." unique_id=504275542]
+offset_top = 144.0
+offset_right = 128.0
+offset_bottom = 208.0
+text = "UP"
+
+[node name="Button4" type="Button" parent="." unique_id=458820282]
+offset_top = 216.0
+offset_right = 128.0
+offset_bottom = 280.0
+text = "DOwn"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=365877862]
+visible = false
+mesh = SubResource("BoxMesh_v0na3")
+
+[node name="Label3D" type="Label3D" parent="MeshInstance3D" unique_id=739325261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.4045254)
+text = "1"
+
+[node name="Label3D4" type="Label3D" parent="MeshInstance3D" unique_id=1064390156]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -0.38587454)
+text = "4"
+
+[node name="Label3D5" type="Label3D" parent="MeshInstance3D" unique_id=1902454582]
+transform = Transform3D(-0.16332607, 0, -0.98657215, 0, 1, 0, 0.98657215, 0, -0.16332607, -0.3931434, 0.03957227, 0.0126127)
+text = "5"
+
+[node name="Label3D6" type="Label3D" parent="MeshInstance3D" unique_id=48281635]
+transform = Transform3D(0.16332592, 0, 0.98657215, 0, 1, 0, -0.98657215, 0, 0.16332592, 0.4018384, 0.03957227, 0.0126127)
+text = "6"
+
+[node name="Label3D2" type="Label3D" parent="MeshInstance3D" unique_id=1275115767]
+transform = Transform3D(1, 0, 0, 0, -5.9604645e-08, 1, 0, -1, -5.9604645e-08, 0, 0.42030782, 0.007171601)
+text = "2"
+
+[node name="Label3D3" type="Label3D" parent="MeshInstance3D" unique_id=492807029]
+transform = Transform3D(-0.9659258, 1.5426822e-08, -0.25881913, 0.25881913, 5.7573665e-08, -0.9659258, 0, -1, -5.9604645e-08, 0, -0.41753703, 0.007171601)
+text = "3"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="Button4" to="." method="_on_button_4_pressed"]

@@ -5,6 +5,7 @@
 [node name="BehaviorPopupMenu" type="PopupMenu" unique_id=564442218]
 oversampling_override = 1.0
 size = Vector2i(100, 120)
+visible = true
 script = ExtResource("1_2ao2e")
 
 [connection signal="id_pressed" from="." to="." method="_on_id_pressed"]
