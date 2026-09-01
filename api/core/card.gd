@@ -398,3 +398,4 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 	
 	#card.transform.basis = Basis.from_euler(_rotation)
 	#card.card_info_show.adjust_card_rotation()
+	card.entity.card_quaternion_changed.emit()

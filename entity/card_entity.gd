@@ -2,6 +2,7 @@ extends Entity
 class_name CardEntity
 
 signal card_changed(_item: String, _ce: CardEntity)
+signal card_quaternion_changed
 
 var is_front = false: # 是否是正面朝上
 	set(v):
@@ -39,7 +40,7 @@ func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 		if view.entity == self:
 			result.append(view)
 	
-	if if_null_to_create:
+	if result.is_empty() and if_null_to_create:
 		var scene = Utils.get_current_scene()
 		if scene is Battle:
 			var view: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()

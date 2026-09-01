@@ -5,6 +5,14 @@ class_name OptionDialog
 var list = []
 
 
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
+
 func get_value():
 	var le = $Dialog/LineEdit
 	return le.get_item_text(le.selected)

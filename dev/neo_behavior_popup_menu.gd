@@ -28,26 +28,27 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 		var info = behavior.get_info()
 		var check_launch = await behavior.check_launch()
 		var check_cost = await behavior.check_cost()
-		print("check_launch: ", check_launch, " | check_cost: ", check_cost)
+		#print("check_launch: ", check_launch, " | check_cost: ", check_cost)
 		if check_launch and check_cost:
 			add_item("【" + info["type"] + "】" + info["name"], id)
 		id += 1
 	pos.x -= vbox.size.x / 2
 	pos.y -= vbox.size.y
 	vbox.position = pos
-	print("UP vbox position: ", vbox.position)
-	print("vgcc: ", vbox.get_child_count())
+	#print("UP vbox position: ", vbox.position)
+	#print("vgcc: ", vbox.get_child_count())
 	if vbox.get_child_count() == 0:
-		queue_free()
-		return false
+		#queue_free()
+		#return false
+		pass
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.scene.set_physics_process(false)
 		scene.scene.enabled_ray(false)
 	
-	var vgr = vbox.get_rect()
-	$ColorRect2.position = vgr.position
-	$ColorRect2.size = vgr.size
+	#var vgr = vbox.get_rect()
+	#$ColorRect2.position = vgr.position
+	#$ColorRect2.size = vgr.size
 
 
 func add_item(title: String, id: int):
@@ -56,18 +57,35 @@ func add_item(title: String, id: int):
 	button.text = title
 	button.name = str(id)
 	button.add_theme_font_size_override("font_size", 24)
+	button.pressed.connect(func():
+		print("button pressed")
+		var scene = get_tree().current_scene
+		if scene is not Battle:
+			return
+		var battle: Battle = scene
+		if battle.host_player_id != battle.current_round_player:
+			return
+		if battle.in_option:
+			return
+		var behavior_entry = behaviors[id]
+		print("behavior entry : ", behavior_entry)
+		behavior_entry.launch({
+			trigger = (Utils.get_current_scene() as Battle).host_player_id
+		})
+		queue_free()
+	)
 
 
 func set_exp_mask(rect: Rect2):
 	#var r =
-	print("set_exp_mask RECT: ", rect)
-	print("set_exp_mask VBOX: ", vbox.get_rect(), " | pos: ", vbox.position)
+	#print("set_exp_mask RECT: ", rect)
+	#print("set_exp_mask VBOX: ", vbox.get_rect(), " | pos: ", vbox.position)
 	var mr = make_b_touch_a(vbox.get_rect(), rect)
-	print(">>> mr: ", mr)
+	#print(">>> mr: ", mr)
 	
 	mask_rect = mr
-	mask.position = mr.position
-	mask.size = mr.size
+	#mask.position = mr.position
+	#mask.size = mr.size
 	#if cr:
 	#mask.position = mask_rect.position
 	#mask.size = mask_rect.size
@@ -103,9 +121,9 @@ func make_b_touch_a(a:Rect2, b:Rect2, inset:float = 2.0) -> Rect2:
 
 
 
-func _input(_event: InputEvent) -> void:
-	if visible:
-		get_viewport().set_input_as_handled()
+#func _input(_event: InputEvent) -> void:
+	#if visible:
+		#get_viewport().set_input_as_handled()
 
 
 func _process(_delta: float) -> void:

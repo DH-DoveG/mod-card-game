@@ -28,6 +28,7 @@ script = ExtResource("1_2c2ti")
 [node name="Sprite3D2" type="Sprite3D" parent="." unique_id=153170428]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0.13974565, -0.16681896)
 pixel_size = 0.0025
+double_sided = false
 render_priority = 2
 texture = SubResource("ViewportTexture_26u7f")
 
@@ -48,6 +49,7 @@ expand_mode = 1
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=250014720]
 transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0.14048049, 0)
 pixel_size = 0.005
+double_sided = false
 no_depth_test = true
 render_priority = 2
 texture = SubResource("ViewportTexture_qmpeu")

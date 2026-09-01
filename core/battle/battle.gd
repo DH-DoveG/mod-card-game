@@ -65,32 +65,3 @@ var battle_global_data = {}
 
 # 游戏中产生的数据绑定列表
 var battle_data_bind_list: DataStruct.BattleBindDataStruct = DataStruct.BattleBindDataStruct.new()
-#var battle_data_bind_list = {
-	## behavior_id : card_id 多对少（一个行为只能被一张卡使用）
-	## 结构： { "BEHAVIOR_00000001": "CARD_00000001", "BEHAVIOR_00000002": "CARD_00000002", ... }
-	#"behavior": {},
-	## card_id : player_id 多对少（一个灵客可以使用多张卡）
-	## 结构： { "CARD_00000001": "PLAYER_00000000", "CARD_00000002": "PLAYER_00000000", ... }
-	#"card": {},
-	## area_id : player_id 少对多（一个区域可以被多个玩家占用）
-	## 结构： { "AREA_00000001": [ "PLAYER_00000000", "PLAYER_00000001", ... ] }
-	#"area": {},
-	## area_id : card_id 多对少（一个区域可以有多个卡）
-	## 结构： { "AREA_00000001": [ "CARD_00000001", "CARD_00000002", ... ] }
-	#"heap": {},
-	## player_id : camp 多对少（多个玩家对应一个阵营）
-	## 结构： { "PLAYER_00000000": "CAMP1", ... }
-	#"camp": {},
-	## player_id : card_id 少对多
-	## 结构： { "PLAYER_00000000": [ "CARD_00000000"， ... ] }
-	#"deck": {},
-	## player_id : card_id 少对多
-	## 结构： { "PLAYER_00000000": [ "CARD_00000000"， ... ] }
-	#"hand": {},
-	## player_id : card_id 少对多
-	## 结构： { "PLAYER_00000000": [ "CARD_00000000"， ... ] }
-	#"graveyard": {},
-	## player_id : area_id 少对多
-	## 结构： { "PLAYER_00000000": [ "AREA_00000000"， ... ] }
-	#"player_use_areas": {}
-#}

@@ -2,6 +2,14 @@ extends CustomDialog
 class_name InputDialog
 
 
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
+
 func get_value():
 	return $Dialog/VBox/LineEdit.text
 

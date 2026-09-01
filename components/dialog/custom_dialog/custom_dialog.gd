@@ -8,6 +8,15 @@ class_name CustomDialog
 
 signal select_clicked
 
+
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
+
 # btns: [{text = "按钮文本", callback = Callable}] as Array
 # 对应配置项目，还包括：点击后是否关掉窗口，回调返回 true 就关掉，为 false 就不关闭窗口
 #var confirmed_call: Callable # 确认后的回调

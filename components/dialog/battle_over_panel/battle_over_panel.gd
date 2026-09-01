@@ -1,6 +1,14 @@
 extends CustomDialog
 
 
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
+
 func set_value(param: Dictionary) -> void:
 	
 	var win_names = []

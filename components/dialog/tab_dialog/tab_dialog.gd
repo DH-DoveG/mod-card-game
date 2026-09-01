@@ -14,26 +14,11 @@ var select_value = null
 
 
 func _ready() -> void:
-	# set_value({
-	# 	"title": "效果连锁对话框",
-	# 	"detail": "有可进行的效果连锁操作",
-	# 	"btns": [],
-	# 	#
-	# 	"tabs": [
-	# 		{
-	# 			"title": "C1",
-	# 			"detail": "效果描述~~~",
-	# 			"items": [
-	# 				{
-	# 					"text": "233",
-	# 					"value": "behavior_id",
-	# 					"background": ""
-	# 				}
-	# 			]
-	# 		}
-	# 	]
-	# })
-	pass
+	super()
+
+
+func _exit_tree() -> void:
+	super()
 
 
 func set_value(param: Dictionary) -> void:

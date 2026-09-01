@@ -17,6 +17,7 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0.011764706)
 
 [node name="Mask" type="ColorRect" parent="." unique_id=1086155748]
+visible = false
 offset_left = -40.0
 offset_top = -40.0
 mouse_filter = 2
@@ -28,6 +29,7 @@ offset_right = 256.0
 theme_override_constants/separation = 12
 
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=1102852539]
+visible = false
 offset_left = -104.0
 offset_top = -120.0
 offset_bottom = -56.0

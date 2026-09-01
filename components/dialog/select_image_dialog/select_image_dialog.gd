@@ -2,6 +2,14 @@ extends SelectItemDialog
 
 # 这里只展示给定的 Tags 的图片资源
 
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
+
 func _build_list(list: Dictionary) -> void:
 	items = list["items"]
 	max_num = list["max"]

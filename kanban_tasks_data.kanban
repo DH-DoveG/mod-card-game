@@ -21,7 +21,8 @@
 				"985cf17b-751e-407a-b450-e1aca4a5e900",
 				"33c39e61-457e-43d3-94a0-6fab6515bfda",
 				"103977ce-892f-4c16-988e-d59211594e59",
-				"d66dbd8a-e328-410d-a38c-7ff6d94360bb"
+				"d66dbd8a-e328-410d-a38c-7ff6d94360bb",
+				"e415d2c8-d353-4cc8-81c0-74a69c1b0501"
 			]
 		},
 		{
@@ -478,7 +479,7 @@
 		},
 		{
 			"uuid": "d66dbd8a-e328-410d-a38c-7ff6d94360bb",
-			"title": "New task",
+			"title": "修复关于公开权限的 neo_card_info_view 和 neo_behavior_popup_menu 的设置",
 			"description": "",
 			"category": "91b8af5f-7ed2-4b57-91b2-acc8f5fc026f",
 			"steps": []
@@ -488,6 +489,13 @@
 			"title": "New task",
 			"description": "",
 			"category": "91b8af5f-7ed2-4b57-91b2-acc8f5fc026f",
+			"steps": []
+		},
+		{
+			"uuid": "e415d2c8-d353-4cc8-81c0-74a69c1b0501",
+			"title": "New task",
+			"description": "",
+			"category": "fec5515c-e97b-40b8-8d0a-8010fe297268",
 			"steps": []
 		}
 	],

@@ -13,6 +13,13 @@ var min_num = 0
 const is_choose_color = Color("#FFF")
 const not_choose_color = Color("#818181")
 
+func _ready() -> void:
+	super()
+
+
+func _exit_tree() -> void:
+	super()
+
 
 func set_value(param: Dictionary) -> void:
 	# 参数检查
