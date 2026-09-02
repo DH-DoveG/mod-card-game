@@ -43,11 +43,44 @@ func enabled_ray_click_check(state := true):
 	check_click = state
 
 
+# 摄像机拖拽
+var is_dragging := false
+var last_mouse_pos := Vector2.ZERO
+const DRAG_SENSITIVITY := 0.005
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			camera.position.y = clamp(camera.position.y - 0.5, 2.0, 8.0)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			camera.position.y = clamp(camera.position.y + 0.5, 2.0, 8.0)
+
+
 func enabled_ray(state := true):
 	deep_ray.enabled = state
 
 
 func _physics_process(_delta: float) -> void:
+	# 摄像机拖拽
+	if Input.is_action_just_pressed("click"):
+		is_dragging = true
+		last_mouse_pos = get_viewport().get_mouse_position()
+	elif Input.is_action_just_released("click"):
+		is_dragging = false
+	
+	if is_dragging:
+		var current_mouse_pos := get_viewport().get_mouse_position()
+		var delta := current_mouse_pos - last_mouse_pos
+		if delta.length() > 0:
+			var right := camera.global_transform.basis.x
+			var forward := -camera.global_transform.basis.z
+			var move_x := Vector3(right.x, 0, right.z).normalized() * delta.x * DRAG_SENSITIVITY
+			var move_z := Vector3(forward.x, 0, forward.z).normalized() * delta.y * DRAG_SENSITIVITY
+			camera.position -= move_x - move_z
+		last_mouse_pos = current_mouse_pos
+		return
+	
 	var mouse_pos := get_viewport().get_mouse_position()
 	
 	# 从鼠标屏幕点生成3D射线 origin 起点，end 终点
