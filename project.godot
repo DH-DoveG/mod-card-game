@@ -21,7 +21,6 @@ GApiManager="*uid://c7fo7l8vb43vc"
 GNetManager="*uid://bf88iupd5nc0y"
 GResourceManager="*uid://dcyaay1155a3a"
 ToastX="*uid://bjgkmehoqtiqt"
-PhantomCameraManager="*uid://duq6jhf6unyis"
 TooltipManager="*uid://brqdjqtp7oci6"
 TooltipPlaceholderVariables="*uid://nel5st3wktcw"
 TooltipLinkData="*uid://bjkjmtptqed1y"
@@ -37,7 +36,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/lua-gdextension/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/no_clip_sprite3d/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/rpc-await/plugin.cfg", "res://addons/toastx/plugin.cfg", "res://addons/tooltips_pro/plugin.cfg")
+enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/lua-gdextension/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/no_clip_sprite3d/plugin.cfg", "res://addons/rpc-await/plugin.cfg", "res://addons/toastx/plugin.cfg", "res://addons/tooltips_pro/plugin.cfg")
 
 [gui]
 

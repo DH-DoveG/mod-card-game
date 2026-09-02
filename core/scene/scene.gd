@@ -5,13 +5,26 @@ class_name Scene
 @onready var card_mount: Node3D = $CardMount
 @onready var area_mount: Node3D = $AreaMount
 @onready var camera: Camera3D = $Camera3D
-@onready var phantom_camera_down: PhantomCamera3D = $PCDown
-@onready var phantom_camera_up: PhantomCamera3D = $PCUp
-@onready var phantom_camera_left: PhantomCamera3D = $PCLeft
-@onready var phantom_camera_right: PhantomCamera3D = $PCRight
-@onready var phantom_camera_top: PhantomCamera3D = $PCTop
 @onready var deep_ray: DeepRayCast3D = $Ray/DeepRayCast3D
 
+var camera_direction_config = {
+	Vector2i.UP: {
+		"position": Vector3.ZERO,
+		"rotation": Quaternion(0, 0.793353, 0.608761, 0)
+	},
+	Vector2i.DOWN: {
+		"position": Vector3.ZERO,
+		"rotation": Quaternion(-0.608761, 0, 0, 0.793353)
+	},
+	Vector2i.LEFT: {
+		"position": Vector3.ZERO,
+		"rotation": Quaternion(-0.430459, 0.560986, 0.430459, 0.560986)
+	},
+	Vector2i.RIGHT: {
+		"position": Vector3.ZERO,
+		"rotation": Quaternion(-0.430459, -0.560986, -0.430459, 0.560986)
+	},
+}
 
 var max_x = 0
 var max_y = 0
@@ -101,70 +114,43 @@ func _physics_process(_delta: float) -> void:
 
 
 func battle_visual_angle_changed(visual_angle: Vector2i) -> void:
-	match visual_angle:
-		Vector2i.DOWN:
-			phantom_camera_down.priority = 1
-			phantom_camera_left.priority = 0
-			phantom_camera_right.priority = 0
-			phantom_camera_up.priority = 0
-		Vector2i.UP:
-			phantom_camera_up.priority = 1
-			phantom_camera_left.priority = 0
-			phantom_camera_right.priority = 0
-			phantom_camera_down.priority = 0
-		Vector2i.LEFT:
-			phantom_camera_left.priority = 1
-			phantom_camera_right.priority = 0
-			phantom_camera_up.priority = 0
-			phantom_camera_down.priority = 0
-			pass
-		Vector2i.RIGHT:
-			phantom_camera_right.priority = 1
-			phantom_camera_left.priority = 0
-			phantom_camera_up.priority = 0
-			phantom_camera_down.priority = 0
+	var config = camera_direction_config[visual_angle]
+	camera.position = config["position"]
+	camera.quaternion = config["rotation"]
 	
 	Utils.get_current_scene().event_manager.emit("BATTLE_VISUAL_ANGLE_CHANGED", {
 		"visual_angle": visual_angle,
 		"camera": camera
 	})
 
-#
-# 一个工具方法，算出 4 个方位的中心点
-# 例如：
-#   X (UP)
-# OOOOO
-# OOOOO
-# OOOOO
-#   X (DOWN)
-# 得到两个X应该在的位置的中心点，以及长度
 func get_area_center() -> Dictionary:
 	# 1. 通过 max_x 与 max_y 分别乘以 AREA_SIZE 得到这个战场的整体大小
-	var width: float = (max_x + 1) * ConfigManager.AREA_SIZE
-	var height: float = (max_y + 1) * ConfigManager.AREA_SIZE
+	var width: float = max_x * ConfigManager.AREA_SIZE
+	var height: float = max_y * ConfigManager.AREA_SIZE
 	
 	# 2. 因为从 0,0 点开始，所以 max_x 和 max_y 都需要减去 TILE_SIZE / 2
 	#    第一个除2是得到这个形成的矩形的中心点，减去 TILE_SIZE / 2 是为了修正偏移量
 	var center_x = width / 2
 	var center_y = height / 2
+	#$MeshInstance3D2.position = Vector3(center_x, 0, center_y)
 	
 	# 3. 在获得了中心点后，需要获取 UP、DOWN、LEFR、RIGHT 四个方向的位置（这个位置刚好在这个矩形外）
-	# 5*5 = (2.0, 0.5)
-	var up_x = center_x - 0.5
+	var up_x = center_x # - 0.5
 	var up_y = center_y - height / 2 + 0.5 #- ConfigManager.AREA_SIZE
+	#$MeshInstance3D3.position = Vector3(up_x, 0, up_y)
 	
-	# 5*5 应得到 (2.0, 3.5)
-	var down_x = center_x - 0.5
-	#var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
-	var down_y = center_y + ConfigManager.AREA_SIZE
+	var down_x = center_x # - 0.5
+	var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
+	#$MeshInstance3D4.position = Vector3(down_x, 0, down_y)
 	
-	# 5*5 应得到 (3.5, 2.0)
-	var left_x = center_x + ConfigManager.AREA_SIZE
-	var left_y = center_y - 0.5
+	var left_x = center_x + width / 2 - 0.5
+	var left_y = center_y # - 0.5
+	#$MeshInstance3D5.position = Vector3(left_x, 0, left_y)
 	
 	# 5*5 应得到 (0.5, 2.0)
 	var right_x = center_x - width / 2 + 0.5
-	var right_y = center_y - 0.5
+	var right_y = center_y # - 0.5
+	#$MeshInstance3D6.position = Vector3(right_x, 0, right_y)
 	
 	# 结果
 	var result = {
@@ -198,10 +184,10 @@ func add_area(x: int, y: int, z: int = 1) -> AreaView3D:
 
 func adjust_camera() -> void:
 	var pos = get_area_center()
-	phantom_camera_up.position = Vector3(pos["up"].x, 4, pos["up"].y)
-	phantom_camera_down.position = Vector3(pos["down"].x, 4, pos["down"].y)
-	phantom_camera_left.position = Vector3(pos["left"].x, 4, pos["left"].y)
-	phantom_camera_right.position = Vector3(pos["right"].x, 4, pos["right"].y)
+	camera_direction_config[Vector2i.UP]["position"] = Vector3(pos["up"].x, 4, pos["up"].y)
+	camera_direction_config[Vector2i.DOWN]["position"] = Vector3(pos["down"].x, 4, pos["down"].y)
+	camera_direction_config[Vector2i.LEFT]["position"] = Vector3(pos["left"].x, 4, pos["left"].y)
+	camera_direction_config[Vector2i.RIGHT]["position"] = Vector3(pos["right"].x, 4, pos["right"].y)
 
 
 # 调整位置（在添加Area后调用，用于调整相机、战场区域偏移、卡组手牌弃区位置偏移）

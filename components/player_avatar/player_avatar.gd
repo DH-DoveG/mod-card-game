@@ -52,13 +52,15 @@ func update() -> void:
 	if battle.current_round_player == use_player.name:
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "offset_transform_position:x", 72, 0.2)
-		$ActiveOutline.show()
+		#$ActiveOutline.show()
+		$NeoOutline.show()
 		$State.hide()
 		#self_modulate = Color8(255, 255, 255)
 	else:
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "offset_transform_position:x", 0, 0.2)
-		$ActiveOutline.hide()
+		#$ActiveOutline.hide()
+		$NeoOutline.hide()
 		if battle.round_num != 0:
 			$State.show()
 		# offset_transform_position.x = 0

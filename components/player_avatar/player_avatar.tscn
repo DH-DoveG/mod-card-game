@@ -132,6 +132,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="RoundTime" type="HBoxContainer" parent="." unique_id=1838875546]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -185,3 +186,21 @@ X
 T"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="NeoOutline" type="ReferenceRect" parent="." unique_id=1762462153]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true
