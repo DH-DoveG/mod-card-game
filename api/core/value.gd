@@ -27,8 +27,8 @@ func get_values_dict(entity_id: String):
 	else:
 		return
 
-	for k in entity.value_manager.keys():
-		result[k] = entity.value_manager[k].value
+	for k in entity.values.keys():
+		result[k] = entity.values[k].value
 	return result
 
 
@@ -77,7 +77,7 @@ func append(entity_id: String, v: Dictionary) -> void:
 		__config
 	)
 	#entity.value_mount.add_child(vobj)
-	entity.value_manager[__code] = vobj
+	entity.values[__code] = vobj
 	 #if update == "PLAYER":
 	 	#var p = FindUtils.find_player(entity_id)
 	 	#for node: PlayerAvatar in Utils.get_current_scene().get_node("UI/PlayerPanel").get_children():
@@ -100,8 +100,8 @@ func remove(entity_id: String, code: String) -> void:
 		entity = FindUtils.find_area(entity_id)
 	else:
 		return
-	if code in entity.value_manager:
-		entity.value_manager.erase(code)
+	if code in entity.values:
+		entity.values.erase(code)
 	# if update == "PLAYER":
 	# 	var p = FindUtils.find_player(entity_id)
 	# 	for node: PlayerAvatar in Utils.get_current_scene().get_node("UI/PlayerPanel").get_children():
@@ -128,9 +128,9 @@ func increase(entity_id: String, code: String, value: Variant) -> void:
 	else:
 		return
 	
-	if code in entity.value_manager:
-		entity.value_manager[code].value += value
-		entity.value_manager[code].value = clamp(entity.value_manager[code].value, entity.value_manager[code].min_value, entity.value_manager[code].max_value)
+	if code in entity.values:
+		entity.values[code].value += value
+		entity.values[code].value = clamp(entity.values[code].value, entity.values[code].min_value, entity.values[code].max_value)
 	if type == "PLAYER":
 		Utils.get_current_scene().get_node("UI/PlayerPanel").update()
 		#var p = FindUtils.find_player(entity_id)
@@ -158,9 +158,9 @@ func reset(entity_id: String, code: String, value: Variant) -> void:
 		entity = FindUtils.find_area(entity_id)
 	else:
 		return
-	if code in entity.value_manager:
-		entity.value_manager[code].value = value
-		entity.value_manager[code].value = clamp(entity.value_manager[code].value, entity.value_manager[code].min_value, entity.value_manager[code].max_value)
+	if code in entity.values:
+		entity.values[code].value = value
+		entity.values[code].value = clamp(entity.values[code].value, entity.values[code].min_value, entity.values[code].max_value)
 	if update == "PLAYER":
 		#var p = FindUtils.find_player(entity_id)
 		#Utils.get_current_scene().get_node("UI/PlayerPanel").update(p)
@@ -201,8 +201,8 @@ func append_modifier(entity_id: String, modifier: Dictionary) -> void:
 	m.value = modifier["value"]
 	m.op = modifier["op"]
 	m.custom = modifier["custom"]
-	if m.code in entity.value_manager:
-		var v: Value = entity.value_manager[m.code]
+	if m.code in entity.values:
+		var v: Value = entity.values[m.code]
 		#v.add_child(m)
 		v.modifiers.append(m)
 	_update_value_show()
@@ -218,8 +218,8 @@ func get_modifier(entity_id: String, code: String) -> Array:
 		entity = FindUtils.find_area(entity_id)
 	else:
 		return []
-	if code in entity.value_manager:
-		return entity.value_manager[code].get_modifiers()
+	if code in entity.values:
+		return entity.values[code].get_modifiers()
 	return []
 
 

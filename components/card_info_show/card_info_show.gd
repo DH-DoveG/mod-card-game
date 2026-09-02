@@ -108,8 +108,8 @@ func update_value() -> void:
 	# 先只做最简单的拼接工作
 	var value_str = PackedStringArray()
 
-	for k in user.entity.value_manager:
-		var value = user.entity.value_manager[k]
+	for k in user.entity.values:
+		var value = user.entity.values[k]
 		if value.config == null:
 			continue
 		# 获取各属性

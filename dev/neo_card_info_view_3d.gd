@@ -4,6 +4,7 @@ extends Node3D
 var event_id := ""
 var user: CardView3D
 
+
 func _ready() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
@@ -12,28 +13,23 @@ func _ready() -> void:
 		, ConnectFlags.CONNECT_ONE_SHOT)
 		event_id = scene.event_manager.subscribe("VISUAL_ANGLE_CHANGED", change_dirction)
 	user = get_parent()
-	#signal card_changed(_item: String, _ce: CardEntity)
+
+
+func _process(_delta: float) -> void:
+	var scene = get_tree().current_scene
+	if scene is Battle:
+		if scene.host_player_id not in scene.battle_data_bind_list.card_public_information[user.entity.name] and \
+		   "PUBLIC" not in scene.battle_data_bind_list.card_public_information[user.entity.name]:
+			hide()
+		else:
+			show()
+
 
 func update_entity(entity: CardEntity):
-	#entity.card_changed.connect(func(item: String, _entity: CardEntity):
-		#var scene = get_tree().current_scene
-		#if scene is Battle:
-			#change_dirction(scene.visual_angle)
-		#print("ITEM: ", item, " | ", user.get_front())
-		#if item == "orientation":
-			#if user.get_front():
-				#rotation_order = EULER_ORDER_ZYX
-				#rotation_degrees.z = 180
-				#$Sprite3D2.hide()
-			#else:
-				#rotation_order = EULER_ORDER_YXZ
-				#$Sprite3D2.show()
-	#)
 	entity.card_quaternion_changed.connect(func():
 		var scene = get_tree().current_scene
 		if scene is Battle:
 			change_dirction(scene.visual_angle)
-		print("ITEM: card_quaternion_changed | ", user.get_front())
 		if user.get_front():
 			rotation_order = EULER_ORDER_ZYX
 			$Sprite3D2.show()
@@ -42,21 +38,6 @@ func update_entity(entity: CardEntity):
 			rotation_degrees.z = 180
 			$Sprite3D2.hide()
 	)
-
-#卡片的翻转应该是一个信号
-
-#func _process(_delta: float) -> void:
-	#if user.get_front():
-		#rotation_order = EULER_ORDER_ZYX
-		#$Sprite3D2.show()
-	#else:
-		#rotation_order = EULER_ORDER_XYZ
-		#$Sprite3D2.hide()
-	#var scene = get_tree().current_scene
-	#if scene is Battle:
-		#change_dirction(scene.visual_angle)
-	##print("user front: ", user.get_front())
-	#pass
 
 
 func _exit_tree() -> void:
@@ -87,11 +68,7 @@ func change_x(status: bool):
 
 func change_dirction(visual):
 	match visual:
-		Vector2i.DOWN:
-			global_rotation_degrees.y = 0
-		Vector2i.UP:
-			global_rotation_degrees.y = 180
-		Vector2i.LEFT:
-			global_rotation_degrees.y = 90
-		Vector2i.RIGHT:
-			global_rotation_degrees.y = -90
+		Vector2i.DOWN: global_rotation_degrees.y = 0
+		Vector2i.UP: global_rotation_degrees.y = 180
+		Vector2i.LEFT: global_rotation_degrees.y = 90
+		Vector2i.RIGHT: global_rotation_degrees.y = -90

@@ -2,6 +2,9 @@ extends Node
 class_name CoreBehaviorApi
 
 
+#卡的效果添加的 Behavior 会导致错误（没有添加到 behaviors 中）
+
+
 func create(template: String) -> Behavior:
 	# 根据模板，创建行为
 	var behavior_template_file_path = GResourceManager.behavior_resource[template]
@@ -17,18 +20,20 @@ func create(template: String) -> Behavior:
 		assert(false, "CoreBehaviorApi: create: meta is lua error: " + meta.message)
 	if meta is not LuaTable:
 		assert(false, "CoreBehaviorApi: create: meta is not lua table")
+	
 	#var behavior_lua = load("res://core/behavior/behavior_lua.tscn").instantiate()
+	
 	var behavior_lua = BehaviorLua.new()
-	var _behavior_id = ""
-	if meta["id"]:
-		_behavior_id = meta["id"]
-	else:
-			var _id = IDUtils.generate("BEHAVIOR_")
-			meta["id"] = _id
-			_behavior_id = _id
+	#var _behavior_id = ""
+	#if meta["id"]:
+		#_behavior_id = meta["id"]
+	#else:
+		#var _id = IDUtils.generate("BEHAVIOR_")
+		#meta["id"] = _id
+		#_behavior_id = _id
 	# print(">> Behavior Create: ", _behavior_id)
 	behavior_lua.init_data(meta)
-	behavior_lua.name = _behavior_id
+	#behavior_lua.name = _behavior_id
 	behavior_lua.template = template
 	return behavior_lua
 
@@ -36,13 +41,16 @@ func create(template: String) -> Behavior:
 func get_all(entity_id: String) -> Array:
 	var scene: Battle = Utils.get_current_scene()
 	var bs = scene.battle_data_bind_list.card_bind_behaviors.get(entity_id, [])
-
+	
 	var result = []
 	for b in bs:
 		var br = FindUtils.find_behavior(b)
 		result.append(br.data)
 	return result
 
+#如果单一没有 ID 那么如何判断是哪个 card 的 行为？
+#因为 behavior 唯一，所以调用时传入卡片ID即可
+#* 那么只卡片只需要记录主机有哪些技能即可
 
 # 仅 Card 挂有 behavior
 func get_ownership(id: String) -> Variant:
@@ -71,13 +79,13 @@ func append_entity(entity_id, template, unique) -> void:
 	if not entity:
 		return
 	if unique:
-		for b: Behavior in entity.behavior_manager.behaviors:
+		for b: Behavior in entity.behaviors:
 			if b.template == template:
 				return
 	var behavior: Behavior = create(template)
 	if not behavior:
 		return
-	entity.behavior_manager.add_behavior(behavior)
+	entity.add_behavior(behavior)
 
 	if entity_id.begins_with("CARD_"):
 		var battle: Battle = Utils.get_current_scene()
@@ -89,7 +97,7 @@ func remove_entity(entity_id, template) -> void:
 	var entity: Entity = FindUtils.find_entity(entity_id)
 	if not entity:
 		return
-	for b: Behavior in entity.behavior_manager.behaviors:
+	for b: Behavior in entity.behaviors:
 		if b.template == template:
 			for _timepoint in Utils.get_current_scene().timepoint_manager.rr_meta:
 				if _timepoint.entity == b:
@@ -98,12 +106,12 @@ func remove_entity(entity_id, template) -> void:
 			if entity_id.begins_with("CARD_"):
 				var battle: Battle = Utils.get_current_scene()
 				battle.battle_data_bind_list.card_bind_behaviors[entity_id].erase(b.name)
-			entity.behavior_manager.behaviors.erase(b)
+			entity.behaviors.erase(b)
 			#b.queue_free()
 	# var behavior: Behavior = create(template)
 	# if not behavior:
 	# 	return
-	# entity.behavior_manager.add_behavior(behavior)
+	# entity.behaviors.add_behavior(behavior)
 	# if entity_id.begins_with("CARD_"):
 	# 	var battle: Battle = Utils.get_current_scene()
 	# 	battle.battle_data_bind_list.card_bind_behaviors[entity_id].append(behavior.name)

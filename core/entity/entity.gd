@@ -2,8 +2,8 @@ extends RefCounted
 class_name Entity
 
 var name := ""
-var value_manager: Dictionary[String, Value] = {}
-var behavior_manager := BehaviorManager.new()
+var values: Dictionary[String, Value] = {}
+var behaviors: Array = []
 var tags = []
 
 
@@ -17,8 +17,8 @@ var meta: Variant:
 
 func __tick_values() -> void:
 	if meta["entity"]:
-		var values = LuaUtils.table_to_dictionary(meta["entity"]["values"])
-		for v in values.values():
+		var _values = LuaUtils.table_to_dictionary(meta["entity"]["values"])
+		for v in _values.values():
 			var template = ModManager.do_mod_file(GResourceManager.value_resource[v["template"]])
 			template = template.invoke()
 			var override = v["override"]
@@ -40,17 +40,19 @@ func __tick_values() -> void:
 				__min,
 				__config
 			)
-			#value_mount.add_child(vobj)
-			value_manager[__code] = vobj
+			values[__code] = vobj
 
 
 func __tick_tags() -> void:
 	if meta["entity"]:
-		tags = LuaUtils.table_to_dictionary(meta["entity"]["tags"]).values()
+		tags = meta["entity"]["tags"].to_array()
 
 
 func __tick_behaviors() -> void:
+	print(">> ", LuaUtils.table_to_dictionary(meta["entity"]["behaviors"]))
 	if meta["entity"]:
-		for behavior in meta["entity"]["behaviors"].to_array():
-			var behavior_lua = GApiManager.behavior_api.create(behavior)
-			behavior_manager.add_behavior(behavior_lua)
+		behaviors = meta["entity"]["behaviors"].to_array()
+
+
+func add_behavior(b):
+	behaviors.append(b)

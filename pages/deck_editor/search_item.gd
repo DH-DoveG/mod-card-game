@@ -13,8 +13,8 @@ func set_card(card: CardEntity):
 	$CardName.text = card.card_name
 	$Tags.text = " | ".join(card.tags)
 	var value_text = []
-	for vkey in card.value_manager:
-		var v: Value = card.value_manager[vkey]
+	for vkey in card.values:
+		var v: Value = card.values[vkey]
 		if v.config and v.config.show_enable:
 			value_text.append(v.nick + "：" + str(v.value))
 	$Values.text = " | ".join(value_text)

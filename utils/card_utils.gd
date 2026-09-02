@@ -122,7 +122,7 @@ static func create(id: String, card_meta = null, _parent = null) -> CardEntity:
 	## print(LuaUtils.table_to_dictionary(behavior_instance.data))
 	## FIXME： 行为需要分配一个单独ID，并且需要维护一个表用于表示父级
 	##behavior["user_id"] = card.name
-	#Utils.get_node_entity(card).behavior_manager.add_behavior_to_group(behavior_instance.data["type"], behavior_instance)
+	#Utils.get_node_entity(card).behaviors.add_behavior_to_group(behavior_instance.data["type"], behavior_instance)
 	#return true
 
 

@@ -41,9 +41,9 @@ func update() -> void:
 	#graveyard.text = str(use_player.graveyard.size())
 	
 	# BUG: 这一部分会导致性能与占用急剧下滑？
-	#      也有可能是 value_manager
+	#      也有可能是 values
 	var entity: Entity = use_player
-	# var lp = entity.value_manager.get("lp")
+	# var lp = entity.values.get("lp")
 		# 先只做最简单的拼接工作
 	var value_str = PackedStringArray()
 	
@@ -64,8 +64,8 @@ func update() -> void:
 		# offset_transform_position.x = 0
 		#self_modulate = Color8(127, 127, 127)
 
-	for k in entity.value_manager:
-		var _value: Value = entity.value_manager[k]
+	for k in entity.values:
+		var _value: Value = entity.values[k]
 		if _value.config == null:
 			continue
 		# 获取各属性

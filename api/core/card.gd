@@ -16,9 +16,7 @@ func create_battle_more(configs) -> Array[CardEntity]:
 func create_entity(card_id: String, card_resource_id: String) -> CardEntity:
 	var card_meta = ModManager.do_mod_file(GResourceManager.card_resource[card_resource_id]).invoke()
 	card_meta["entity"]["id"] = card_id
-	#var ce = preload("res://entity/card_entity/card_entity.tscn").instantiate()
 	var ce = CardEntity.new()
-	#Utils.get_current_scene().add_child(ce)
 	ce.name = card_id
 	ce.image = card_meta["image"]
 	ce.standing_sign = card_meta["standing_sign"]
@@ -28,15 +26,8 @@ func create_entity(card_id: String, card_resource_id: String) -> CardEntity:
 
 
 @rpc("any_peer", "call_local", "reliable")
-#func create_battle(card_id: String, card_resource_id: String, card_mount: NodePath, card_owner: String, card_back = "DEFAULT_CARD_BACK") -> CardEntity:
 func create_battle(card_id: String, card_resource_id: String, card_owner: String) -> CardEntity:
-	var ce = create_entity(card_id, card_resource_id)
-
-	#var card_meta = ModManager.do_mod_file(GResourceManager.card_resource[card_resource_id]).invoke()
-	#card_meta["id"] = card_id
-	#var card_image = card_meta["image"]
-	#var card_standing_sign = card_meta["standing_sign"]
-	#var card = CardUtils.create(card_id, card_meta, get_node(card_mount))
+	var ce := create_entity(card_id, card_resource_id)
 	
 	var battle: Battle = Utils.get_current_scene()
 	battle.battle_data_bind_list.player_bind_cards_of_ownership[card_owner].append(card_id)
@@ -46,29 +37,18 @@ func create_battle(card_id: String, card_resource_id: String, card_owner: String
 	
 	battle.cards[card_id] = ce
 	
-	# print("CARD OWNER: ", card_owner, " | CARD ID: ", card_id)
-	
-	# card.is_front = false
-	# card.image = card_image
-	# card.standing_sign = card_standing_sign
-	# card.card_name = card_meta["name"]
-	# card_meta["entity"]["id"] = card_id
-	# 为卡片添加图片
-	#var card_front_image = GResourceManager.get_image_resoure(ce.image)
-	#var card_back_image = GResourceManager.get_image_resoure(card_back)
-	
-	#CardUtils.translate_image(card, card_front_image.get_image(), card_back_image.get_image())
-	#for behavior in ce.meta["entity"]["behaviors"].to_array():
-	for behavior in ce.behavior_manager.behaviors:
-		#var behavior_lua = GApiManager.behavior_api.create(behavior)
-		# print("<< ", behavior)
-		#ce.behavior_manager.add_behavior(behavior_lua)
-		# card.entity.behavior_manager.add_behavior(behavior_lua)
-		#battle.battle_data_bind_list.card_bind_behaviors[card_id].append(behavior_lua.name)
-		#battle.behaviors[behavior_lua.name] = behavior_lua
-		battle.battle_data_bind_list.card_bind_behaviors[card_id].append(behavior.name)
-		battle.behaviors[behavior.name] = behavior
-	#return card
+	#！卡片构建完成后，检查是否有对应的 Behavior 实例存在
+	#print("-> ", ce.behaviors)
+	for b in ce.behaviors:
+		battle.battle_data_bind_list.card_bind_behaviors[card_id].append(b)
+		# 如果说没有实例就生成
+		if not battle.behaviors.has(b):
+			#battle.behaviors[behavior.name] = behavior
+			var behavior_lua = GApiManager.behavior_api.create(b)
+			battle.behaviors[b] = behavior_lua
+			#print("---> ", battle.behaviors, " | ", b, " || ", behavior_lua)
+			#GResourceManager.behavior_resource[behavior]
+			pass
 	return ce
 
 

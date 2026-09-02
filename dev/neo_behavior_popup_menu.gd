@@ -24,7 +24,10 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 	visible = true
 	var id = 0
 	behaviors = _behaviors
+	var scene = get_tree().current_scene
 	for behavior: Behavior in behaviors:
+		if scene is Battle and scene.in_option:
+			break
 		var info = behavior.get_info()
 		var check_launch = await behavior.check_launch()
 		var check_cost = await behavior.check_cost()
@@ -41,7 +44,6 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 		#queue_free()
 		#return false
 		pass
-	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.scene.set_physics_process(false)
 		scene.scene.enabled_ray(false)

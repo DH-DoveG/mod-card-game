@@ -82,7 +82,7 @@ func _on_pressed() -> void:
 		var pos = gp
 		var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
 		battle.add_child(menu)
-		menu.show_menu(pos, entity.behavior_manager.behaviors, entity)
+		menu.show_menu(pos, entity.behaviors, entity)
 		menu.popup_hide.connect(func():
 			menu.queue_free()
 		)

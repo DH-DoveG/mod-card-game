@@ -44,8 +44,8 @@ static func get_all(param) -> LuaTable:
 	else:
 		return
 	var result = {}
-	for code in entity.value_manager:
-		var v: Value = entity.value_manager[code]
+	for code in entity.values:
+		var v: Value = entity.values[code]
 		result[code] = v.get_value(id)
 	return LuaUtils.dictionary_to_table(result)
 
@@ -85,8 +85,8 @@ static func get_only(param) -> Variant:
 	#var entity: Entity = FindUtils.find_entity(id)
 	if not entity:
 		return null
-	if code in entity.value_manager:
-		var v: Value = entity.value_manager[code]
+	if code in entity.values:
+		var v: Value = entity.values[code]
 		return v.get_value(id)
 	return null
 

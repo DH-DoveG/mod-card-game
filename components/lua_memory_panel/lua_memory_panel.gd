@@ -8,4 +8,4 @@ extends Control
 
 
 func _on_timer_timeout() -> void:
-	label.text = "Lua脚本内存使用：" + str("%.6f" % (ModManager.state.globals["collectgarbage"].invoke("count") / 1024)) + " MB"
+	label.text = "Lua脚本内存使用：" + str("%.6f" % (ModManager.state.get_memory_used() / 1024.0)) + " MB"

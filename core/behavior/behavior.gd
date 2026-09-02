@@ -4,7 +4,7 @@ class_name Behavior
 
 var data
 var template = ""
-var name := ""
+#var name := ""
 
 #func _ready() -> void:
 	#add_to_group("behavior")

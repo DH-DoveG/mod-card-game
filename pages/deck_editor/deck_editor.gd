@@ -24,7 +24,7 @@ func _init_card_library():
 		card_data_library.append(ce)
 		if not ce.meta["type"].is_empty():
 			t[ce.meta["type"]] = true
-		for value in ce.value_manager.keys():
+		for value in ce.values.keys():
 			v[value] = true
 	card_value_types = v.keys()
 	card_types = t.keys()
@@ -60,10 +60,10 @@ func search(config: Dictionary):
 				continue
 			key = false
 			for value in card_values:
-				if not cdl.value_manager.has(value):
+				if not cdl.values.has(value):
 					key = true
 					break
-				if cdl.value_manager[value].value != card_values[value]:
+				if cdl.values[value].value != card_values[value]:
 					key = true
 					break
 			if key:
@@ -71,7 +71,7 @@ func search(config: Dictionary):
 			key = false
 			var count = 0
 			for behavior in card_behaviors:
-				for b: Behavior in cdl.behavior_manager.behaviors:
+				for b: Behavior in cdl.behaviors:
 					if b.get_info()["description"].contains(behavior):
 						count += 1
 			if not card_behaviors.is_empty() and count == 0:

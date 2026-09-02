@@ -28,7 +28,7 @@ static func get_can_launch_behaviors(param: LuaTable) -> Signal:
 			entity = FindUtils.find_area(id)
 		else:
 			return
-		for b: Behavior in entity.behavior_manager.behaviors:
+		for b: Behavior in entity.behaviors:
 			var cl = await b.check_launch(cl_arg)
 			if not cl: continue
 			var cc = await b.check_cost()

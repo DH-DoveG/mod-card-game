@@ -145,9 +145,9 @@ func _init_plase3():
 
 
 func _bind_action_events():
-	var behavior_manager_list = get_tree().get_nodes_in_group(&"behavior_manager")
-	for behavior_manager in behavior_manager_list:
-		behavior_manager.bind_action_events()
+	var behavior_manager_list = get_tree().get_nodes_in_group(&"behaviors")
+	for behaviors in behavior_manager_list:
+		behaviors.bind_action_events()
 
 
 # POINT: 进度断点
