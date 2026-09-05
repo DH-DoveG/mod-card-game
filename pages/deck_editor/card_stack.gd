@@ -34,7 +34,7 @@ func show_add_card(card: CardEntity, status: bool) -> void:
 
 
 func add_card(card: CardEntity) -> void:
-	var cv: CardView2D = load("res://components/card_view/card_view.tscn").instantiate()
+	var cv: CardView2D = load("res://components/card_view_2d/card_view_2d.tscn").instantiate()
 	grid.add_child(cv)
 	cv.custom_minimum_size = Vector2(130, 182)
 	cv.custom_maximum_size = Vector2(130, 182)

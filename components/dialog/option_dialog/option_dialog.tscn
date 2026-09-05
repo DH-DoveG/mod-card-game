@@ -21,6 +21,10 @@ offset_bottom = 0.0
 offset_top = 38.0
 offset_bottom = -136.0
 
+[node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
+offset_left = 16.0
+offset_right = -16.0
+
 [node name="LineEdit" type="OptionButton" parent="Dialog" index="3" unique_id=708669448]
 layout_mode = 0
 offset_left = 24.0

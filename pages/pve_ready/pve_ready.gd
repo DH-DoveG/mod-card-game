@@ -74,7 +74,7 @@ func begin_game() -> void:
 		self
 	) \
 	.with_parameters(data) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("4a2724ff")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("4a2724ff")) \
 	.start()
 
 @rpc("any_peer", "call_local", "reliable")

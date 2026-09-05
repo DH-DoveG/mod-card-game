@@ -16,8 +16,8 @@ func get_value():
 
 func set_value(param: Dictionary) -> void:
 	super(param)
-	if param["can_hide"] == false:
-		$Background/Visible.hide()
+	#if param["can_hide"] == false:
+		#$Background/Visible.hide()
 	if param.get("value"):
 		$Dialog/VBox/LineEdit.text = param["value"]
 	if param["placeholder"]:

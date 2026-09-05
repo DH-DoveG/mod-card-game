@@ -62,29 +62,45 @@ func hightlight():
 	if origin_nciv_ration == null:
 		origin_nciv_ration = nciv.quaternion
 	if origin_basis == null:
-		origin_basis = global_transform.basis
+		origin_basis = self.global_transform.basis
 	
-	var _dir: Vector3 = (get_viewport().get_camera_3d().global_position - origin_body_pos).normalized()
+	print("==========================================")
+	print(">> ", scene.scene.camera)
+	print("obp : ", origin_body_pos)
+	print("onp : ", origin_nciv_pos)
+	print("onr : ", origin_nciv_ration)
+	print("ob : ", origin_basis)
+	
+	var _dir: Vector3 = (scene.scene.camera.global_position - origin_body_pos).normalized()
 	
 	var bd = origin_body_pos + _dir * 0.75
 	var nd = origin_nciv_pos + _dir * 0.75
 	
 	nciv.quaternion = Quaternion(0.707107, 0, 0, 0.707107)
 	
+	# await get_tree().create_tween().tween_property(self, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.1).finished
+	# get_tree().create_tween().tween_property(self, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.1)
+	
+	#self.global_transform.basis = origin_basis
+	
+	#self.global_transform.basis = scene.scene.camera.global_transform.basis
+	#return
+	
+	# 为什么 body、NeoCardInfoView3D 的旋转角度会变？
 	var tween = get_tree().create_tween().set_parallel(true)
-	# 改变 transform:basis 的时间必须与上面的不同，否则将会出现bug（显示错位）
-	tween.tween_property(self, "global_transform:basis", get_viewport().get_camera_3d().global_transform.basis, 0.18)
-	tween.tween_property(body, "global_position", bd, 0.2)
-	tween.tween_property(nciv, "global_position", nd, 0.2)
-	tween.tween_property(body, "scale", Vector3(120, 120, 120), 0.2)
-	tween.tween_property(nciv, "scale", Vector3(1.2, 1.2, 1.2), 0.2)
+	tween.tween_property(self, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.10)
+	tween.tween_property(body, "global_position", bd, 0.20)
+	tween.tween_property(nciv, "global_position", nd, 0.20)
+	tween.tween_property(body, "scale", Vector3(120, 120, 120), 0.20)
+	tween.tween_property(nciv, "scale", Vector3(1.2, 1.2, 1.2), 0.20)
+	tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
 	
 	$NeoCardInfoView3D.change_x(false)
 	
 	await tween.finished
 	
 	var pos = scene.scene.camera.unproject_position(global_position)
-	pos.y -= 140
+	pos.y -= 160
 	
 	var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
 	get_tree().current_scene.add_child(n)
@@ -94,6 +110,7 @@ func hightlight():
 		n.set_process(true)
 		n.tree_exited.connect(func():
 			normallight()
+			pass
 		, ConnectFlags.CONNECT_ONE_SHOT)
 
 
@@ -111,17 +128,31 @@ func normallight():
 	
 	$NeoCardInfoView3D.set_rander_priority(2)
 	
-	nciv.quaternion = origin_nciv_ration
+	print("==========================================")
+	#print("<< ", scene.scene.camera)
+	print("obp : ", origin_body_pos)
+	print("onp : ", origin_nciv_pos)
+	print("onr : ", origin_nciv_ration)
+	print("ob : ", origin_basis)
+	
+	# await get_tree().create_tween().tween_property(self, "global_transform:basis", origin_basis, 0.1).finished
+	# get_tree().create_tween().tween_property(self, "global_transform:basis", origin_basis, 0.1)
+	#self.global_transform.basis = origin_basis
 	
 	var tween = get_tree().create_tween().set_parallel(true)
-	tween.tween_property(self, "global_transform:basis", origin_basis, 0.18)
-	tween.tween_property(body, "global_position", origin_body_pos, 0.2)
-	tween.tween_property(nciv, "global_position", origin_nciv_pos, 0.2)
-	tween.tween_property(body, "scale", Vector3(100, 100, 100), 0.2)
-	tween.tween_property(nciv, "scale", Vector3(1, 1, 1), 0.2)
+	tween.tween_property(self, "global_transform:basis", origin_basis, 0.10)
+	tween.tween_property(body, "global_position", origin_body_pos, 0.20)
+	tween.tween_property(nciv, "global_position", origin_nciv_pos, 0.20)
+	tween.tween_property(body, "scale", Vector3(100, 100, 100), 0.20)
+	tween.tween_property(nciv, "scale", Vector3(1, 1, 1), 0.20)
+	#tween.tween_property(body, "rotation:x", 0, 0.20)
+	# 旋转角度恢复时可能偏转是因为欧拉角的轴锁问题
+	tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
 	$NeoCardInfoView3D.change_x(true)
 	
 	await tween.finished
+	
+	nciv.quaternion = origin_nciv_ration
 	
 	await get_tree().process_frame
 	
@@ -199,7 +230,8 @@ func set_outline_color(color: Color) -> void:
 
 # 获取物体在相机屏幕上的Rect2（屏幕像素空间）
 func get_mesh_screen_rect() -> Rect2:
-	var camera: Camera3D = get_viewport().get_camera_3d()
+	var scene = get_tree().current_scene
+	var camera: Camera3D = scene.scene.camera
 	var target: MeshInstance3D = body
 	if not target or not camera:
 		return Rect2()

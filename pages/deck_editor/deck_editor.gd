@@ -19,7 +19,7 @@ func _init_card_library():
 	for ckey in GResourceManager.card_resource:
 		var id = IDUtils.generate("__CardDataDeckLibrary__")
 		var ce: CardEntity = GApiManager.card_api.create_entity(id, ckey)
-		add_child(ce)
+		#add_child(ce)
 		ids.append(id)
 		card_data_library.append(ce)
 		if not ce.meta["type"].is_empty():
@@ -31,9 +31,10 @@ func _init_card_library():
 
 
 func _exit_tree() -> void:
-	for ce in card_data_library:
-		if ce.name in ids:
-			ce.queue_free()
+	#for ce in card_data_library:
+		#if ce.name in ids:
+			#ce.queue_free()
+	pass
 
 
 func search(config: Dictionary):
@@ -86,8 +87,8 @@ func to_dict():
 		var title = v.get_title()
 		var cs = []
 		for i in v.grid.get_children():
-			if i is CardView:
-				cs.append(i.data.get_code())
+			if i is CardView2D:
+				cs.append(i.entity.get_code())
 		card_stacks.append({
 			"title": title,
 			"content": cs
@@ -585,7 +586,7 @@ func _on_close_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 

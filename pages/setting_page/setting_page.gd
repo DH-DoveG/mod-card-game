@@ -65,7 +65,7 @@ func _on_quit_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 

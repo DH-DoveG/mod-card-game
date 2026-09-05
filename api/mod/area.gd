@@ -11,7 +11,7 @@ static func require(state: LuaState) -> void:
 	table.set("get_position", state.create_function(get_position))
 	table.set("get_heap", state.create_function(get_heap))
 	# table.set("set_heap", state.create_function(set_heap))
-	table.set("set_controller", state.create_function(set_controller))
+	table.set("set_controllers", state.create_function(set_controllers))
 	table.set("get_controllers", state.create_function(get_controllers))
 	table.set("set_color", state.create_function(set_color))
 	table.set("get_height_level", state.create_function(get_height_level))
@@ -177,14 +177,14 @@ static func get_size() -> LuaTable:
 	return ModManager.state.create_table(GApiManager.area_api.get_size())
 
 
-static func set_controller(param: LuaTable) -> void:
+static func set_controllers(param: LuaTable) -> void:
 	# 提取参数
 	var id = param["id"] if param["id"] != null else ""
-	var owners = param["owners"].to_array() if param["owners"] != null else []
+	var controllers = param["controllers"].to_array() if param["controllers"] != null else []
 	var mode = param["mode"] if param["mode"] != null else "APPEND"
 	# 执行业务逻辑
-	# print("set_owner=", id, " --- ", owners, " --- ", mode)
-	GApiManager.area_api.rpc("set_area_owner", id, owners, mode)
+	# print("set_controllers=", id, " --- ", controllers, " --- ", mode)
+	GApiManager.area_api.rpc("set_controllers", id, controllers, mode)
 
 
 static func set_color(param: LuaTable) -> void:
@@ -261,7 +261,7 @@ static func find_condition(param: LuaTable) -> LuaTable:
 	var tags = param["tags"].to_array() if param["tags"] != null else []
 	var areas = param["areas"].to_array() if param["areas"] != null else []
 	var kinds = param["kinds"].to_array() if param["kinds"] != null else []
-	var owners = param["owners"].to_array() if param["owners"] != null else []
+	var controllers = param["controllers"].to_array() if param["controllers"] != null else []
 	var positions = param["positions"].to_array() if param["positions"] != null else []
 	var mode = param["mode"] if param["mode"] != null else "ID"
 	# 校准参数
@@ -270,7 +270,7 @@ static func find_condition(param: LuaTable) -> LuaTable:
 	if tags.size(): arg["tags"] = tags
 	if areas.size(): arg["areas"] = areas
 	if kinds.size(): arg["kinds"] = kinds
-	if owners.size(): arg["owners"] = owners
+	if controllers.size(): arg["controllers"] = controllers
 	if positions.size(): arg["positions"] = positions
 	# 执行业务逻辑
 	var result = GApiManager.area_api.find_condition(arg, mode)

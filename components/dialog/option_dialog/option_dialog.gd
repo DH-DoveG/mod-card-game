@@ -21,8 +21,8 @@ func get_value():
 func set_value(param: Dictionary) -> void:
 	super(param)
 	_build_list(param["list"])
-	if param["can_hide"] == false:
-		$Background/Visible.hide()
+	#if param["can_hide"] == false:
+		#$Background/Visible.hide()
 	if param.get("value"):
 		$Dialog/LineEdit.selected = list.find(param["value"])
 

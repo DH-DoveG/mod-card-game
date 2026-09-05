@@ -1,6 +1,7 @@
 extends PopupMenu
 
 var behaviors = []
+var card_entity: CardEntity
 
 #
 func _ready() -> void:
@@ -11,15 +12,13 @@ func _ready() -> void:
 
 func show_menu(pos, _behaviors, _entity: CardEntity) -> bool:
 	behaviors = _behaviors
+	card_entity = _entity
 	var scene = get_tree().current_scene
-	print("SHOW MENU 1")
 	if scene is not Battle:
 		return false
-	print("SHOW MENU 2")
 	var battle: Battle = scene
 	if battle.in_option:
 		return false
-	print("SHOW MENU 3")
 	# 直接默认挂载的是卡片
 	var mount_name: String = _entity.name
 	var can = false
@@ -28,36 +27,31 @@ func show_menu(pos, _behaviors, _entity: CardEntity) -> bool:
 			if mount_name in battle.battle_data_bind_list.player_bind_cards_of_controller[k]:
 				if k == battle.host_player_id:
 					can = true
-	print("SHOW MENU 4 : ", mount_name)
 	if not can: return false
-	print("SHOW MENU 5")
 	clear()
 	var id = 0
-	print("检查是否有行为可发动")
-	for behavior: Behavior in behaviors:
+	
+	var bt = Behavior.BehaviorTrigger.new()
+	bt.trigger = battle.host_player_id
+	bt.origin = _entity.name
+	
+	for bname: String in behaviors:
+		var behavior: Behavior = scene.behaviors[bname]
+		bt.code = bname
 		var info = behavior.get_info()
-		var check_launch = await behavior.check_launch()
-		var check_cost = await behavior.check_cost()
-		print("check_launch: ", check_launch, " | check_cost: ", check_cost)
+		var check_launch = await behavior.check_launch(bt, {})
+		var check_cost = await behavior.check_cost(bt, {})
 		if check_launch and check_cost:
 			add_item("【" + info["type"] + "】" + info["name"], id)
 		id += 1
 	if item_count == 0:
-		print("无可发动效果")
 		queue_free()
 		return false
-	print("SHOW MENU 6")
 	popup()
 	var _pos = pos
 	_pos.x -= float(size.x) / 2
 	_pos.y -= (size.y + 78)
 	position = _pos
-
-	# FIXME: 先随便写写
-	# 不知所谓
-	#if get_node()
-	#get_parent().get_node("../Area3D/CollisionShape3D").disabled = true
-
 	return true
 
 
@@ -78,12 +72,16 @@ func _on_id_pressed(id: int) -> void:
 		return
 	if battle.in_option:
 		return
-	var behavior_entry = behaviors[id]
+	var behavior_entry: Behavior = battle.behaviors[behaviors[id]]
 	#var check_launch = await behavior_entry.check_launch()
 	#var check_cost = await behavior_entry.check_cost()
 	#if !check_launch or !check_cost:
 		#return
-	behavior_entry.launch({
+	var bt = Behavior.BehaviorTrigger.new()
+	bt.code = behavior_entry.get_info()["code"]
+	bt.trigger = battle.host_player_id
+	bt.origin = card_entity.name
+	behavior_entry.launch(bt, {
 		trigger = (Utils.get_current_scene() as Battle).host_player_id
 	})
 

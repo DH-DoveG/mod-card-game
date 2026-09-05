@@ -49,7 +49,6 @@ func __tick_tags() -> void:
 
 
 func __tick_behaviors() -> void:
-	print(">> ", LuaUtils.table_to_dictionary(meta["entity"]["behaviors"]))
 	if meta["entity"]:
 		behaviors = meta["entity"]["behaviors"].to_array()
 

@@ -150,7 +150,7 @@ func reload_config() -> void:
 				self
 			) \
 			.with_parameters({}) \
-			.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+			# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 			.start()
 		)
 		dup.get_node("Btns/SC/BeClient").pressed.connect(func():
@@ -173,7 +173,7 @@ func reload_config() -> void:
 				self
 			) \
 			.with_parameters({}) \
-			.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+			# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 			.start()
 		)
 		dup.get_node("Btns/HBox/Edit").pressed.connect(func():
@@ -246,5 +246,5 @@ func _on_exit_page_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()

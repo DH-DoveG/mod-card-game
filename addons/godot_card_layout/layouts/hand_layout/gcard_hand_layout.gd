@@ -148,6 +148,7 @@ func _reset_positions(reculculate_curve:bool = false, animated:bool = true):
 			target_scale = dragging_scale
 		else:
 			var layout_info:GCardLayoutInfo = layout_infos[position_index]
+			target_position = layout_info.position + Vector2(-card.size.x / 2, -card.size.y) 
 			target_position = layout_info.position
 			target_rotation = layout_info.rotation
 			if i == hovered_index:

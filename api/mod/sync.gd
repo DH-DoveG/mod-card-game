@@ -37,26 +37,7 @@ static func wait(param) -> Signal:
 		if await_wrappers.has(id):
 			var aw = await_wrappers[id]
 			var law = ModManager.LuaAwaitWrapper.create(func(_aw): 
-				# var _param = _aw["param"]
-				# var _method: LuaFunction = _aw["method"]
-				# var _res = _method.invoke(_param)
-				# # 如果执行的返回值是携程，需要等待携程完成
-				# if _res is LuaCoroutine:
-				# 	var error = _res.resume(_param)
-				# 	if error is LuaError:
-				# 		assert(false, "Async: [wait] 错误：" + error.message)
-				# 	if _res.status == LuaCoroutine.STATUS_YIELD:
-				# 		_res = await _res.completed
-				# 	else:
-				# 		_res = error
-				# # 如果执行的返回值是信号，需要等待信号触发
-				# if _res is Signal:
-				# 	_res = await _res
-				# if _res is LuaError:
-				# 	assert(false, "Async: [wait] 错误：" + _res.message)
-				# return _res
 				return await ModManager.run_lua_function(_aw["method"], _aw["param"])
-				
 			, aw)
 			law.id = id
 			law_list.append(law)
@@ -64,14 +45,29 @@ static func wait(param) -> Signal:
 	laws.start()
 	return laws.await_all_completed
 
+#{ 
+	#"param": { 
+		#1: { 
+			#"behavior_id": {  }, 
+			#"params": { "player_id": "PLAYER_1", "card_owner": "CARD_00000006" }, 
+			#"method": [LuaFunction:0x162679d6ae0] 
+			#} 
+		#}, 
+	#"method": [LuaFunction:0x1624d08d1a0] 
+#}
+
 
 static func create_sync(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_param):
 		var co = param["method"]
 		var arg = param["param"]
-		var _self = param["self"]
-		var _invoke_mode = param["mode"] if param["mode"] != null else "TABLE"
-		# await Utils.get_scene_tree().process_frame
-		var res = await ModManager.run_lua_function(co, arg, _self, _invoke_mode)
+		var mode = param["mode"] if param["mode"] != null else "TABLE"
+		#print("[CORE] create_sync : ", LuaUtils.table_to_dictionary(param))
+		#print("CO = ", co)
+		#print("ARG = ", LuaUtils.table_to_dictionary(arg))
+		#print("MODE = ", mode)
+		if arg:
+			print(">>>> ", arg.to_dictionary())
+		var res = await ModManager.run_lua_function(co, arg, mode)
 		return res
 	, param)

@@ -51,6 +51,14 @@ func _build_btn_item(parent: Node, text: String) -> Button:
 	return btn
 
 
+func _process(_delta: float) -> void:
+	for areamask in _choose_show_areas:
+		var camera: Camera3D = get_tree().current_scene.scene.camera
+		var btn = areamask.get_node("Btn")
+		if btn and camera:
+			btn.position = camera.unproject_position(areamask.position) - Vector2(50, 50)
+
+
 func _set_area_height() -> void:
 	# 设置区域高亮
 	for id in area_ids:
@@ -62,6 +70,7 @@ func _set_area_height() -> void:
 		var areamask: StaticBody3D = preload("res://components/area_mask/area_mask.tscn").instantiate()
 		battle.scene.add_child(areamask)
 		areamask.position = pos
+		areamask.name = id
 		
 		areamask.mouse_entered.connect(func():
 			if id in chooses:

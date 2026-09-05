@@ -2,6 +2,7 @@ extends Battle
 
 
 @onready var player_panel = $UI/PlayerPanel
+@onready var player_hand_view: Control = $UI/PlayerHandView
 
 var switch_visual_count = 0
 const visual = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT]

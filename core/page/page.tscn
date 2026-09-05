@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://sby2fmbtgdh7"]
 
 [ext_resource type="Script" uid="uid://c22fnymt6gffx" path="res://core/page/page.gd" id="1_2a72f"]
-[ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="2_hq8bw"]
+[ext_resource type="Texture2D" uid="uid://u5sxuty43mxb" path="res://Screenshot.png" id="2_hq8bw"]
 
 [node name="Page" type="Control" unique_id=900443675]
 layout_mode = 3

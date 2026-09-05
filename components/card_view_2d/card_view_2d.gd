@@ -6,6 +6,8 @@ var menu_key = false
 var relevance_menu = null
 var in_free = false
 
+var is_s := false
+
 
 func _ready() -> void:
 	add_to_group(&"CardView2D")
@@ -73,28 +75,46 @@ func set_outline(k: bool):
 	$RR.visible = k
 
 
-func _on_pressed() -> void:
-	if menu_key:
-		var gp = global_position
-		gp.y += 60
-		gp.x += 120
-		var battle: Battle = Utils.get_current_scene()
-		var pos = gp
-		var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
-		battle.add_child(menu)
-		menu.show_menu(pos, entity.behaviors, entity)
-		menu.popup_hide.connect(func():
-			menu.queue_free()
-		)
-		relevance_menu = menu
-
-
 func _on_mouse_entered() -> void:
-	Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
-		"params": entity
-	})
+	if Utils.get_current_scene().get("event_manager") != null:
+		Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+			"params": entity
+		})
+	
 	set_outline(true)
+	
+	if menu_key:
+		is_s = true
+		
+		await get_tree().create_timer(0.25).timeout
+		if is_s == false: return
+		var gp = global_position
+		gp.y -= size.y * scale.y / 3
+		gp.x += size.x * scale.x / 2
+		# var battle: Battle = Utils.get_current_scene()
+		var pos = gp
+		# var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
+		var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
+		# battle.add_child(menu)
+		get_tree().current_scene.add_child(n)
+		await n.set_popup(pos, entity.behaviors, entity)
+		# print("POS: ", pos)
+		# print("EB: ", entity.behaviors)
+		# print("E: ", entity)
+		# menu.show_menu(pos, entity.behaviors, entity)
+		if is_instance_valid(n):
+			n.set_exp_mask(get_global_rect())
+			n.set_process(true)
+			# n.tree_exited.connect(func():
+			# 	normallight()
+			# , ConnectFlags.CONNECT_ONE_SHOT)
+		# print("N: ", n)
+		#n.popup_hide.connect(func():
+			#n.queue_free()
+		#)
+		# relevance_menu = n
 
 
 func _on_mouse_exited() -> void:
 	set_outline(false)
+	is_s = false

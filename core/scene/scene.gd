@@ -63,23 +63,23 @@ func enabled_ray(state := true):
 
 func _physics_process(_delta: float) -> void:
 	# 摄像机拖拽
-	if Input.is_action_just_pressed("click"):
-		is_dragging = true
-		last_mouse_pos = get_viewport().get_mouse_position()
-	elif Input.is_action_just_released("click"):
-		is_dragging = false
+	# if Input.is_action_just_pressed("click"):
+	# 	is_dragging = true
+	# 	last_mouse_pos = get_viewport().get_mouse_position()
+	# elif Input.is_action_just_released("click"):
+	# 	is_dragging = false
 	
-	if is_dragging:
-		var current_mouse_pos := get_viewport().get_mouse_position()
-		var delta := current_mouse_pos - last_mouse_pos
-		if delta.length() > 0:
-			var right := camera.global_transform.basis.x
-			var forward := -camera.global_transform.basis.z
-			var move_x := Vector3(right.x, 0, right.z).normalized() * delta.x * DRAG_SENSITIVITY
-			var move_z := Vector3(forward.x, 0, forward.z).normalized() * delta.y * DRAG_SENSITIVITY
-			camera.position -= move_x - move_z
-		last_mouse_pos = current_mouse_pos
-		return
+	# if is_dragging:
+	# 	var current_mouse_pos := get_viewport().get_mouse_position()
+	# 	var delta := current_mouse_pos - last_mouse_pos
+	# 	if delta.length() > 0:
+	# 		var right := camera.global_transform.basis.x
+	# 		var forward := -camera.global_transform.basis.z
+	# 		var move_x := Vector3(right.x, 0, right.z).normalized() * delta.x * DRAG_SENSITIVITY
+	# 		var move_z := Vector3(forward.x, 0, forward.z).normalized() * delta.y * DRAG_SENSITIVITY
+	# 		camera.position -= move_x - move_z
+	# 	last_mouse_pos = current_mouse_pos
+	# 	return
 	
 	var mouse_pos := get_viewport().get_mouse_position()
 	

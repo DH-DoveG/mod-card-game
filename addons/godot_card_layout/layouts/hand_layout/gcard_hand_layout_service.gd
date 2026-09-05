@@ -91,9 +91,9 @@ func sample_curve() -> Array[GCardLayoutInfo]:
 			var i_diff = i - hovered_index
 			if i_diff < 0:
 				# Cards left to the hovered card.
-				layout_info.position.x -= hover_padding
+				layout_info.position.x -= hover_padding / 2
 			else:
-				layout_info.position.x += hover_padding
+				layout_info.position.x += hover_padding * 4
 				# Cards right to the hovered card.
 		result.append(layout_info)
 	return result

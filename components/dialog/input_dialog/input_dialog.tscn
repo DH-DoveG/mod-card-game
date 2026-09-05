@@ -16,6 +16,10 @@ offset_bottom = 92.0
 offset_top = 36.0
 offset_bottom = -101.0
 
+[node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
+offset_left = 16.0
+offset_right = -16.0
+
 [node name="VBox" type="VBoxContainer" parent="Dialog" index="3" unique_id=87679161]
 layout_mode = 1
 anchors_preset = 15

@@ -82,28 +82,31 @@ static func do_mod_file(file_path: String) -> Variant:
 		assert(false, "DO MOD FILE ERROR: " + load_table.message)
 	return load_table
 
-static func run_lua_function(method, param, _self = null, _invoke_type = "TABLE") -> Variant:
+static func run_lua_function(method, param, mode = "TABLE") -> Variant:
 	assert(method is LuaFunction, "run_lua_function: method is not LuaFunction")
 	var _res = null
-	if _self:
-		_res = method.invoke(_self, param)
+	var _p = null
+	if param != null:
+		if mode == "TABLE":
+			_p = param
+			_res = method.invoke(_p)
+		else:
+			_p = param.to_array()
+			_res = method.invokev(_p)
 	else:
-		if _invoke_type == "TABLE":
-			_res = method.invoke(param)
-		elif _invoke_type == "ARRAY":
-			_res = method.invokev(param.to_array())
+		_res = method.invoke()
 	# 如果执行的返回值是携程，需要等待携程完成
 	if _res is LuaCoroutine:
 		var error = null
-		if _self:
-			error = _res.resume(_self, param)
+		if _p != null:
+			if mode == "TABLE":
+				error = _res.resume(_p)
+			else:
+				error = _res.resumev(_p)
 		else:
-			if _invoke_type == "TABLE":
-				error = _res.resume(param)
-			elif _invoke_type == "ARRAY":
-				error = _res.resumev(param.to_array())
+			error = _res.resume()
 		if error is LuaError:
-			assert(false, "Async: [wait] 错误：" + error.message)
+			assert(false, error.message)
 		if _res.status == LuaCoroutine.STATUS_YIELD:
 			_res = await _res.completed
 		else:
@@ -123,17 +126,17 @@ static func set_package_paths(paths: Array) -> void:
 	pp = pp.replace("/", "\\")
 	state.globals["package"]["path"] = pp
 
-static func lua_dump(path: String) -> PackedByteArray:
-	var lua_state = LuaState.new()
-	lua_state.open_libraries(LuaState.ALL_LIBS)
-	#GResourceManager.
-	var source = """
-	function foo1(v) return v + 1 end
-	local bc = string.dump(foo1)
-	return (bc:gsub('.', function(c) return string.format("%02x", c:byte()) end))
-	"""
-	var lf1: String = lua_state.do_string(source)
-	return lf1.hex_decode()
+#static func lua_dump(path: String) -> PackedByteArray:
+	#var lua_state = LuaState.new()
+	#lua_state.open_libraries(LuaState.ALL_LIBS)
+	##GResourceManager.
+	#var source = """
+	#function foo1(v) return v + 1 end
+	#local bc = string.dump(foo1)
+	#return (bc:gsub('.', function(c) return string.format("%02x", c:byte()) end))
+	#"""
+	#var lf1: String = lua_state.do_string(source)
+	#return lf1.hex_decode()
 
 static func reset_state() -> void:
 	state = LuaState.new()

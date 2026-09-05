@@ -21,7 +21,8 @@ func _ready() -> void:
 		else:
 			path = ConfigManager.page_config.get("DEFAULT_PAGE")
 			if path == null:
-				background.texture = load("res://assets/images/background/hex2.jpg")
+				#background.texture = load("res://assets/images/background/hex2.jpg")
+				background.texture = load("res://Screenshot.png")
 				return
 			texture = GResourceManager.get_image_resoure(path)
 			if texture:

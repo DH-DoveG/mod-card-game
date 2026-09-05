@@ -98,6 +98,7 @@ static func get_ownership(param: LuaTable) -> String:
 
 
 static func get_controller(param: LuaTable) -> String:
+	# print("[CORE] get_controller : ", LuaUtils.table_to_dictionary(param))
 	var card_id = param["id"]
 	return GApiManager.card_api.get_controller(card_id)
 

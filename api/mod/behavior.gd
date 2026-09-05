@@ -4,8 +4,8 @@ class_name ModBehaviorApi
 
 static func require(state: LuaState) -> void:
 	var table = state.create_table()
-	table.set("get_behavior", state.create_function(get_behavior))
-	table.set("get_ownership", state.create_function(get_ownership))
+	#table.set("get_behavior", state.create_function(get_behavior))
+	#table.set("get_ownership", state.create_function(get_ownership))
 	table.set("append_entity", state.create_function(append_entity))
 	table.set("remove_entity", state.create_function(remove_entity))
 	table.set("get_all", state.create_function(get_all))
@@ -28,14 +28,19 @@ static func get_can_launch_behaviors(param: LuaTable) -> Signal:
 			entity = FindUtils.find_area(id)
 		else:
 			return
-		for b: Behavior in entity.behaviors:
-			var cl = await b.check_launch(cl_arg)
+		
+		var bt := Behavior.BehaviorTrigger.new()
+		bt.origin = entity.name
+		
+		var scene: Battle = Utils.get_current_scene()
+		for bcode in entity.behaviors:
+			bt.code = bcode
+			var b = scene.behaviors[bcode]
+			var cl = await b.check_launch(bt, cl_arg)
 			if not cl: continue
 			var cc = await b.check_cost()
 			if not cc: continue
 			result.append(b.data)
-		# print("get_can_launch_behaviors : result = ", result)
-		# print("---> ", LuaUtils.table_to_dictionary(LuaUtils.array_to_table(result)))
 		return LuaUtils.array_to_table(result)
 	, param)
 
@@ -47,26 +52,26 @@ static func get_all(param: LuaTable) -> LuaTable:
 	return LuaUtils.array_to_table(result)
 
 
-static func get_behavior(param: LuaTable) -> Variant:
-	var id = param["id"] if param["id"] != null else ""
-	if not id: return null
-	return FindUtils.find_behavior(id).data
+#static func get_behavior(param: LuaTable) -> Variant:
+	#var id = param["id"] if param["id"] != null else ""
+	#if not id: return null
+	#return FindUtils.find_behavior(id).data
 
 
-static func get_ownership(param: LuaTable) -> Variant:
-	var id = param["id"] if param["id"] != null else ""
-	var mode = param["mode"] if param["mode"] != null else "ID"
-	if not id: return null
-	if typeof(mode) != TYPE_STRING:
-		return null
-	var ownership = GApiManager.behavior_api.get_ownership(id)
-	if ownership == null:
-		return null
-	if mode == "ID":
-		return ownership.name
-	print("get_ownership : entity.id = ", ownership.meta["entity"]["id"])
-	#return ownership.entity.meta
-	return ownership.meta
+#static func get_ownership(param: LuaTable) -> Variant:
+	#var id = param["id"] if param["id"] != null else ""
+	#var mode = param["mode"] if param["mode"] != null else "ID"
+	#if not id: return null
+	#if typeof(mode) != TYPE_STRING:
+		#return null
+	#var ownership = GApiManager.behavior_api.get_ownership(id)
+	#if ownership == null:
+		#return null
+	#if mode == "ID":
+		#return ownership.name
+	#print("get_ownership : entity.id = ", ownership.meta["entity"]["id"])
+	##return ownership.entity.meta
+	#return ownership.meta
 
 
 # FIXME: 这里增加 behavior 需要使用 路径参数

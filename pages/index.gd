@@ -22,6 +22,20 @@ func _ready() -> void:
 	#LimboConsole.info("arr: ~~~~")
 	#LimboConsole.execute_command()
 	#LimboConsole.toggle_console()
+	
+	#var t = ModManager.state.do_string("""
+	#return {
+		#a = {
+			#b = {},
+			#c = {},
+			#d = {
+				#e = 0,
+				#f = 1
+			#}
+		#}
+	#}
+	#""")
+	#print(LuaUtils.table_to_dictionary(t))
 
 #
 ##func arr(a: Array) -> void:
@@ -42,7 +56,7 @@ func _on_mod_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	#.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 
@@ -58,7 +72,7 @@ func _on_game_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 
@@ -69,7 +83,7 @@ func _on_deck_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 
@@ -80,7 +94,7 @@ func _on_pack_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 
@@ -91,7 +105,7 @@ func _on_setting_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 
@@ -102,5 +116,5 @@ func _on_resource_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()

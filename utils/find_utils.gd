@@ -64,10 +64,10 @@ static func find_condition_areas(condition: Dictionary, areas: Array = []) -> Ar
 	for area: AreaEntity in areas:
 		if area.name.begins_with("AREA_INLAY_"):
 			continue
-		if condition.has("owners"):
+		if condition.has("controllers"):
 			var k = false
-			for owner in condition["owners"]:
-				if owner in battle.battle_data_bind_list.area_bind_players[area.name]:
+			for controllers in condition["controllers"]:
+				if controllers in battle.battle_data_bind_list.area_bind_players[area.name]:
 					k = true
 					break
 			if not k: continue

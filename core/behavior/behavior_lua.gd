@@ -1,12 +1,11 @@
 extends Behavior
 class_name BehaviorLua
-#
-#func _ready() -> void:
-	#super()
+
+func _run_function(fun: String, arg):
+	return await ModManager.run_lua_function(data[fun], arg, "ARRAY")
 
 func init_data(init):
 	data = init
-	#name = data["id"]
 
 func get_info() -> Dictionary:
 	if data is not LuaTable:
@@ -15,49 +14,35 @@ func get_info() -> Dictionary:
 	return {
 		"name": table.get("name", ""),
 		"type": table.get("type", ""),
-		"description": table.get("description", "")
+		"description": table.get("description", ""),
+		"code": table.get("code", "")
 	}
 
 # 支付行为代价
-func cost():
-	var cost_value = data.get("cost")
-	if cost_value is not LuaFunction:
-		return
-	var cost_func: LuaFunction = cost_value
-	cost_func.invoke(data)
+func cost(bt: BehaviorTrigger, arg):
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	await _run_function("cost", _table)
 
 # 发动行为
-func launch(arg) -> void:
-	var _table = LuaUtils.dictionary_to_table(arg)
-	await ModManager.run_lua_function(data.get("launch"), _table, data)
+func launch(bt: BehaviorTrigger, arg) -> void:
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	await _run_function("launch", _table)
 
 # 执行行为
-func execute(arg):
-	var execute_value = data.get("execute")
-	if execute_value is not LuaFunction:
-		return
-	var execute_func: LuaFunction = execute_value
-	execute_func.invoke(data, arg)
+func execute(bt: BehaviorTrigger, arg):
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	await _run_function("execute", _table)
 
 # 检查是否可支付代价
-func check_cost() -> bool:
-	if await super() == false:
-		return false
-	var _table = ModManager.state.create_table({})
-	# print("check_cost")
-	return await ModManager.run_lua_function(data.get("check_cost"), _table, data)
+func check_cost(bt: BehaviorTrigger, arg) -> bool:
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	return await _run_function("check_cost", _table)
 
 # 检查是否可发动行为
-func check_launch(args = {}) -> bool: 
-	var _table = args
-	if _table is not LuaTable:
-		_table = ModManager.state.create_table(args)
-	# print("check_launch")
-	return await ModManager.run_lua_function(data.get("check_launch"), _table, data)
+func check_launch(bt: BehaviorTrigger, arg) -> bool:
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	return await _run_function("check_launch", _table)
 
-func hook_callback(arg: Variant) -> Variant:
-	var callback_value = data.get("hook_callback")
-	if callback_value is not LuaFunction:
-		return null
-	var callback_func: LuaFunction = callback_value
-	return callback_func.invoke(data, arg)
+func hook_callback(bt: BehaviorTrigger, name: String, arg: Variant) -> Variant:
+	var _table = LuaUtils.array_to_table([data, bt.to_dict(), name, arg])
+	return await _run_function("hook_callback", _table)

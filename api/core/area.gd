@@ -68,7 +68,7 @@ func remove(id: String) -> Array:
 	return area_on_cards
 
 @rpc("any_peer", "call_local", "reliable")
-func set_area_owner(id: String, owners: Array, mode: String) -> void:
+func set_controllers(id: String, controllers: Array, mode: String) -> void:
 	if not Utils.is_battle_scene(): return
 	var battle: Battle = Utils.get_current_scene()
 	# 获取绑定表
@@ -76,18 +76,18 @@ func set_area_owner(id: String, owners: Array, mode: String) -> void:
 	#var areas = battle.battle_data_bind_list["area"]
 	if battle.battle_data_bind_list.area_bind_players.get(id) == null:
 		battle.battle_data_bind_list.area_bind_players[id] = PackedStringArray()
-	var area_owners = battle.battle_data_bind_list.area_bind_players[id]
+	var area_controllers = battle.battle_data_bind_list.area_bind_players[id]
 	# 设置模式
 	match mode:
 		"APPEND":
-			for _owner in owners:
-				if _owner not in area_owners:
-					area_owners.append(_owner)
+			for _controller in controllers:
+				if _controller not in area_controllers:
+					area_controllers.append(_controller)
 		"REPLACE":
-			area_owners = PackedStringArray(owners)
+			area_controllers = PackedStringArray(controllers)
 		"REMOVE":
-			for _owner in owners:
-				area_owners.erase(_owner)
+			for _controller in controllers:
+				area_controllers.erase(_controller)
 
 @rpc("any_peer", "call_local", "reliable")
 func set_color(id: String, color: Variant) -> void:

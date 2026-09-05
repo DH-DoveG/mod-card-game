@@ -62,7 +62,7 @@ func game_end(wins, loses, dogfall) -> void:
 		scene
 	) \
 	.with_parameters(scene._play_meta_config) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
+	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
 
 @rpc("any_peer", "call_local", "reliable")

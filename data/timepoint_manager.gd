@@ -119,19 +119,46 @@ class TimepointQueue:
 		# 处理时点
 		# print(">>>> 处理开始：", item["header"]["name"])
 		var res = await ModManager.LuaAwaitWrapper.create_starter(func(__):
-			var _owner = item["body"]["owner"]
+			var body = item["body"]
+			#var _owner = item["body"]["owner"]
+			var _method = body["method"]
+			var _params = body["params"]
+			var _params_mode: String = body["params_mode"] if body["params_mode"] else "TABLE"
 			var _res = null
-			if typeof(_owner) == TYPE_STRING and not _owner.is_empty():
-				_owner = FindUtils.find_behavior(_owner).data
-				_res = item["body"]["method"].invoke(_owner, item["body"]["params"], queue)
+			#if typeof(_owner) == TYPE_STRING and not _owner.is_empty():
+				#_owner = FindUtils.find_behavior(_owner).data
+				#_res = item["body"]["method"].invoke(_owner, item["body"]["params"], queue)
+			#else:
+				#_res = item["body"]["method"].invoke(item["body"]["params"], queue)
+			#_res = item["body"]["method"].invokev()
+			
+			print("TIMEPOINT MANAGER :: step :: body > ", LuaUtils.table_to_dictionary(body))
+			print("TIMEPOINT MANAGER :: step :: method > ", _method)
+			print("TIMEPOINT MANAGER :: step :: params > ", _params)
+			print("TIMEPOINT MANAGER :: step :: params_mode > ", _params_mode)
+			
+			if _params_mode == "ARRAY":
+				var arr = _params.to_array()
+				arr.append(queue)
+				print("=== ARRAY : ", arr)
+				_res = _method.invokev(arr)
 			else:
-				_res = item["body"]["method"].invoke(item["body"]["params"], queue)
+				_res = _method.invoke(_params, queue)
+			
 			if _res is LuaCoroutine:
 				var error = null
-				if _owner != null:
-					error = _res.resume(_owner, item["body"]["params"], queue)
+				#if _owner != null:
+					#error = _res.resume(_owner, item["body"]["params"], queue)
+				#else:
+					#error = _res.resume(item["body"]["params"], queue)
+				if _params_mode == "ARRAY":
+					var arr = _params.to_array()
+					arr.append(queue)
+					print("=== ARRAY : ", arr)
+					error = _res.resumev(arr)
 				else:
-					error = _res.resume(item["body"]["params"], queue)
+					error = _res.resume(_params, queue)
+				# 发生错误时
 				if error is LuaError:
 					assert(false, "TimepointManager: sort_timepoint_queue: LuaError: " + error.message)
 				if _res.status == LuaCoroutine.STATUS_YIELD:
@@ -147,7 +174,10 @@ class TimepointQueue:
 		# print("进行连锁检查：", chain_count)
 		var launch = await Utils.get_current_scene().timepoint_manager.timepoint_queue_sort_method.call(Utils.get_current_scene().timepoint_manager.rr_meta, queue, context)
 		context = launch["context"] # 更新上下文
+		
 		if launch["chain"] != null:
+			var bt = Behavior.BehaviorTrigger.new()
+			
 			chain_count += 1
 			# 调用 launch 的 behavior
 			var behavior: Behavior = FindUtils.find_behavior(launch["chain"]["behavior"])
@@ -155,7 +185,7 @@ class TimepointQueue:
 			# * 这里的launch是不允许用户取消的，因为用户先前已经确认了发动
 			# 但是因为可能需要执行将卡选取位置摆放的操作，所以需要等待其完成
 			# in_executing = true
-			await (behavior as BehaviorLua).launch({
+			await (behavior as BehaviorLua).launch(bt, {
 				"trigger": launch["chain"]["player"],
 				"ban_cancel": true, # 不可取消的发动
 				"event": {

@@ -70,6 +70,9 @@ static func get_event(param: LuaTable) -> Variant:
 
 static func call_event(param: LuaTable) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
+		
+		print("[CORE] call_event: ", LuaUtils.table_to_dictionary(param))
+		
 		var event = param["event"]
 		# 其他的配置 config 作为动画演出效果，在这里处理
 		# animate
@@ -80,35 +83,14 @@ static func call_event(param: LuaTable) -> Signal:
 			unlock = config["unlock"]
 		
 		# ##### 表现效果
-		if event["header"]["type"] == "EFFECT":
-			var c = GApiManager.behavior_api.get_ownership(event["header"]["trigger"])
-			var b = FindUtils.find_behavior(event["header"]["trigger"])
-			var a = GApiManager.card_api.get_area(c.name)
-			var area = ""
-			var behavior_info = b.get_info()
-			if a["area_id"]:
-				area = "Scene"
-			else:
-				area = a["type"]
-			if behavior_info["name"]:
-				ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s][%s]）" % [area, c.name, behavior_info["type"], behavior_info["name"]])
-			else:
-				ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s]）" % [area, c.name, behavior_info["type"]])
-			
-			if config.has("animate") and config["animate"] == "Default":
-				var sound = ""
-				if config.has("sound"):
-					sound = config["sound"]
-				await GApiManager.view_api.card_effect_show("【" + behavior_info["type"] + "】" + behavior_info["name"], behavior_info["description"], area, c.image, sound)
-		else:
-			pass
+		#effect_animate(event, config)
 		# #####
 
 		var table = null
 		var timepoint_queue = Utils.get_current_scene().timepoint_manager.create_timepoint_queue()
 
 		if timepoint_queue.in_executing and unlock:
-			# print("创建 sub 时点列表")
+			print("创建 sub 时点列表")
 			var tq = timepoint_queue.get_last_sub_timepoint_queue()
 			var sub = Utils.get_current_scene().timepoint_manager.TimepointQueue.new()
 			tq.set_sub_timepoint_queue(sub)
@@ -117,14 +99,14 @@ static func call_event(param: LuaTable) -> Signal:
 			await sub.finished
 			table = sub.finished_queue
 			tq.sub_timepoint_queue = null
-			# print("sub 时点列表处理完毕")
+			print("sub 时点列表处理完毕")
 		else:
 			timepoint_queue.append_event(event)
 			timepoint_queue.start()
 			await timepoint_queue.finished
 			table = timepoint_queue.finished_queue
 			Utils.get_current_scene().timepoint_manager.timepoint_queue = null
-			# print("时点队列处理完毕，队列已销毁")
+			print("时点队列处理完毕，队列已销毁")
 		return table
 	, param)
 
@@ -192,3 +174,25 @@ static func set_area_info_show_method(param) -> void:
 
 static func has_timepoint_queue() -> bool:
 	return Utils.get_current_scene().timepoint_manager.timepoint_queue != null
+
+static func effect_animate(event, config):
+	if event["header"]["type"] == "EFFECT":
+		var c = GApiManager.behavior_api.get_ownership(event["header"]["trigger"])
+		var b = FindUtils.find_behavior(event["header"]["trigger"])
+		var a = GApiManager.card_api.get_area(c.name)
+		var area = ""
+		var behavior_info = b.get_info()
+		if a["area_id"]:
+			area = "Scene"
+		else:
+			area = a["type"]
+		if behavior_info["name"]:
+			ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s][%s]）" % [area, c.name, behavior_info["type"], behavior_info["name"]])
+		else:
+			ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s]）" % [area, c.name, behavior_info["type"]])
+		
+		if config.has("animate") and config["animate"] == "Default":
+			var sound = ""
+			if config.has("sound"):
+				sound = config["sound"]
+			await GApiManager.view_api.card_effect_show("【" + behavior_info["type"] + "】" + behavior_info["name"], behavior_info["description"], area, c.image, sound)
