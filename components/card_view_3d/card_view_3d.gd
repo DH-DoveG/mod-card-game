@@ -64,13 +64,13 @@ func hightlight():
 	if origin_basis == null:
 		origin_basis = self.global_transform.basis
 	
-	print("==========================================")
-	print(">> ", scene.scene.camera)
-	print("obp : ", origin_body_pos)
-	print("onp : ", origin_nciv_pos)
-	print("onr : ", origin_nciv_ration)
-	print("ob : ", origin_basis)
-	
+	#print("==========================================")
+	#print(">> ", scene.scene.camera)
+	#print("obp : ", origin_body_pos)
+	#print("onp : ", origin_nciv_pos)
+	#print("onr : ", origin_nciv_ration)
+	#print("ob : ", origin_basis)
+	#
 	var _dir: Vector3 = (scene.scene.camera.global_position - origin_body_pos).normalized()
 	
 	var bd = origin_body_pos + _dir * 0.75
@@ -99,14 +99,17 @@ func hightlight():
 	
 	await tween.finished
 	
+	var msr = get_mesh_screen_rect()
+	
 	var pos = scene.scene.camera.unproject_position(global_position)
-	pos.y -= 160
+	pos.y -= msr.size.y / 2 # 160
+	pos.y -= 10
 	
 	var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
 	get_tree().current_scene.add_child(n)
 	await n.set_popup(pos, entity.behaviors, entity)
 	if is_instance_valid(n):
-		n.set_exp_mask(get_mesh_screen_rect())
+		n.set_exp_mask(msr)
 		n.set_process(true)
 		n.tree_exited.connect(func():
 			normallight()
@@ -127,13 +130,13 @@ func normallight():
 	is_normallight_ing = true
 	
 	$NeoCardInfoView3D.set_rander_priority(2)
-	
-	print("==========================================")
-	#print("<< ", scene.scene.camera)
-	print("obp : ", origin_body_pos)
-	print("onp : ", origin_nciv_pos)
-	print("onr : ", origin_nciv_ration)
-	print("ob : ", origin_basis)
+	#
+	#print("==========================================")
+	##print("<< ", scene.scene.camera)
+	#print("obp : ", origin_body_pos)
+	#print("onp : ", origin_nciv_pos)
+	#print("onr : ", origin_nciv_ration)
+	#print("ob : ", origin_basis)
 	
 	# await get_tree().create_tween().tween_property(self, "global_transform:basis", origin_basis, 0.1).finished
 	# get_tree().create_tween().tween_property(self, "global_transform:basis", origin_basis, 0.1)

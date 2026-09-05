@@ -85,34 +85,22 @@ func _on_mouse_entered() -> void:
 	
 	if menu_key:
 		is_s = true
-		
 		await get_tree().create_timer(0.25).timeout
 		if is_s == false: return
 		var gp = global_position
-		gp.y -= size.y * scale.y / 3
+		#print("scale: ", scale)
+		#print("pos1: ", gp)
+		#gp.y -= size.y * scale.y #/ 3
+		gp.y -= 10
 		gp.x += size.x * scale.x / 2
-		# var battle: Battle = Utils.get_current_scene()
+		#print("pos2: ", gp)
 		var pos = gp
-		# var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
 		var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
-		# battle.add_child(menu)
 		get_tree().current_scene.add_child(n)
 		await n.set_popup(pos, entity.behaviors, entity)
-		# print("POS: ", pos)
-		# print("EB: ", entity.behaviors)
-		# print("E: ", entity)
-		# menu.show_menu(pos, entity.behaviors, entity)
 		if is_instance_valid(n):
 			n.set_exp_mask(get_global_rect())
 			n.set_process(true)
-			# n.tree_exited.connect(func():
-			# 	normallight()
-			# , ConnectFlags.CONNECT_ONE_SHOT)
-		# print("N: ", n)
-		#n.popup_hide.connect(func():
-			#n.queue_free()
-		#)
-		# relevance_menu = n
 
 
 func _on_mouse_exited() -> void:

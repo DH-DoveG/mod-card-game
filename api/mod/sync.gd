@@ -66,8 +66,8 @@ static func create_sync(param) -> Signal:
 		#print("CO = ", co)
 		#print("ARG = ", LuaUtils.table_to_dictionary(arg))
 		#print("MODE = ", mode)
-		if arg:
-			print(">>>> ", arg.to_dictionary())
+		#if arg:
+			#print(">>>> ", arg.to_dictionary())
 		var res = await ModManager.run_lua_function(co, arg, mode)
 		return res
 	, param)

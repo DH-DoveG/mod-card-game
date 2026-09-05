@@ -49,9 +49,12 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 				add_item("【" + info["type"] + "】" + info["name"], id)
 			id += 1
 	
+	#print("POS : ", pos)
+	await get_tree().process_frame
 	pos.x -= vbox.size.x / 2
-	pos.y -= vbox.size.y
+	pos.y -= vbox.size.y #/ 4
 	vbox.position = pos
+	#print("SET POPUP : ", vbox.position)
 	if vbox.get_child_count() == 0:
 		pass
 	if scene is Battle:
@@ -59,8 +62,8 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 		scene.scene.enabled_ray(false)
 		scene.player_hand_view.get_node("Hand").set_process(false)
 	
-	#$ColorRect2.size = vbox.size
-	#$ColorRect2.position = vbox.position
+	$ColorRect2.size = vbox.size
+	$ColorRect2.position = vbox.position
 
 
 func add_item(title: String, id: int):
@@ -92,13 +95,13 @@ func add_item(title: String, id: int):
 
 
 func set_exp_mask(rect: Rect2):
-	vbox.position.y -= 10
+	#vbox.position.y -= 10
 	
 	var mr = make_b_touch_a(vbox.get_rect(), rect)
 	mask_rect = mr
 	
-	#$Mask.size = mr.size
-	#$Mask.position = mr.position
+	$Mask.size = mr.size
+	$Mask.position = mr.position
 	#print("MR: ", mr, " | rect: ", rect, " || vbox.get_rect(): ", vbox.get_rect())
 
 
