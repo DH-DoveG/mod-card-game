@@ -22,17 +22,31 @@ func _process(_delta: float) -> void:
 			show()
 
 func update_entity(entity: CardEntity):
+	$InfoView/SubViewport/Info/CardName.text = entity.card_name
+	var values = []
+	for key: String in entity.values:
+		var value: Value = entity.values[key]
+		if value.config:
+			if value.config.get("show_enable") == true:
+				var prefix: String = value.config.get("show_prefix", "")
+				var text = prefix + str(int(value.value))
+				var scolor = value.config.get("show_color")
+				if scolor:
+					text = "[color=" + scolor + "]" + text + "[/color]"
+				values.append(text)
+	$InfoView/SubViewport/Info/CardValues.append_text("[center]" + "/".join(values) + "[/center]")
+	
 	entity.card_quaternion_changed.connect(func():
 		var scene = get_tree().current_scene
 		if scene is Battle:
 			change_dirction(scene.visual_angle)
 		if user.get_front():
 			rotation_order = EULER_ORDER_ZYX
-			$Sprite3D2.show()
+			$ImageView.show()
 		else:
 			rotation_order = EULER_ORDER_YXZ
 			rotation_degrees.z = 180
-			$Sprite3D2.hide()
+			$ImageView.hide()
 	)
 
 func _exit_tree() -> void:
@@ -41,22 +55,22 @@ func _exit_tree() -> void:
 		scene.event_manager.unsubscribe("VISUAL_ANGLE_CHANGED", event_id)
 
 func set_rander_priority(priority):
-	$Sprite3D2.render_priority = priority
-	$Sprite3D.render_priority = priority + 1
+	$ImageView.render_priority = priority
+	$InfoView.render_priority = priority + 1
 
 # 是否立起
 func change_x(status: bool):
 	var tween = get_tree().create_tween().set_parallel(true)
 	if status:
-		tween.tween_property($Sprite3D2, "rotation_degrees:x", -75, 0.2)
-		tween.tween_property($Sprite3D, "rotation_degrees:x", -75, 0.2)
-		tween.tween_property($Sprite3D2, "position:y", 0.14, 0.2)
-		tween.tween_property($Sprite3D, "position:y", 0.14, 0.2)
+		tween.tween_property($ImageView, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($InfoView, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($ImageView, "position:y", 0.14, 0.2)
+		tween.tween_property($InfoView, "position:y", 0.14, 0.2)
 	else:
-		tween.tween_property($Sprite3D2, "rotation_degrees:x", -90, 0.2)
-		tween.tween_property($Sprite3D, "rotation_degrees:x", -90, 0.2)
-		tween.tween_property($Sprite3D2, "position:y", 0.02, 0.2)
-		tween.tween_property($Sprite3D, "position:y", 0.02, 0.2)
+		tween.tween_property($ImageView, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($InfoView, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($ImageView, "position:y", 0.02, 0.2)
+		tween.tween_property($InfoView, "position:y", 0.02, 0.2)
 
 func change_dirction(visual):
 	match visual:

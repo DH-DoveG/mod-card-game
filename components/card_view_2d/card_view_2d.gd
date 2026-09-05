@@ -6,7 +6,11 @@ var menu_key = false
 var relevance_menu = null
 var in_free = false
 
+# 防止在移入并快速移出鼠标后该卡片视图还弹出操作框
 var is_s := false
+
+# 是否启用描边，在关闭时当前描边效果不可变
+var enable_outline := true
 
 func _ready() -> void:
 	add_to_group(&"CardView2D")
@@ -73,14 +77,16 @@ func _on_mouse_entered() -> void:
 			"params": entity
 		})
 
-	set_outline(true)
+	if enable_outline:
+		set_outline(true)
 
 	if menu_key:
 		is_s = true
 		await get_tree().create_timer(0.25).timeout
 		if is_s == false: return
+		
+		enable_outline = false
 		var gp = global_position
-
 		gp.y -= 10
 		gp.x += size.x * scale.x / 2
 		var pos = gp
@@ -90,7 +96,12 @@ func _on_mouse_entered() -> void:
 		if is_instance_valid(n):
 			n.set_exp_mask(get_global_rect())
 			n.set_process(true)
+		n.tree_exited.connect(func():
+			enable_outline = true
+			_on_mouse_exited()
+		)
 
 func _on_mouse_exited() -> void:
-	set_outline(false)
+	if enable_outline:
+		set_outline(false)
 	is_s = false
