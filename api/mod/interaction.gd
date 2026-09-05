@@ -428,6 +428,7 @@ static func show_tab_dialog(param) -> Signal:
 				# await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
 				# Utils.get_current_scene().add_child(await_component)
 				# await_component.set_text("请等待[" + player.name + "]操作")
+				pass
 
 		GApiManager.interaction_api.rpc("player_option", true)
 

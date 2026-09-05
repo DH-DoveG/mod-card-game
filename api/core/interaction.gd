@@ -54,11 +54,12 @@ func show_tab_dialog(config: Dictionary):
 	}
 
 @rpc("any_peer", "call_local", "reliable")
-func show_top_tips(config: Dictionary):
+func show_top_tips(_config: Dictionary):
 	# FIXME: （2）这里需要替换
-	var top_tips = load("res://components/top_tips/top_tips.tscn").instantiate()
-	Utils.get_current_scene().add_child(top_tips)
-	top_tips.set_data(config)
+	# var top_tips = load("res://components/top_tips/top_tips.tscn").instantiate()
+	# Utils.get_current_scene().add_child(top_tips)
+	# top_tips.set_data(config)
+	pass
 
 @rpc("any_peer", "call_local", "reliable")
 func hide_top_tips():
