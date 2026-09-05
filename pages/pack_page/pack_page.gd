@@ -1,19 +1,14 @@
 extends Page
 
-
 # 卡包，可以在这里模拟抽卡说是
 
-
 var cards = {}
-
 
 func _init() -> void:
 	page_id = "PACK_PAGE"
 
-
 func _ready() -> void:
 	_build_view()
-
 
 func _build_view() -> void:
 	for key in GResourceManager.card_resource:
@@ -30,8 +25,6 @@ func _build_view() -> void:
 		# 取： name    image    type
 		var table: LuaTable = res2 as LuaTable
 		cards[key] = table.to_dictionary()
-	# print(cards)
-
 
 func _on_close_pressed() -> void:
 	AsyncScene.new(
@@ -40,5 +33,4 @@ func _on_close_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()

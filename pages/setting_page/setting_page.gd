@@ -1,15 +1,12 @@
 extends Page
 
-
 @onready var panel = $Panel
 @onready var panel_image = $Panel/Image/VBox
 @onready var mod_load_paths = $Panel/Mod/VBox/Item/Paths
 @onready var panel_sound = $Panel/Sound/VBox
 
-
 func _init() -> void:
 	page_id = "SETTING_PAGE"
-
 
 func _ready() -> void:
 	panel.set_tab_title(0, "    画 面 设 置    ")
@@ -18,7 +15,6 @@ func _ready() -> void:
 	_init_mod_set_options()
 	_init_image_set_options()
 	_init_sound_set_options()
-
 
 func _init_image_set_options():
 	# { title: String, property: String, options: [], details: String, choose: int<options.id> }
@@ -36,18 +32,15 @@ func _init_image_set_options():
 		item.show()
 		i += 1
 
-
 func _init_mod_set_options():
 	for config in ConfigManager.setting_mod_config[0]["paths"]:
 		_create_mod_load_path_item(config["path"], config["enable"])
-
 
 func _init_sound_set_options():
 	$Panel/Sound/VBox/Music/HBox/Option.value = ConfigManager.setting_sound_config["music"]["value"]
 	$Panel/Sound/VBox/Music/HBox/CheckBox.button_pressed = ConfigManager.setting_sound_config["music"]["enable"]
 	$Panel/Sound/VBox/Sound/HBox/Option.value = ConfigManager.setting_sound_config["sound"]["value"]
 	$Panel/Sound/VBox/Sound/HBox/CheckBox.button_pressed = ConfigManager.setting_sound_config["sound"]["enable"]
-
 
 func _create_mod_load_path_item(path: String, enable: bool):
 	var item = $Template/ModPathItem.duplicate()
@@ -57,7 +50,6 @@ func _create_mod_load_path_item(path: String, enable: bool):
 	item.get_node("Remove").pressed.connect(func(): item.queue_free())
 	item.show()
 
-
 func _on_quit_pressed() -> void:
 	AsyncScene.new(
 		"res://pages/index.tscn",
@@ -65,16 +57,13 @@ func _on_quit_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_option_pressed() -> void:
 	$ChooseModFolderPathDialog.current_dir = PersistenceUtils.get_exec_path()
 	$ChooseModFolderPathDialog.popup_centered()
 	var _dir = await $ChooseModFolderPathDialog.dir_selected
 	_create_mod_load_path_item(_dir, true)
-
 
 func _on_save_pressed() -> void:
 	var save_image = {}
@@ -104,7 +93,7 @@ func _on_save_pressed() -> void:
 	file.resize(text.length())
 	file.store_string(text)
 	file.close()
-	
+
 	for item in panel_sound.get_children():
 		var v = {
 			"value": item.get_node("HBox/Option").value,
@@ -117,5 +106,5 @@ func _on_save_pressed() -> void:
 	file.resize(text.length())
 	file.store_string(text)
 	file.close()
-	
+
 	ToastUtils.success("设置已保存")

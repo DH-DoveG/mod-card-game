@@ -6,14 +6,12 @@ var values: Dictionary[String, Value] = {}
 var behaviors: Array = []
 var tags = []
 
-
 var meta: Variant:
 	set(_v):
 		meta = _v
 		__tick_values()
 		__tick_tags()
 		__tick_behaviors()
-
 
 func __tick_values() -> void:
 	if meta["entity"]:
@@ -42,16 +40,13 @@ func __tick_values() -> void:
 			)
 			values[__code] = vobj
 
-
 func __tick_tags() -> void:
 	if meta["entity"]:
 		tags = meta["entity"]["tags"].to_array()
 
-
 func __tick_behaviors() -> void:
 	if meta["entity"]:
 		behaviors = meta["entity"]["behaviors"].to_array()
-
 
 func add_behavior(b):
 	behaviors.append(b)

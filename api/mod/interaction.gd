@@ -4,14 +4,13 @@ class_name ModInteractionApi
 static func require(state: LuaState) -> void:
 	var table = state.create_table()
 	table.set("show_select_dialog", state.create_function(show_select_dialog))
-	# table.set("show_throw_dice", state.create_function(show_throw_dice))
+
 	table.set("show_select_card_dialog", state.create_function(show_select_card_dialog))
 	table.set("show_confirm_dialog", state.create_function(show_confirm_dialog))
-	# table.set("show_input_dialog", state.create_function(show_input_dialog))
+
 	table.set("show_choose_areas", state.create_function(show_choose_areas))
 	table.set("show_tab_dialog", state.create_function(show_tab_dialog))
 	state.globals["package"]["loaded"]["std.api.interaction-api"] = table
-
 
 static func show_choose_areas(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
@@ -31,10 +30,12 @@ static func show_choose_areas(param) -> Signal:
 		var scene: Battle = Utils.get_current_scene()
 		var await_component = null
 		if use != scene.host_player_id:
+			# FIXME: （2）这里需要替换
 			# 这里需要显示等待组件
-			await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
-			Utils.get_current_scene().add_child(await_component)
-			await_component.set_text("请等待[" + player.name + "]操作")
+			# await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
+			# Utils.get_current_scene().add_child(await_component)
+			# await_component.set_text("请等待[" + player.name + "]操作")
+			pass
 
 		var pbtns = []
 		for btn in btns:
@@ -80,7 +81,7 @@ static func show_choose_areas(param) -> Signal:
 		var _res = null
 
 		if scene.host_player_id != use:
-			# 1. 将 config 中
+
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:
@@ -112,7 +113,6 @@ static func show_choose_areas(param) -> Signal:
 
 	, param)
 
-
 static func show_select_dialog(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
 		await Utils.get_scene_tree().process_frame
@@ -126,13 +126,14 @@ static func show_select_dialog(param) -> Signal:
 		var scene: Battle = Utils.get_current_scene()
 		var await_component = null
 		if use != scene.host_player_id:
+			# FIXME: （2）这里需要替换
 			# 这里需要显示等待组件
-			await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
-			Utils.get_current_scene().add_child(await_component)
-			await_component.set_text("请等待[" + player.name + "]操作")
+			#await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
+			#Utils.get_current_scene().add_child(await_component)
+			#await_component.set_text("请等待[" + player.name + "]操作")
+			pass
 
 		if not player: return null
-		# # 可以预处理，如果已经预处理了，就直接返回
 		var res = await player.interaction_processing(param)
 		print("[CORE][show_select_dialog]预处理结果: ", res)
 		if res:
@@ -188,14 +189,13 @@ static func show_select_dialog(param) -> Signal:
 
 		# 上面的保留部分用于兼容Robot玩家
 		# 下面需要对于多人游戏时做额外处理
-		# 1. 先根据 use 判断其是否是 host_player_id
-		# 2. 如果是就直接据徐就可，否则判断是否是网络玩家 GNetManager.players 中
+
 		assert(scene is Battle, "Scene is not battle!!!")
 
 		var _res = null
 
 		if scene.host_player_id != use:
-			# 1. 将 config 中
+
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:
@@ -219,11 +219,10 @@ static func show_select_dialog(param) -> Signal:
 
 		if await_component:
 			await_component.queue_free()
-	
+
 		table = LuaUtils.dictionary_to_table(_res)
 		return table
 	, param)
-
 
 static func show_select_card_dialog(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
@@ -237,19 +236,19 @@ static func show_select_card_dialog(param) -> Signal:
 		var await_component = null
 		if scene is Battle:
 			if use != scene.host_player_id:
+				# FIXME: （2）这里需要替换
 				# 这里需要显示等待组件
-				await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
-				Utils.get_current_scene().add_child(await_component)
-				await_component.set_text("请等待[" + player.name + "]操作")
+				# await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
+				# Utils.get_current_scene().add_child(await_component)
+				# await_component.set_text("请等待[" + player.name + "]操作")
+				pass
 
 		if not player: return null
-		# # 可以预处理，如果已经预处理了，就直接返回
 		var res = await player.interaction_processing(param)
 		print("[CORE][show_select_card_dialog](", use,") 预处理结果: ", res)
 		if res:
 			if await_component: await_component.queue_free()
 			return res
-		#######################################
 
 		var _max = _arg["max_num"] if _arg["max_num"] != null else 1
 		var _min = _arg["min_num"] if _arg["min_num"] != null else 0
@@ -271,7 +270,6 @@ static func show_select_card_dialog(param) -> Signal:
 
 		var table = ModManager.state.create_table({})
 
-		# btns
 		var btns = []
 		# 默认值
 		if _btns == null:
@@ -279,7 +277,6 @@ static func show_select_card_dialog(param) -> Signal:
 				{
 					"text": "确定",
 					"callback": func(chooses):
-						# print("默认确认")
 						if chooses.size() < _min:
 							return {
 								"close": false,
@@ -301,7 +298,6 @@ static func show_select_card_dialog(param) -> Signal:
 				btns.append({
 					"text": "取消",
 					"callback": func(chooses):
-						# print("默认取消")
 						return {
 							"close": true,
 							"choose_list": chooses,
@@ -353,8 +349,7 @@ static func show_select_card_dialog(param) -> Signal:
 
 		var _res = null
 		if scene.host_player_id != use:
-		#if use != 1: # 不是主机的情况
-			# 1. 将 config 中
+
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:
@@ -381,7 +376,6 @@ static func show_select_card_dialog(param) -> Signal:
 		table = LuaUtils.dictionary_to_table(_res)
 		return table
 	, param)
-
 
 static func show_tab_dialog(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
@@ -429,10 +423,11 @@ static func show_tab_dialog(param) -> Signal:
 		var await_component = null
 		if scene is Battle:
 			if use != scene.host_player_id:
+				# FIXME: （2）这里需要替换
 				# 这里需要显示等待组件
-				await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
-				Utils.get_current_scene().add_child(await_component)
-				await_component.set_text("请等待[" + player.name + "]操作")
+				# await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
+				# Utils.get_current_scene().add_child(await_component)
+				# await_component.set_text("请等待[" + player.name + "]操作")
 
 		GApiManager.interaction_api.rpc("player_option", true)
 
@@ -458,7 +453,7 @@ static func show_tab_dialog(param) -> Signal:
 		var _res = null
 
 		if scene.host_player_id != use:
-			# 1. 将 config 中
+
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:
@@ -484,12 +479,11 @@ static func show_tab_dialog(param) -> Signal:
 		table = LuaUtils.dictionary_to_table(_res)
 		if await_component:
 			await_component.queue_free()
-	
+
 		GApiManager.interaction_api.rpc("player_option", false)
 
 		return table
 	, param)
-
 
 static func show_confirm_dialog(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
@@ -501,13 +495,14 @@ static func show_confirm_dialog(param) -> Signal:
 		var await_component = null
 		if scene is Battle:
 			if use != scene.host_player_id:
+				# FIXME: （2）这里需要替换
 				# 这里需要显示等待组件
-				await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
-				Utils.get_current_scene().add_child(await_component)
-				await_component.set_text("请等待[" + player.name + "]操作")
+				# await_component = load("res://components/top_tips/top_tips.tscn").instantiate()
+				# Utils.get_current_scene().add_child(await_component)
+				# await_component.set_text("请等待[" + player.name + "]操作")
+				pass
 
 		if not player: return null
-		# # 可以预处理，如果已经预处理了，就直接返回
 		var res = await player.interaction_processing(param)
 		print("[CORE][show_confirm_dialog]预处理结果: ", res)
 		if res:
@@ -539,7 +534,7 @@ static func show_confirm_dialog(param) -> Signal:
 		# 这里需要判断是不是主机玩家
 		var _res = false
 		if scene.host_player_id != use:
-			# 1. 将 config 中
+
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:

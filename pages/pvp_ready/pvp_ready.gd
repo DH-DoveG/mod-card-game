@@ -35,19 +35,9 @@ var camp = "JOINUDIENCES":
 				info_side_identity.text = "当前在【" + camp + "】阵营中"
 				option_side_btn_ready.disabled = false
 
-#class CampListPlayerConfig:
-	#var uid = ""
-	#var ready = false
-	#var config = {}
-#class CampListConfig:
-	#var camp = ""
-	#var list: Array = [] # Array[CampListPlayerConfig]
-	#var max_count = 1
-	#var min_count = 1
 var camp_list = [] # Array[CampListConfig]
 var can_choose_camps = []
 var joinudiences = []
-
 
 @rpc("any_peer", "call_local", "reliable")
 func begin_game() -> void:
@@ -55,11 +45,11 @@ func begin_game() -> void:
 	if GNetManager.uid == 1:
 		start_rule = option_side_rule_entrance.get_item_text(option_side_rule_entrance.get_selected_id())
 	# 先转换
-	
+
 	for cl in camp_list:
 		for l in cl.list:
 			l["pid"] = IDUtils.generate("PLAYER_", str(l.uid), 0)
-	
+
 	var data = {
 		"localhost": {
 			"id": GNetManager.uid,
@@ -69,14 +59,13 @@ func begin_game() -> void:
 		"joinudiences": joinudiences,
 		"start_rule": start_rule
 	}
-	
+
 	AsyncScene.new(
 		"res://battle/battle_net.tscn",
 		AsyncScene.LoadingOperation.ReplaceImmediate,
 		self
 	) \
 	.with_parameters(data) \
-	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("4a2724ff")) \
 	.start()
 
 @rpc("any_peer", "call_local", "reliable")
@@ -97,7 +86,6 @@ func to_joinudience(id) -> void:
 	chat_component.add_local_message("【提示】：当前观众席人数（<" + str(joinudiences.size()) + ">）。")
 	reload_player_queue()
 
-
 @rpc("any_peer", "call_local", "reliable")
 func to_camp(id, _camp: String, config: Dictionary) -> void:
 	remove_player_for_joinudience_and_camp(id)
@@ -115,7 +103,6 @@ func to_camp(id, _camp: String, config: Dictionary) -> void:
 			break
 	reload_player_queue()
 
-
 func remove_player_for_joinudience_and_camp(id):
 	for cl in camp_list:
 		cl.list = cl.list.filter(func(i):
@@ -124,7 +111,6 @@ func remove_player_for_joinudience_and_camp(id):
 	joinudiences = joinudiences.filter(func(i):
 		return str(id) != str(i.id)
 	)
-
 
 func reload_player_queue():
 	for lpq in list_player_queue.get_children():
@@ -138,7 +124,7 @@ func reload_player_queue():
 			dup.get_node("./HBox/HBox/Camp").text = cl.camp
 			dup.get_node("./HBox/Avatar").texture = GResourceManager.get_image_resoure(l.config["avatar"])
 			dup.get_node("./HBox/Panel/Ready").visible = l.ready
-			
+
 			# 如果 GNet.id 是 1 那么就拥有移除这些玩家的权力（除了自己）
 			if GNetManager.uid == 1:
 				if not (typeof(l.uid) == TYPE_INT and GNetManager.uid == l.uid):
@@ -146,10 +132,8 @@ func reload_player_queue():
 					dup.get_node("./HBox/Remove").pressed.connect(func():
 						rpc("to_joinudience", l.uid)
 					)
-			
-			dup.show()
-			
 
+			dup.show()
 
 @rpc("any_peer", "call_local", "reliable")
 func add_robot(id, _name, _camp) -> void:
@@ -172,7 +156,6 @@ func add_robot(id, _name, _camp) -> void:
 			cl.list.append(cpc)
 			break
 	reload_player_queue()
-
 
 func pop_robot_dialog():
 	var show_list = []
@@ -206,14 +189,13 @@ func pop_robot_dialog():
 						"close": true,
 						"option": false
 					}},
-			{"text": "取消", "callback": func(__): 
+			{"text": "取消", "callback": func(__):
 				return {
 						"close": true,
 						"option": false
 				}},
 		]
 	})
-
 
 @rpc("any_peer", "call_local", "reliable")
 func player_ready_change(id, deck, template, agent) -> void:
@@ -225,7 +207,6 @@ func player_ready_change(id, deck, template, agent) -> void:
 				l.deck = deck
 				l.agent = agent
 	reload_player_queue()
-
 
 # 检查 Red 和 Blue 列表里的所有人是不是都已经准备完毕了
 func check_player_ready() -> bool:
@@ -241,7 +222,6 @@ func check_player_ready() -> bool:
 				chat_component.emit_message("有人还没有准备！")
 				return false
 	return true
-
 
 @rpc("any_peer", "call_local", "reliable")
 func reload_camp_option(arr = null, deck_check_tool = null):
@@ -263,7 +243,6 @@ func reload_camp_option(arr = null, deck_check_tool = null):
 		camp_list.append(clc)
 	reload_player_queue()
 
-
 @rpc("any_peer", "call_local", "reliable")
 func set_rule_option(index: int):
 	# 这里切换时调用
@@ -282,7 +261,6 @@ func set_rule_option(index: int):
 			var deck_check_tool = tab["deck_tool"]
 			rpc("reload_camp_option", arr, deck_check_tool)
 
-
 @rpc("any_peer", "call_remote", "reliable")
 func sync_data() -> Dictionary:
 	return {
@@ -291,18 +269,16 @@ func sync_data() -> Dictionary:
 		"can_choose_camps": can_choose_camps
 	}
 
-
 func _init() -> void:
 	page_id = "PVP_READY_PAGE"
-
 
 func _ready() -> void:
 	super ()
 
 	ModManager.state.step_gc()
-	
+
 	GNetManager.game_status = GNetManager.GameStatus.ROOM
-	
+
 	# 玩家列表需要遍历放到观战席里
 	# 连接信号
 	GNetManager.add_player.connect(func(id):
@@ -313,10 +289,10 @@ func _ready() -> void:
 		remove_player_for_joinudience_and_camp(id)
 		reload_player_queue()
 	)
-	
+
 	info_side_user_avatar.texture = GResourceManager.get_image_resoure(GNetManager.player_info.avatar)
 	info_side_user_name.text = GNetManager.player_info.nick
-	
+
 	# FIXME: 这里需要对卡组进行检查吗？
 	# 这里应该对卡组进行过滤，由 mod 指定一个规定的 检查工具
 	# 或者说在准备时检查（最好是准备时检查）
@@ -326,10 +302,10 @@ func _ready() -> void:
 		option_side_used_deck.add_item(key)
 	for key in GResourceManager.deck_resource:
 		option_side_used_deck.add_item(key)
-	
+
 	for key in GResourceManager.player_entitys_resource:
 		option_side_player_template.add_item(key)
-	
+
 	if GNetManager.uid == 1:
 		for key in GResourceManager.start_rule_resource:
 			option_side_rule_entrance.add_item(key)
@@ -339,7 +315,6 @@ func _ready() -> void:
 		option_side_btn_start_game.hide()
 		list_btn_add_robot.hide()
 		$HBox/OptionSide/RuleEntrance.hide()
-	## 同步数据
 	if GNetManager.uid != 1:
 		var _res = await Utils.get_current_scene().rpc_awaiter.send_rpc_timeout(240, 1, sync_data)
 		can_choose_camps = _res["can_choose_camps"]
@@ -352,30 +327,25 @@ func _ready() -> void:
 	else:
 		rpc("to_joinudience", GNetManager.uid)
 
-
 func on_scene_loaded(_arg):
 	# FIXME: 这里会释放 game_api 但是其他的不会释放，而且没有任何地方写了 game_api 的释放
-	# print("\nGAME API4: ", GApiManager.game_api, "\n")
-	# print("PR: ", _arg)
-	pass
 
+	pass
 
 func _on_add_robot_pressed() -> void:
 	pop_robot_dialog()
-
 
 func _on_add_player_pressed() -> void:
 	var _camp = list_choose_camp.get_item_text(list_choose_camp.get_selected_id())
 	camp = _camp
 	rpc("to_camp", GNetManager.uid, _camp, GNetManager.player_info)
 
-
 func _on_ready_pressed() -> void:
 	var template = option_side_player_template.get_item_text(option_side_player_template.get_selected_id())
 	var f = GResourceManager.player_entitys_resource[template]
 	var _table = ModManager.do_mod_file(f).invoke()
 	var agent = _table.agent
-	
+
 	var deck = option_side_used_deck.get_item_text(option_side_used_deck.get_selected_id())
 	var deck_file = GResourceManager.deck_resource.get(deck)
 	var deck_config = {}
@@ -388,7 +358,7 @@ func _on_ready_pressed() -> void:
 	else:
 		var file = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(deck))
 		deck_config = JSON.parse_string(file.get_as_text())
-	
+
 	# 卡组检查
 	if deck_tool:
 		var fun = ModManager.do_mod_file(GResourceManager.deck_check_tool_resource[deck_tool])
@@ -400,23 +370,19 @@ func _on_ready_pressed() -> void:
 			if not vv["result"]:
 				ToastUtils.error(text)
 				return
-	
-	rpc("player_ready_change", GNetManager.uid, deck_config, template, agent)
 
+	rpc("player_ready_change", GNetManager.uid, deck_config, template, agent)
 
 func _on_to_joinudience_pressed() -> void:
 	camp = "JOINUDIENCES"
 	rpc("to_joinudience", GNetManager.uid)
 
-
 func _on_rule_option_item_selected(_index: int) -> void:
 	rpc("set_rule_option", _index)
-
 
 func _on_start_game_pressed() -> void:
 	if not check_player_ready(): return
 	rpc("begin_game")
-
 
 func _on_close_page_btn_pressed() -> void:
 	GNetManager.close()

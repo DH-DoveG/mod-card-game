@@ -1,7 +1,6 @@
 extends Node3D
 class_name Scene
 
-
 @onready var card_mount: Node3D = $CardMount
 @onready var area_mount: Node3D = $AreaMount
 @onready var camera: Camera3D = $Camera3D
@@ -33,21 +32,17 @@ var min_x = 0
 var min_y = 0
 var min_z = 0
 
-
 var current_hight_card: CardView3D = null
 var current_hight_area: AreaView3D = null
-
 
 var check_click := true
 func enabled_ray_click_check(state := true):
 	check_click = state
 
-
 # 摄像机拖拽
 var is_dragging := false
 var last_mouse_pos := Vector2.ZERO
 const DRAG_SENSITIVITY := 0.005
-
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -56,41 +51,22 @@ func _input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			camera.position.y = clamp(camera.position.y + 0.5, 2.0, 8.0)
 
-
 func enabled_ray(state := true):
 	deep_ray.enabled = state
 
-
 func _physics_process(_delta: float) -> void:
 	# 摄像机拖拽
-	# if Input.is_action_just_pressed("click"):
-	# 	is_dragging = true
-	# 	last_mouse_pos = get_viewport().get_mouse_position()
-	# elif Input.is_action_just_released("click"):
-	# 	is_dragging = false
-	
-	# if is_dragging:
-	# 	var current_mouse_pos := get_viewport().get_mouse_position()
-	# 	var delta := current_mouse_pos - last_mouse_pos
-	# 	if delta.length() > 0:
-	# 		var right := camera.global_transform.basis.x
-	# 		var forward := -camera.global_transform.basis.z
-	# 		var move_x := Vector3(right.x, 0, right.z).normalized() * delta.x * DRAG_SENSITIVITY
-	# 		var move_z := Vector3(forward.x, 0, forward.z).normalized() * delta.y * DRAG_SENSITIVITY
-	# 		camera.position -= move_x - move_z
-	# 	last_mouse_pos = current_mouse_pos
-	# 	return
-	
+
 	var mouse_pos := get_viewport().get_mouse_position()
-	
+
 	# 从鼠标屏幕点生成3D射线 origin 起点，end 终点
 	var ray_normal := camera.project_ray_normal(mouse_pos)
 	var ray_origin := camera.project_ray_origin(mouse_pos)
-	
+
 	var ray = $Ray
 	ray.global_position = ray_origin
 	ray.look_at(ray_origin + ray_normal, Vector3.UP)
-	
+
 	if deep_ray.get_collider_count() == 0:
 		if current_hight_card:
 			current_hight_card.normallight()
@@ -98,7 +74,7 @@ func _physics_process(_delta: float) -> void:
 		if current_hight_area:
 			current_hight_area.normallight()
 			current_hight_area = null
-	
+
 	# 如果点击就检查是否有检查到CardView3D，进行模板的弹出尝试
 	if check_click and deep_ray.get_collider_count() and Input.is_action_just_pressed("click"):
 		var first_card: CardView3D = null
@@ -145,46 +121,37 @@ func _physics_process(_delta: float) -> void:
 				current_hight_area.normallight()
 			current_hight_area = first_area
 
-
 func battle_visual_angle_changed(visual_angle: Vector2i) -> void:
 	var config = camera_direction_config[visual_angle]
 	camera.position = config["position"]
 	camera.quaternion = config["rotation"]
-	
+
 	Utils.get_current_scene().event_manager.emit("BATTLE_VISUAL_ANGLE_CHANGED", {
 		"visual_angle": visual_angle,
 		"camera": camera
 	})
 
 func get_area_center() -> Dictionary:
-	# 1. 通过 max_x 与 max_y 分别乘以 AREA_SIZE 得到这个战场的整体大小
+
 	var width: float = max_x * ConfigManager.AREA_SIZE
 	var height: float = max_y * ConfigManager.AREA_SIZE
-	
-	# 2. 因为从 0,0 点开始，所以 max_x 和 max_y 都需要减去 TILE_SIZE / 2
+
 	#    第一个除2是得到这个形成的矩形的中心点，减去 TILE_SIZE / 2 是为了修正偏移量
 	var center_x = width / 2
 	var center_y = height / 2
-	#$MeshInstance3D2.position = Vector3(center_x, 0, center_y)
-	
-	# 3. 在获得了中心点后，需要获取 UP、DOWN、LEFR、RIGHT 四个方向的位置（这个位置刚好在这个矩形外）
-	var up_x = center_x # - 0.5
-	var up_y = center_y - height / 2 + 0.5 #- ConfigManager.AREA_SIZE
-	#$MeshInstance3D3.position = Vector3(up_x, 0, up_y)
-	
-	var down_x = center_x # - 0.5
+
+	var up_x = center_x
+	var up_y = center_y - height / 2 + 0.5
+
+	var down_x = center_x
 	var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
-	#$MeshInstance3D4.position = Vector3(down_x, 0, down_y)
-	
+
 	var left_x = center_x + width / 2 - 0.5
-	var left_y = center_y # - 0.5
-	#$MeshInstance3D5.position = Vector3(left_x, 0, left_y)
-	
-	# 5*5 应得到 (0.5, 2.0)
+	var left_y = center_y
+
 	var right_x = center_x - width / 2 + 0.5
-	var right_y = center_y # - 0.5
-	#$MeshInstance3D6.position = Vector3(right_x, 0, right_y)
-	
+	var right_y = center_y
+
 	# 结果
 	var result = {
 		"up": Vector2(up_x, up_y),
@@ -196,7 +163,6 @@ func get_area_center() -> Dictionary:
 		"width": width,
 	}
 	return result
-
 
 func add_area(x: int, y: int, z: int = 1) -> AreaView3D:
 	max_x = x if x > max_x else max_x
@@ -210,7 +176,7 @@ func add_area(x: int, y: int, z: int = 1) -> AreaView3D:
 	area.position.y = 0
 	area.position.z = y
 	area_mount.add_child(area)
-	
+
 	adjust_camera()
 	adjust_position()
 	return area
@@ -221,7 +187,6 @@ func adjust_camera() -> void:
 	camera_direction_config[Vector2i.DOWN]["position"] = Vector3(pos["down"].x, 4, pos["down"].y)
 	camera_direction_config[Vector2i.LEFT]["position"] = Vector3(pos["left"].x, 4, pos["left"].y)
 	camera_direction_config[Vector2i.RIGHT]["position"] = Vector3(pos["right"].x, 4, pos["right"].y)
-
 
 # 调整位置（在添加Area后调用，用于调整相机、战场区域偏移、卡组手牌弃区位置偏移）
 # 手牌、弃区、卡组都会靠近Area战场边缘

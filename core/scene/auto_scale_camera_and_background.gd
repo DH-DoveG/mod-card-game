@@ -22,10 +22,10 @@ func update_object_scale_to_keep_visual_size(delta: float) -> void:
 	var current_distance: float = global_position.distance_to(camera_node.global_position)
 	if abs(current_distance - OPTIMAL_DISTANCE) < DISTANCE_THRESHOLD:
 		return
-	
+
 	var scale_factor: float = current_distance / OPTIMAL_DISTANCE if OPTIMAL_DISTANCE > 0 else 1.0
 	scale_factor = clamp(scale_factor, MIN_SCALE, MAX_SCALE)
 	var target_scale: Vector3 = base_scale * scale_factor
-	
+
 	# 平滑过渡缩放
 	scale = lerp(scale, target_scale, SMOOTH_SPEED * delta)

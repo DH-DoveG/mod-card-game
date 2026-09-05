@@ -1,6 +1,5 @@
 extends OptionBase
 
-
 var area_ids = []
 var chooses = []
 var btns = []
@@ -12,11 +11,8 @@ var _cancel = true
 var _show_areas = []
 var _choose_show_areas = []
 
-#!不再点击mask，而是链接区域的点击事件
-
-
 func set_data(param) -> void:
-	# print("set_data: ", param)
+
 	area_ids = param["areas"]
 	btns = param["btns"]
 	_max = param["max"]
@@ -25,22 +21,19 @@ func set_data(param) -> void:
 
 	if not _cancel:
 		$Side/HBox/Close.hide()
-	
+
 	build_btns()
 	_set_area_height()
-
 
 func build_btns() -> void:
 	for config in btns:
 		var btn = _build_btn_item($List, config["text"])
 		btn.pressed.connect(_bind_btn_callback.bind(config))
 
-
 func _bind_btn_callback(callback: Dictionary) -> void:
 	var close: Dictionary = callback["callback"].call(chooses)
 	if close["close"]:
 		finished.emit(close["value"], "Confirm")
-
 
 func _build_btn_item(parent: Node, text: String) -> Button:
 	var btn = Button.new()
@@ -50,7 +43,6 @@ func _build_btn_item(parent: Node, text: String) -> Button:
 	btn.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_FILL
 	return btn
 
-
 func _process(_delta: float) -> void:
 	for areamask in _choose_show_areas:
 		var camera: Camera3D = get_tree().current_scene.scene.camera
@@ -58,20 +50,19 @@ func _process(_delta: float) -> void:
 		if btn and camera:
 			btn.position = camera.unproject_position(areamask.position) - Vector2(50, 50)
 
-
 func _set_area_height() -> void:
 	# 设置区域高亮
 	for id in area_ids:
 		var area: AreaEntity = FindUtils.find_area(id)
-		
+
 		var pos := area.get_position()
 		pos.y += 0.001
-		
+
 		var areamask: StaticBody3D = preload("res://components/area_mask/area_mask.tscn").instantiate()
 		battle.scene.add_child(areamask)
 		areamask.position = pos
 		areamask.name = id
-		
+
 		areamask.mouse_entered.connect(func():
 			if id in chooses:
 				return
@@ -125,12 +116,12 @@ func _set_area_height() -> void:
 							return
 						finished.emit(chooses, "Confirm")
 					)
-					
+
 					var outline = ShaderMaterial.new()
 					outline.shader = preload("res://assets/shader/canvas_item/2d_outline.gdshader")
 					btn.material = outline
 					outline.set_shader_parameter("thickness", 4)
-					
+
 					if chooses.size() > _max:
 						chooses.pop_front()
 						var first = _choose_show_areas.pop_front()
@@ -142,13 +133,11 @@ func _set_area_height() -> void:
 						if first.get_node("Btn"):
 							first.get_node("Btn").queue_free()
 		)
-		
-		_show_areas.append(areamask)
 
+		_show_areas.append(areamask)
 
 func _ready() -> void:
 	get_tree().current_scene.scene.enabled_ray_click_check(false)
-
 
 func _exit_tree() -> void:
 	super()
@@ -156,12 +145,10 @@ func _exit_tree() -> void:
 	for area in _show_areas:
 		area.queue_free()
 
-
 func _on_confirmed_pressed() -> void:
 	if chooses.size() < _min or chooses.size() > _max:
 		return
 	finished.emit(chooses, "Confirm")
-
 
 func _on_close_pressed() -> void:
 	if not _cancel:

@@ -1,7 +1,6 @@
 extends CanvasLayer
 class_name NeoBehaviorPopuopMenu
 
-
 @onready var vbox: VBoxContainer = $VBoxContainer
 @onready var mask: ColorRect = $Mask
 
@@ -19,7 +18,6 @@ func _ready() -> void:
 		only = null
 	only = self
 
-
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
@@ -27,13 +25,12 @@ func _exit_tree() -> void:
 		scene.scene.enabled_ray(true)
 		scene.player_hand_view.get_node("Hand").set_process(true)
 
-
 func set_popup(pos, _behaviors, _entity: CardEntity):
 	visible = true
 	behaviors = _behaviors
 	card_entity = _entity
 	var scene: Battle = get_tree().current_scene
-	
+
 	var id = 0
 	if not scene.in_option:
 		var bt = Behavior.BehaviorTrigger.new()
@@ -48,23 +45,21 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 			if check_launch and check_cost:
 				add_item("【" + info["type"] + "】" + info["name"], id)
 			id += 1
-	
-	#print("POS : ", pos)
+
 	await get_tree().process_frame
 	pos.x -= vbox.size.x / 2
-	pos.y -= vbox.size.y #/ 4
+	pos.y -= vbox.size.y
 	vbox.position = pos
-	#print("SET POPUP : ", vbox.position)
+
 	if vbox.get_child_count() == 0:
 		pass
 	if scene is Battle:
 		scene.scene.set_physics_process(false)
 		scene.scene.enabled_ray(false)
 		scene.player_hand_view.get_node("Hand").set_process(false)
-	
+
 	$ColorRect2.size = vbox.size
 	$ColorRect2.position = vbox.position
-
 
 func add_item(title: String, id: int):
 	var button := Button.new()
@@ -93,48 +88,37 @@ func add_item(title: String, id: int):
 		queue_free()
 	)
 
-
 func set_exp_mask(rect: Rect2):
-	#vbox.position.y -= 10
-	
+
 	var mr = make_b_touch_a(vbox.get_rect(), rect)
 	mask_rect = mr
-	
+
 	$Mask.size = mr.size
 	$Mask.position = mr.position
-	#print("MR: ", mr, " | rect: ", rect, " || vbox.get_rect(): ", vbox.get_rect())
 
-
-# a：上方Rect2，b：下方Rect2
 # inset：允许侵入A内部的像素，0=刚好接触；>0=B钻进A里面
 func make_b_touch_a(a:Rect2, b:Rect2, inset:float = 2.0) -> Rect2:
-	# B的底边保持不变
 	var b_bottom:float = b.end.y
-	# A的底边，允许B往里侵入inset像素
 	var target_top_y:float = a.end.y - inset
-	
-	# 新高度 = 底边 - 新的顶部y
+
 	var new_height:float = b_bottom - target_top_y
-	
+
 	# 保护：高度不能小于0
 	new_height = max(new_height, 0.0)
-	
+
 	# 构造新B：position.y被往上提，height变大，底部不变
 	var new_b = Rect2()
 	new_b.position.x = b.position.x
 	new_b.position.y = target_top_y
 	new_b.size.x = b.size.x
 	new_b.size.y = new_height
-	
-	return new_b
 
+	return new_b
 
 func _process(_delta: float) -> void:
 	var mouse_position := get_viewport().get_mouse_position()
 	if (not mask_rect.has_point(mouse_position)) and (not vbox.get_rect().has_point(mouse_position)):
 		queue_free()
 
-
 func _on_color_rect_gui_input(_event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
-	pass # Replace with function body.

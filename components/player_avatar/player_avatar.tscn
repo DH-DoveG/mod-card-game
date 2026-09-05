@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8b61e7ejs83p" path="res://components/player_avatar/player_avatar.gd" id="1_d106d"]
 [ext_resource type="Shader" uid="uid://ejs7mjxnfds3" path="res://assets/shader/canvas_item/rainbow_barder.gdshader" id="1_x3rxl"]
-[ext_resource type="Texture2D" uid="uid://chxo4hsk18w4w" path="res://addons/material_icons_importer/icons/alarm.png" id="2_d106d"]
+[ext_resource type="Texture2D" uid="uid://chxo4hsk18w4w" path="res://assets/images/icons/alarm.png" id="2_d106d"]
 [ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="2_n653b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rk6l7"]

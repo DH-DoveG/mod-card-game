@@ -1,42 +1,27 @@
 extends RefCounted
 class_name ConfigManager
 
-
-#region 常量定义
 # 卡片厚度
-const CARD_THICKNESS = 0.006 #0.004
+const CARD_THICKNESS = 0.006
 # 卡片长度
-#const CARD_HEIGHT = 0.8 # 1
 const CARD_HEIGHT = 0.6 # 1
 # 卡片宽度
 const CARD_WIDTH = 0.72
 # 区域尺寸
-const AREA_SIZE = 1 #1.20
-#const AREA_HEIGHT_BASE = 0.1
-#endregion
-
+const AREA_SIZE = 1
 
 const window_size = Vector2(1920, 1080)
-
 
 # 页面配置
 static var page_index_title: String = ""
 static var page_config: Dictionary = {}
 
-## Mod配置文件
 ## 内容格式： { "${mod_name}": {"version": "${mod_version}", "path": "${mod_path}" }, ... }
 static var MOD_CONFIG_FILE_PATH: String = "configs/mod_load_config.json"
 static var mod_config = {}
 
-## Mod设置文件
-## 内容格式： {
-## 	"${mod_name}": {
 ## 		"${mod_setting_item1}": "${mod_setting_item1_value}",
-## 		... },
-## 	...}
 # static var MOD_SETTING_FILE_PATH: String = "configs/mod_setting.json"
-# var mod_setting = {}
-## Mod使用的环境目录集
 # static var MOD_ENV_PATH_SET_FILE_PATH: String = "configs/mod_env_paths.json"
 const IMAGE_SETTING_FILE_PATH: String = "configs/image_setting.json"
 const MOD_SETTING_FILE_PATH: String = "configs/mod_setting.json"
@@ -83,12 +68,10 @@ static var setting_image_config = [
 ", "choose": 1}
 ]
 
-
 static func load_config_for_file():
 	_load_config_for_file_mod()
 	_load_config_for_file_image()
 	_load_config_for_file_other()
-
 
 static func _load_config_for_file_image() -> void:
 	var file: FileAccess = PersistenceUtils.open_file(IMAGE_SETTING_FILE_PATH)
@@ -96,14 +79,12 @@ static func _load_config_for_file_image() -> void:
 		var text = file.get_as_text()
 		if text.is_empty(): pass
 		else:
-			# { <id>: <choose id> }
 			var data = JSON.parse_string(text)
 			for id in data:
 				for sic in setting_image_config:
 					if sic["id"] == int(id):
 						sic["choose"] = int(data[id])
 	file.close()
-
 
 static func _load_config_for_file_music() -> void:
 	var file: FileAccess = PersistenceUtils.open_file(MOD_SETTING_FILE_PATH)
@@ -113,7 +94,6 @@ static func _load_config_for_file_music() -> void:
 		else:
 			setting_sound_config = JSON.parse_string(text)
 	file.close()
-
 
 static func _load_config_for_file_mod() -> void:
 	var file: FileAccess = PersistenceUtils.open_file(MOD_SETTING_FILE_PATH)
@@ -126,7 +106,7 @@ static func _load_config_for_file_mod() -> void:
 			mod_env_paths = JSON.parse_string(text)
 		setting_mod_config[0]["paths"] = mod_env_paths
 	file.close()
-	
+
 	file = PersistenceUtils.open_file(MOD_CONFIG_FILE_PATH)
 	if file:
 		text = file.get_as_text()
@@ -134,7 +114,6 @@ static func _load_config_for_file_mod() -> void:
 		else:
 			mod_config = JSON.parse_string(text)
 	file.close()
-
 
 static func _load_config_for_file_other() -> void:
 	var file: FileAccess = PersistenceUtils.open_file(MULTIPLAYER_CONFIG_FILE_PATH)
@@ -144,7 +123,7 @@ static func _load_config_for_file_other() -> void:
 		else:
 			multiplayer_config = JSON.parse_string(text)
 	file.close()
-	
+
 	file = PersistenceUtils.open_file(DECK_SEARCH_CONDITION_CONFIG_FILE_PATH)
 	if file:
 		var text = file.get_as_text()
@@ -153,21 +132,19 @@ static func _load_config_for_file_other() -> void:
 			deck_search_condition_config = JSON.parse_string(text)
 	file.close()
 
-
 static func load_image_setting() -> void:
 	if Utils.get_current_scene() is Battle:
 		var sv: SubViewport = Utils.get_current_scene().get_node("SubViewportContainer/SubViewport")
 		for item in setting_image_config:
 			sv.set(item["property"], item["options"][item["choose"]]["value"])
 
-
 static func load_mod_setting() -> void:
 	var paths = get_mod_env_paths()
 	ModManager.reset_state()
 	ModManager.set_package_paths(paths)
-	
+
 	ModProbeCommand.new().args({"paths": paths}).execute()
-	
+
 	var mods = ModManager.probe_mods
 	var uses = []
 	for mod: Dictionary in mods:
@@ -176,10 +153,8 @@ static func load_mod_setting() -> void:
 			uses.append(mod)
 	ModUseCommand.new().args({"mods": uses}).execute()
 
-
 static func load_sound_setting():
 	pass
-
 
 static func get_mod_env_paths() -> Array:
 	var paths = []
@@ -190,5 +165,5 @@ static func get_mod_env_paths() -> Array:
 	if paths.is_empty():
 		PersistenceUtils.make_folder("mods")
 		paths.append(PersistenceUtils.get_exec_path().path_join("mods"))
-	#print("get_mod_env_paths : ", paths)
+
 	return paths

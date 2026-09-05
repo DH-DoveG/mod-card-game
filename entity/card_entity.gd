@@ -28,10 +28,8 @@ var standing_sign = "":
 		standing_sign = v
 		emit_signal("card_changed", "standing_sign", self)
 
-
 func get_code():
 	return meta["entity"]["code"]
-
 
 func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 	var result: Array[CardView3D] = []
@@ -39,19 +37,17 @@ func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 	for view: CardView3D in card_views:
 		if view.entity == self:
 			result.append(view)
-	
+
 	if result.is_empty() and if_null_to_create:
 		var scene = Utils.get_current_scene()
 		if scene is Battle:
 			var view: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
 			scene.scene.card_mount.add_child(view)
-			# view.card_hide()
 			view.hide()
 			view.set_entity(self)
 			result.append(view)
-	
-	return result
 
+	return result
 
 func get_view_2d() -> Array[CardView2D]:
 	var result: Array[CardView2D] = []
@@ -59,9 +55,8 @@ func get_view_2d() -> Array[CardView2D]:
 	for view: CardView2D in card_views:
 		if view.entity == self:
 			result.append(view)
-	
-	return result
 
+	return result
 
 func remove_all_view_3d():
 	for view in get_view_3d():

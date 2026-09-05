@@ -1,10 +1,8 @@
 extends Page
 
-
 var edit_index = -1
 var add_config_avatar: String = "DEFAULT_AVATAR"
 var add_config_card_back: String = "DEFAULT_CARD_BACK"
-
 
 func _init() -> void:
 	page_id = "MULTIPLAYER_HALL_PAGE"
@@ -15,32 +13,8 @@ func _ready() -> void:
 	$AddConfig/Panel/Avatar.texture_normal = GResourceManager.get_image_resoure(add_config_avatar)
 	$AddConfig/Panel/CardBack.texture_normal = GResourceManager.get_image_resoure(add_config_card_back)
 
-
-#func _on_host_pressed() -> void:
-	#GNetManager.be_host({
-		#"nick": nick,
-		#"avatar": avatar,
-		#"card_back": card_back
-	#})
-	#to_pvp_ready_page()
-#func _on_client_pressed() -> void:
-	#$Mask.show()
-	#$MaskTimer.start()
-	#GNetManager.be_client({
-		#"nick": nick,
-		#"avatar": avatar,
-		#"card_back": card_back
-	#})
-	#multiplayer.connected_to_server.connect(func():
-		#$Mask.hide()
-		#$MaskTimer.stop()
-		#to_pvp_ready_page()
 	#, ConnectFlags.CONNECT_ONE_SHOT)
-	#
-	#multiplayer.connection_failed.connect(func():
-		#$Mask.hide()
-		#$MaskTimer.stop()
-		#ToastUtils.error("连接主机失败")
+
 	#, ConnectFlags.CONNECT_ONE_SHOT)
 
 func _on_avatar_pressed() -> void:
@@ -60,19 +34,16 @@ func _on_card_back_pressed() -> void:
 		add_config_card_back = _res["choose_list"][0].id
 	dialog.queue_free()
 
-
 func _on_mask_timer_timeout() -> void:
 	if $ConnectMask/Label.text.length() < 8:
 		$ConnectMask/Label.text += "."
 	else:
 		$ConnectMask/Label.text = "尝试连接中"
 
-
 func _on_close_connect_pressed() -> void:
 	GNetManager.close()
 	$ConnectMask.hide()
 	$MaskTimer.stop()
-
 
 func _on_add_config_pressed() -> void:
 	var title = $AddConfig/Panel/Edit/Title/LineEdit.text
@@ -80,7 +51,7 @@ func _on_add_config_pressed() -> void:
 	var address = $AddConfig/Panel/Edit/Address/LineEdit.text
 	var port = $AddConfig/Panel/Edit/Port/LineEdit.text
 	var detail = $AddConfig/Panel/Edit/Detail/TextEdit.text
-	
+
 	if edit_index == -1:
 		ConfigManager.multiplayer_config.append({
 			"title": title,
@@ -102,22 +73,19 @@ func _on_add_config_pressed() -> void:
 			"detail": detail,
 		}
 		edit_index = -1
-	
+
 	var data = JSON.stringify(ConfigManager.multiplayer_config)
 	var file = PersistenceUtils.open_file(ConfigManager.MULTIPLAYER_CONFIG_FILE_PATH)
 	file.resize(data.length())
 	file.store_string(data)
-	
-	reload_config()
 
+	reload_config()
 
 func _on_close_config_pressed() -> void:
 	$AddConfig.hide()
 
-
 func _on_open_config_panel_pressed() -> void:
 	$AddConfig.show()
-
 
 func reload_config() -> void:
 	var psv = $Panel/Scroll/VBox
@@ -139,10 +107,6 @@ func reload_config() -> void:
 				"avatar": config["avatar"],
 				"card_back": config["card_back"]
 			}, int(config["port"]), config["address"])
-			#if not finish:
-				#$ConnectMask.show()
-				#$MaskTimer.start()
-				#await GNetManager.be_finished
 			if not finish: return
 			AsyncScene.new(
 				"res://pages/pvp_ready/pvp_ready.tscn",
@@ -150,7 +114,6 @@ func reload_config() -> void:
 				self
 			) \
 			.with_parameters({}) \
-			# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 			.start()
 		)
 		dup.get_node("Btns/SC/BeClient").pressed.connect(func():
@@ -162,10 +125,6 @@ func reload_config() -> void:
 			}, int(config["port"]), config["address"])
 			var finish = await GNetManager.be_finished
 			print("____", finish)
-			#if not finish:
-				#$ConnectMask.show()
-				#$MaskTimer.start()
-				#await GNetManager.be_finished
 			if not finish: return
 			AsyncScene.new(
 				"res://pages/pvp_ready/pvp_ready.tscn",
@@ -173,7 +132,6 @@ func reload_config() -> void:
 				self
 			) \
 			.with_parameters({}) \
-			# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 			.start()
 		)
 		dup.get_node("Btns/HBox/Edit").pressed.connect(func():
@@ -186,7 +144,6 @@ func reload_config() -> void:
 		psv.add_child(dup)
 		dup.show()
 		index += 1
-
 
 func edit(index: int, config: Dictionary) -> void:
 	edit_index = index
@@ -201,10 +158,8 @@ func edit(index: int, config: Dictionary) -> void:
 	$AddConfig/Panel/CardBack.texture_normal = GResourceManager.get_image_resoure(add_config_card_back)
 	$AddConfig.show()
 
-
 func connect_config() -> void:
 	pass
-
 
 func make_dialog_config(title: String, detail: String, list_items: Array) -> Dictionary:
 	return {
@@ -238,7 +193,6 @@ func make_dialog_config(title: String, detail: String, list_items: Array) -> Dic
 		]
 	}
 
-
 func _on_exit_page_pressed() -> void:
 	AsyncScene.new(
 		"res://pages/battle_mode/battle_mode.tscn",
@@ -246,5 +200,4 @@ func _on_exit_page_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	# .with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()

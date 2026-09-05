@@ -26,7 +26,6 @@ func _ready() -> void:
 	# from the very first frame.
 	_update_shader_material()
 
-# Called every frame.
 func _process(_delta: float) -> void:
 	# Check if the material assigned to ‘material_override’ has changed since the last frame.
 	# This can happen if you change it in the editor or via code.
@@ -45,14 +44,12 @@ func _update_shader_material() -> void:
 # It’s called either by the ‘texture_changed’ signal or when the material is swapped.
 func _update_shader_texture() -> void:
 	# Safely get the material. The ‘as ShaderMaterial’ will result in `null`
-	# if the material is not a ShaderMaterial, preventing crashes.
 	var mat = material_override as ShaderMaterial
 	# Only proceed if we have a valid shader material AND a valid texture assigned.
 	# This prevents errors if either property is unassigned.
 	if mat and texture:
 		mat.set_shader_parameter("sprite_texture", texture)
 
-# — Public API —
 # A helper function to allow other scripts or animations to easily change the line color.
 func set_line_color(color: Color) -> void:
 	var mat = material_override as ShaderMaterial

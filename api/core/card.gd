@@ -1,7 +1,6 @@
 extends Node
 class_name CoreCardApi
 
-
 @rpc("any_peer", "call_local", "reliable")
 func create_battle_more(configs) -> Array[CardEntity]:
 	# { CID: { resource: CardResourceID, owner: PlayerID }
@@ -11,7 +10,6 @@ func create_battle_more(configs) -> Array[CardEntity]:
 		var _owner = configs[key]["owner"]
 		result.append(create_battle(key, resource, _owner))
 	return result
-
 
 func create_entity(card_id: String, card_resource_id: String) -> CardEntity:
 	var card_meta = ModManager.do_mod_file(GResourceManager.card_resource[card_resource_id]).invoke()
@@ -24,57 +22,43 @@ func create_entity(card_id: String, card_resource_id: String) -> CardEntity:
 	ce.meta = card_meta
 	return ce
 
-
 @rpc("any_peer", "call_local", "reliable")
 func create_battle(card_id: String, card_resource_id: String, card_owner: String) -> CardEntity:
 	var ce := create_entity(card_id, card_resource_id)
-	
+
 	var battle: Battle = Utils.get_current_scene()
 	battle.battle_data_bind_list.player_bind_cards_of_ownership[card_owner].append(card_id)
 	battle.battle_data_bind_list.player_bind_cards_of_controller[card_owner].append(card_id)
 	battle.battle_data_bind_list.card_bind_behaviors[card_id] = PackedStringArray()
 	battle.battle_data_bind_list.card_public_information[card_id] = [card_owner]
-	
+
 	battle.cards[card_id] = ce
-	
+
 	#！卡片构建完成后，检查是否有对应的 Behavior 实例存在
-	#print("-> ", ce.behaviors)
+
 	for b in ce.behaviors:
 		battle.battle_data_bind_list.card_bind_behaviors[card_id].append(b)
 		# 如果说没有实例就生成
 		if not battle.behaviors.has(b):
-			#battle.behaviors[behavior.name] = behavior
+
 			var behavior_lua = GApiManager.behavior_api.create(b)
 			battle.behaviors[b] = behavior_lua
-			#print("---> ", battle.behaviors, " | ", b, " || ", behavior_lua)
-			#GResourceManager.behavior_resource[behavior]
+
 			pass
 	return ce
 
-
 func create_3d_view(card_entity: CardEntity, card_mount: NodePath) -> CardView3D:
 	# 给卡片创建 3D 视图
-	#var card: CardView3D = CardUtils.create(card_entity.meta["entity"]["id"], card_entity, get_node(card_mount))
 	var card: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
-	# card.card_hide()
 	card.hide()
-	#
 	card.set_entity(card_entity)
-	
+
 	get_node(card_mount).add_child(card)
-	
-	#card.is_front = false
-	#card.image = card_image
-	#card.standing_sign = card_standing_sign
-	#card.card_name = card_meta["name"]
+
 	#card_meta["entity"]["id"] = card_id
 	#为卡片添加图片
-	#var card_front_image = GResourceManager.get_image_resoure(ce.image)
-	#var card_back_image = GResourceManager.get_image_resoure(card_back)
-	#CardUtils.translate_image(card, card_front_image.get_image(), card_back_image.get_image())
-	
-	return card
 
+	return card
 
 @rpc("any_peer", "call_local", "reliable")
 func set_border_color(card_id: String, color: Color) -> void:
@@ -83,7 +67,6 @@ func set_border_color(card_id: String, color: Color) -> void:
 		return
 	card.set_outline_color(color)
 
-
 # front: true card_id 给所有玩家可见; false card_id 仅给卡片的持有者可见
 @rpc("any_peer", "call_local", "reliable")
 func set_public_information(card_id: String, player_ids: Array):
@@ -91,10 +74,8 @@ func set_public_information(card_id: String, player_ids: Array):
 	if battle is Battle:
 		battle.battle_data_bind_list.card_public_information[card_id] = player_ids
 
-
 #落实更新卡片的 公开属性
 # 1. card_public_information = { "CardID": ["PlayerID1", "PlayerID2"] }
-
 
 func get_public_information(card_id: String) -> Array:
 	var battle = Utils.get_current_scene()
@@ -102,21 +83,15 @@ func get_public_information(card_id: String) -> Array:
 		return battle.battle_data_bind_list.card_public_information[card_id]
 	return []
 
-
 @rpc("any_peer", "call_local", "reliable")
 func set_front(card_id: String, front: bool) -> void:
 	var card: CardEntity = FindUtils.find_card(card_id)
 	if card is not CardEntity:
 		return
-	# card.is_front = front
-	# card.entity.is_front = front
-	card.is_front = front
-	#card.card_info_show.update()
-	
-	#rpc("set_public_information", card_id, front)
-	# FIXME: 这里需要找到 CardEntity 对应的 CardView3D
-	#adjust_card_rotation(card)
 
+	card.is_front = front
+
+	# FIXME: 这里需要找到 CardEntity 对应的 CardView3D
 
 @rpc("any_peer", "call_local", "reliable")
 func set_orientation(card_id: String, orientation: bool) -> void:
@@ -124,36 +99,29 @@ func set_orientation(card_id: String, orientation: bool) -> void:
 	if card is not CardEntity:
 		return
 	var view_3d = card.get_view_3d()[0]
-	# card.is_orientation = orientation
-	# card.entity.is_orientation = orientation
-	card.is_orientation = orientation
-	#card.card_info_show.update()
-	adjust_card_rotation(view_3d)
 
+	card.is_orientation = orientation
+
+	adjust_card_rotation(view_3d)
 
 @rpc("any_peer", "call_local", "reliable")
 func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void:
 	var card: CardEntity = FindUtils.find_card(card_id)
 	var area: AreaEntity = FindUtils.find_area(area_id)
-	
+
 	var play_sound = config.get("play_sound", null)
 	if play_sound:
 		GApiManager.resource_api.play_sound(play_sound)
 
 	if not card or not area:
 		return
-	
-	
+
 	#这里拍卡后 CardSet 没有更新
-	#CardSet 的更新事件策略存在设计上的问题
 	GApiManager.card_set_api.erase([card_id])
-	
+
 	var view_3d: CardView3D = card.get_view_3d(true)[0]
-	#view_3d.card_show()
 	view_3d.show()
-	
-	#card.card_show()
-	
+
 	# 注意，现在卡牌以及不在area节点下面了
 	# 现在需要直接查询绑定表
 	var scene = Utils.get_current_scene()
@@ -166,20 +134,14 @@ func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void
 	battle.battle_data_bind_list.clean_card(card_id, { "type": null })
 	var heaps = battle.battle_data_bind_list.area_bind_cards
 	heaps[area_id].append(card_id)
-	
+
 	var cards_in_area = FindUtils.find_condition_cards({
 		"areas": [ area_id ]
 	}).size()
-	
+
 	view_3d.global_position = area.get_position()
-	# card.global_position.y = area.get_top_position().y + 0.001 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
-	#card.global_position.y = area.get_top_position().y + 0.025 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
+
 	view_3d.global_position.y = area.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
-	#card.card_info_show.update()
-	#CoreCardSetApi.__update()
-	#view_3d.rotation_degrees.x = -90
-
-
 
 @rpc("any_peer", "call_local", "reliable")
 func get_image(id: String) -> Dictionary:
@@ -205,7 +167,6 @@ func get_front(id: String) -> bool:
 	var card = FindUtils.find_card(id)
 	if card is not CardEntity:
 		return true
-	# return card.entity.is_front
 	return card.is_front
 
 func get_direction(id: String) -> Dictionary:
@@ -213,10 +174,6 @@ func get_direction(id: String) -> Dictionary:
 	var views = card.get_view_3d()
 	if views.is_empty():
 		return {"x": 0, "y": 0}
-	# y 0: x=-1,y=-1
-	# y 90: x=1,y=-1
-	# y -90: x=-1,y=1
-	# y 180: x=1,y=1
 	# FIXME: 一个潜在的BUG，这些值需要四舍五入，因为浮点数的精度问题，可能不会匹配上。需要四舍五入
 	var view = views.front()
 	var direction = Vector2(0, 0)
@@ -270,23 +227,9 @@ func get_area(id: String) -> Dictionary:
 
 # 待修复
 static func adjust_card_rotation(card: CardView3D) -> void:
-	#return
-	#var _rotation := Vector3.ZERO
-	#var _transform := Transform3D()
 	var _quaternion := Quaternion()
-	
-	# if card.entity.is_front:
-	#if card.entity.is_front:
-		#_rotation = Vector3(-90, -90, 90)
-		##_basis.y.z = 1
-		##_basis.z.y = -1
-	#else:
-		#_rotation = Vector3(90, -90, 90)
+
 		##_rotation = Vector3(90, 180, 0)
-		#pass
-		#_basis.x.x = -1
-		#_basis.y.z = -1
-		#_basis.z.y = -1
 	var battle: Battle = Utils.get_current_scene()
 	var card_ownership = ""
 	for key in battle.battle_data_bind_list.player_bind_cards_of_controller:
@@ -301,7 +244,6 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 		if card_player.name in battle.battle_data_bind_list.camp_bind_players[key]:
 			_camp = key
 			break
-	# var camps = Utils.get_scene_tree().get_nodes_in_group(&"camp")
 	var camps = Utils.get_current_scene().camps.values()
 	for camp: Camp in camps:
 		if camp.title == _camp:
@@ -316,7 +258,6 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 					_quaternion.y = 0
 					_quaternion.z = 0
 					_quaternion.w = 0.707107
-				#_rotation.x = -90
 			elif camp.orientation.y == -1:
 				if card.entity.is_front:
 					_quaternion.x = -0.707107
@@ -328,7 +269,6 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 					_quaternion.y = 0.707107
 					_quaternion.z = -0.707107
 					_quaternion.w = 0
-				#_rotation.x = 90
 			elif camp.orientation.x == 1:
 				if card.entity.is_front:
 					_quaternion.x = -0.5
@@ -340,7 +280,6 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 					_quaternion.y = 0.5
 					_quaternion.z = -0.5
 					_quaternion.w = 0.5
-				#_rotation.y = -180
 			elif camp.orientation.x == -1:
 				if card.entity.is_front:
 					_quaternion.x = 0.5
@@ -352,30 +291,11 @@ static func adjust_card_rotation(card: CardView3D) -> void:
 					_quaternion.y = -0.5
 					_quaternion.z = 0.5
 					_quaternion.w = 0.5
-				#_rotation.y = 0
 			break
-	#if _camp == "RED":
 		## if card.entity.is_orientation:
-		#if card.entity.is_orientation:
-			#_rotation = Vector3(_rotation.x, -180, _rotation.z)
-		#else:
-			#_rotation = Vector3(-90, 0, 0)#Vector3.ZERO
-	#else:
+
 		## if card.entity.is_orientation:
-		#if card.entity.is_orientation:
-			#_rotation = Vector3(_rotation.x, 0, _rotation.z)
-		#else:
-			#_rotation = Vector3(_rotation.x, 0, _rotation.z)
-	
-	#_rotation.x = deg_to_rad(_rotation.x)
-	#_rotation.y = deg_to_rad(_rotation.y)
-	#_rotation.z = deg_to_rad(_rotation.z)
-	#card.global_rotation_degrees = _rotation
-	#card.global_rotation_degrees.z = _rotation.z
-	#card.global_rotation_degrees.y = _rotation.y
-	#card.global_rotation_degrees.x = _rotation.x
+
 	card.quaternion = _quaternion
-	
-	#card.transform.basis = Basis.from_euler(_rotation)
-	#card.card_info_show.adjust_card_rotation()
+
 	card.entity.card_quaternion_changed.emit()

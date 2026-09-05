@@ -3,12 +3,10 @@ class_name Battle
 
 @onready var ui: CanvasLayer = $UI
 @onready var scene: Scene = $SVC/SV/Scene
-#@onready var player_mount: Node = $PlayerMount
-#@onready var camp_mount: Node = $CampMount
 @onready var world_environment: WorldEnvironment = $Environment/World
 @onready var light_environment: DirectionalLight3D = $Environment/Light
 
-var rule_manager = RuleManager.new() 
+var rule_manager = RuleManager.new()
 var event_manager = EventManager.new()
 var timepoint_manager = TimepointManager.new()
 @onready var callback_cache: CallbackCache = $CallbackCache
@@ -17,14 +15,11 @@ var timepoint_manager = TimepointManager.new()
 var host_player_id = "" # 主机玩家的ID（或许应该说是本地玩家的）
 var host_is_audience = false # 主机玩家是否是观众
 
-
 var visual_angle = Vector2i.DOWN :
 	set(v):
 		visual_angle = v
 		if scene: scene.battle_visual_angle_changed(visual_angle)
 
-
-# 0 也就是开始游戏前的回合
 # 这个特殊的回合需要做、抽卡、调度
 # 1 是开始回合，这个回合不进行【抽卡阶段】以及卡灵不能够攻击
 # 2 及之后的回合可进行【抽卡阶段】以及卡灵能够攻击
@@ -44,8 +39,6 @@ var round_index = 0
 var current_round_player: String = ""
 
 var host_player: Player # 代表玩家的灵客
-#var player_user_facility: Player.UseFacility = Player.UseFacility.NONE # 玩家使用的设备
-
 
 var players := {} # 玩家ID: PlayerEntity
 var cards := {} # 卡片ID: CardEntity
@@ -53,15 +46,12 @@ var camps := {} # 阵营ID: CampEntity
 var behaviors := {} # 行为ID: Behavior
 var areas := {} # 区域ID: AreaEntity
 
-
 # 在等待玩家处理输入交互时，应当设置为 true
 # 为 true 时，大部分行为不可操作
 var in_option = true
 
-
 # 游戏中产生的数据
 var battle_global_data = {}
-
 
 # 游戏中产生的数据绑定列表
 var battle_data_bind_list: DataStruct.BattleBindDataStruct = DataStruct.BattleBindDataStruct.new()

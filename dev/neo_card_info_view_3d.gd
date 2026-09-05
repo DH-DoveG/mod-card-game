@@ -1,9 +1,7 @@
 extends Node3D
 
-
 var event_id := ""
 var user: CardView3D
-
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
@@ -14,7 +12,6 @@ func _ready() -> void:
 		event_id = scene.event_manager.subscribe("VISUAL_ANGLE_CHANGED", change_dirction)
 	user = get_parent()
 
-
 func _process(_delta: float) -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
@@ -23,7 +20,6 @@ func _process(_delta: float) -> void:
 			hide()
 		else:
 			show()
-
 
 func update_entity(entity: CardEntity):
 	entity.card_quaternion_changed.connect(func():
@@ -39,17 +35,14 @@ func update_entity(entity: CardEntity):
 			$Sprite3D2.hide()
 	)
 
-
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.event_manager.unsubscribe("VISUAL_ANGLE_CHANGED", event_id)
 
-
 func set_rander_priority(priority):
 	$Sprite3D2.render_priority = priority
 	$Sprite3D.render_priority = priority + 1
-
 
 # 是否立起
 func change_x(status: bool):
@@ -64,7 +57,6 @@ func change_x(status: bool):
 		tween.tween_property($Sprite3D, "rotation_degrees:x", -90, 0.2)
 		tween.tween_property($Sprite3D2, "position:y", 0.02, 0.2)
 		tween.tween_property($Sprite3D, "position:y", 0.02, 0.2)
-
 
 func change_dirction(visual):
 	match visual:

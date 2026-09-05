@@ -1,9 +1,6 @@
 extends Command
 class_name ModStarterCommand
 
-## 启动命令
-## 启动mod的资源
-
 var _execute_result: Variant = null
 
 func execute():
@@ -33,9 +30,8 @@ func execute():
 
 	# 样板代码
 	_execute_state = true
-	
-	return use_result
 
+	return use_result
 
 func undo() -> void:
 	# 样板代码
@@ -43,7 +39,7 @@ func undo() -> void:
 		return
 
 	_execute_result = null
-	
+
 	# 样板代码
 	_execute_state = false
 	return

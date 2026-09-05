@@ -1,6 +1,5 @@
 extends Control
 
-
 func _ready() -> void:
 	ConfigManager.load_config_for_file()
 	ConfigManager.load_sound_setting()

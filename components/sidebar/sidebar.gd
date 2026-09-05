@@ -1,25 +1,6 @@
 @tool
 extends Control
 
-
-#
-#func _on_sidebar_folded(status: bool) -> void:
-	#var t = get_tree().create_tween().set_parallel(true)
-	#if status:
-		#t.tween_property($SVC/SV, "size:x", 1920, 0.25)
-		#t.tween_property($SVC, "size:x", 1920, 0.25)
-		#t.tween_property($SVC, "position:x", 0, 0.25)
-		#t.tween_property($UI/PlayerHandView, "position:x", 880, 0.25)
-		#t.tween_property($UI/Round, "position:x", 768, 0.25)
-	#else:
-		#t.tween_property($SVC/SV, "size:x", 1344, 0.25)
-		#t.tween_property($SVC, "size:x", 1344, 0.25)
-		#t.tween_property($SVC, "position:x", 576, 0.25)
-		#t.tween_property($UI/PlayerHandView, "position:x", 1200, 0.25)
-		#t.tween_property($UI/Round, "position:x", 1050, 0.25)
-
-
-
 @export var fold = true:
 	set(v):
 		fold = v
@@ -36,12 +17,9 @@ extends Control
 			t.tween_property($Tab, "position:x", 576, 0.25)
 		folded.emit(fold)
 
-
 var focus_item = null
 
-
 signal folded(status: bool)
-
 
 func _ready() -> void:
 	for i in $Tab/VBox.get_children():
@@ -59,23 +37,23 @@ func _ready() -> void:
 			# 切换
 			if focus_item != i:
 				var old = focus_item
-				
+
 				if old:
 					var node = $Content.get_child(0)
 					if node:
 						node.queue_free()
-				
+
 				fold = false
 				i.outline = true
 				focus_item = i
-				
+
 				match i.content:
-					"卡堆列表": 
+					"卡堆列表":
 						var scs = preload("res://components/sidebar/card_stack/sidebar_card_stack.tscn").instantiate()
 						$Content.add_child(scs)
 						pass
 					"对局信息": pass
-				
+
 				if old:
 					old.outline = false
 					old.mouse_exited.emit()

@@ -1,13 +1,11 @@
 extends Animate
 
-
 var object: Node3D = null
 var start_position = Vector3.ZERO
 var target_position = Vector3.ZERO
 var time = 0.5
 
 var distance: float
-
 
 func set_arg(arg: Dictionary) -> void:
 	object = arg["object"]

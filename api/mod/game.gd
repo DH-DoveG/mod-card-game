@@ -16,14 +16,12 @@ static func require(state: LuaState) -> void:
 	table.set("get_battle_info", state.create_function(get_battle_info))
 	state.globals["package"]["loaded"]["std.api.game-api"] = table
 
-
 static func get_battle_info(param) -> LuaTable:
 	var player_id = param["player_id"] if param["player_id"] != null else null
 	if player_id == null:
 		return null
 
 	var players = []
-	# var camps = []
 	var card_sets = {} # { "key": { id: string, size: int, public: []} }
 	var areas = [] # { id: string, public_cards: [], top_card: string, low_heap: [] }
 
@@ -32,7 +30,6 @@ static func get_battle_info(param) -> LuaTable:
 		return ModManager.state.create_table()
 	var battle: Battle = scene
 
-	# camps = battle.battle_data_bind_list.camp_bind_players.keys()
 	for camp in battle.battle_data_bind_list.camp_bind_players:
 		for player in battle.battle_data_bind_list.camp_bind_players[camp]:
 			players.append({"id": player, "camp": camp, "value": GApiManager.value_api.get_values_dict(player)})
@@ -47,14 +44,12 @@ static func get_battle_info(param) -> LuaTable:
 					public.append(card)
 			card_sets[cs].append({"id": pid, "size": cards.size(), "public": public})
 
-	# for area: BattlefieldArea in Utils.get_scene_tree().get_nodes_in_group(&"area"):
 	for area: AreaEntity in Utils.get_current_scene().areas.values():
 		var heap = GApiManager.area_api.get_heap(area.name)
 		var top = heap.pop_back()
 		var pc = []
 		for index in range(heap.size() - 1, -1, -1):
 			if player_id not in GApiManager.card_api.get_public_information(heap[index]):
-				# heap.remove_at(index)
 				heap[index] = "<Private>"
 			else:
 				pc.push_back(heap[index])
@@ -72,7 +67,6 @@ static func get_battle_info(param) -> LuaTable:
 		"areas": areas,
 	})
 
-
 static func create_camp(param) -> void:
 	var title = param["title"] if param["title"] != null else ""
 	var leader = param["leader"] if param["leader"] != null else null
@@ -81,10 +75,8 @@ static func create_camp(param) -> void:
 	var color = param["color"] if param["color"] != null else "999"
 	GApiManager.game_api.rpc("create_camp", title, leader, units, orientation, color)
 
-
 static func get_camp(param) -> LuaTable:
 	var title = param["title"] if param["title"] != null else ""
-	# var camps = Utils.get_scene_tree().get_nodes_in_group(&"camp")
 	var camps = Utils.get_current_scene().camps.values()
 	if camps.is_empty():
 		return null
@@ -93,19 +85,16 @@ static func get_camp(param) -> LuaTable:
 			return camp.to_table()
 	return null
 
-
 static func timeout(param: LuaTable) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
 		await Utils.get_scene_tree().create_timer(_arg["sec"]).timeout
 	, param)
-
 
 static func game_end(param) -> void:
 	var wins = param["wins"].to_array() if param["wins"] != null else []
 	var loses = param["loses"].to_array() if param["loses"] != null else []
 	var dogfall = param["dogfall"].to_array() if param["dogfall"] != null else []
 	GApiManager.game_api.rpc("game_end", wins, loses, dogfall)
-
 
 static func set_angle_of_view(param) -> void:
 	var player_id = param["player_id"] if param["player_id"] != null else null
@@ -119,11 +108,9 @@ static func set_angle_of_view(param) -> void:
 		return
 	GApiManager.game_api.rpc_id(p.id, "set_angle_of_view", angle)
 
-
 static func set_battle_ready_loading_state(param) -> void:
 	var state = param["state"] if param["state"] != null else false
 	GApiManager.game_api.rpc("set_battle_ready_loading_state", state)
-
 
 static func set_global_variable(param) -> void:
 	var key = param["key"] if param["key"] != null else ""
@@ -134,12 +121,11 @@ static func set_global_variable(param) -> void:
 		value = LuaUtils.table_to_dictionary(value)
 	GApiManager.game_api.rpc("set_global_variable", key, value)
 
-
 static func get_global_variable(param) -> Variant:
 	var key = param["key"] if param["key"] != null else ""
 	if key == "":
 		return null
-	
+
 	var scene = Utils.get_current_scene()
 	if scene is not Battle:
 		return null
@@ -149,13 +135,12 @@ static func get_global_variable(param) -> Variant:
 		value = LuaUtils.dictionary_to_table(value)
 	return value
 
-
 static func get_global_variable_list(param) -> Variant:
 	var key = param["key"] if param["key"] != null else ""
 	var mode = param["mode"] if param["mode"] != null else "PREFIX"
 	if key == "":
 		return null
-	
+
 	var scene = Utils.get_current_scene()
 	if scene is not Battle:
 		return null
@@ -176,16 +161,8 @@ static func get_global_variable_list(param) -> Variant:
 
 	return LuaUtils.array_to_table(res)
 
-
 static func remove_global_variable(param) -> bool:
 	var key = param["key"] if param["key"] != null else ""
-	# if key == "":
-	# 	return false
-	# var scene = Utils.get_current_scene()
-	# if scene is not Battle:
-	# 	return false
-	# var battle: Battle = scene
-	# battle.battle_global_data.erase(key)
-	# return true
+
 	GApiManager.game_api.rpc("remove_global_variable", key)
 	return GApiManager.game_api.remove_global_variable(key)

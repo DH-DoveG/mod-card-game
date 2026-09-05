@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cobp243froy1o" path="res://components/loading_panel/loading_panel.gd" id="1_8jjmy"]
 [ext_resource type="Texture2D" uid="uid://u5sxuty43mxb" path="res://Screenshot.png" id="2_ikmh5"]
 [ext_resource type="Shader" uid="uid://brqdrp4dsqt7w" path="res://assets/shader/canvas_item/边缘模糊.gdshader" id="3_igc15"]
-[ext_resource type="Texture2D" uid="uid://c2pceev6cd4a6" path="res://addons/material_icons_importer/icons/autorenew.png" id="3_ikmh5"]
+[ext_resource type="Texture2D" uid="uid://c2pceev6cd4a6" path="res://assets/images/icons/autorenew.png" id="3_ikmh5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ikmh5"]
 shader = ExtResource("3_igc15")

@@ -493,7 +493,7 @@
 		},
 		{
 			"uuid": "e415d2c8-d353-4cc8-81c0-74a69c1b0501",
-			"title": "New task",
+			"title": "替换TopTips为battle_net的顶部栏",
 			"description": "",
 			"category": "fec5515c-e97b-40b8-8d0a-8010fe297268",
 			"steps": []

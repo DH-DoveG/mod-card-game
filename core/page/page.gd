@@ -1,7 +1,6 @@
 extends Control
 class_name Page
 
-
 @onready var background = $Background
 
 var page_id: String = "DEFAULT_PAGE":
@@ -10,7 +9,6 @@ var page_id: String = "DEFAULT_PAGE":
 		if not ConfigManager.page_config.has(v):
 			ConfigManager.page_config[v] = ""
 		page_id = v
-
 
 func _ready() -> void:
 	if ConfigManager.page_config.has(page_id):
@@ -21,7 +19,7 @@ func _ready() -> void:
 		else:
 			path = ConfigManager.page_config.get("DEFAULT_PAGE")
 			if path == null:
-				#background.texture = load("res://assets/images/background/hex2.jpg")
+
 				background.texture = load("res://Screenshot.png")
 				return
 			texture = GResourceManager.get_image_resoure(path)

@@ -5,19 +5,17 @@ extends SelectItemDialog
 func _ready() -> void:
 	super()
 
-
 func _exit_tree() -> void:
 	super()
-
 
 func _build_list(list: Dictionary) -> void:
 	items = list["items"]
 	max_num = list["max"]
 	min_num = list["min"]
-	
+
 	# 在这里，items 就是Tag列表（不过我们不能混合的显示，我们只能单一的显示，所以取第一个作为tag）
 	var tag = items[0]
-	
+
 	var item_size = Vector2.ZERO
 	match tag:
 		"OTHER": item_size = Vector2(314, 314)
@@ -29,12 +27,12 @@ func _build_list(list: Dictionary) -> void:
 		"BACKGROUND": item_size = Vector2(558, 314)
 	temp_item.custom_minimum_size = item_size
 	temp_item.custom_maximum_size = item_size
-	
+
 	items = []
 	for k1 in GResourceManager.image_resource:
 		if tag in k1.tags:
 			items.append(k1)
-	
+
 	for item in items:
 		var dup = temp_item.duplicate(true)
 		scroll.add_child(dup)

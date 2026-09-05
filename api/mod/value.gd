@@ -14,15 +14,13 @@ static func require(state: LuaState) -> void:
 	table.set("remove_modifier", state.create_function(remove_modifier))
 	state.globals["package"]["loaded"]["std.api.value-api"] = table
 
-
 static func append(param) -> void:
 	var id: String = param["id"] if param["id"] else ""
 	var value: Dictionary = LuaUtils.table_to_dictionary(param["value"]) if param["value"] else {}
-	# print("[CORE] ADD VALUE: ", id, " v:", value)
+
 	if id.is_empty() or value.is_empty():
 		return
 	GApiManager.value_api.rpc("append", id, value)
-
 
 static func remove(param) -> void:
 	var id = param["id"] if param["id"] else ""
@@ -30,7 +28,6 @@ static func remove(param) -> void:
 	if code.is_empty() or id.is_empty():
 		return
 	GApiManager.value_api.rpc("remove", id, code)
-
 
 static func get_all(param) -> LuaTable:
 	var id: String = param["id"] if param["id"] else ""
@@ -49,7 +46,6 @@ static func get_all(param) -> LuaTable:
 		result[code] = v.get_value(id)
 	return LuaUtils.dictionary_to_table(result)
 
-
 static func increase(param) -> void:
 	var id = param["id"] if param["id"] != null else ""
 	var code = param["code"] if param["code"] != null else ""
@@ -58,7 +54,6 @@ static func increase(param) -> void:
 		return
 	GApiManager.value_api.rpc("increase", id, code, value)
 
-
 static func reset(param) -> void:
 	var id = param["id"] if param["id"] else ""
 	var code = param["code"] if param["code"] else ""
@@ -66,7 +61,6 @@ static func reset(param) -> void:
 	if code.is_empty() or id.is_empty() or value == null:
 		return
 	GApiManager.value_api.rpc("reset", id, code, value)
-
 
 static func get_only(param) -> Variant:
 	var id = param["id"] if param["id"] else ""
@@ -82,7 +76,6 @@ static func get_only(param) -> Variant:
 		entity = FindUtils.find_area(id)
 	else:
 		return null
-	#var entity: Entity = FindUtils.find_entity(id)
 	if not entity:
 		return null
 	if code in entity.values:
@@ -92,16 +85,15 @@ static func get_only(param) -> Variant:
 
 static func remove_modifier(param) -> void:
 	var modifier_id = param["modifier_id"] if param["modifier_id"] else ""
-	# print("Remove Modifier ID: ", modifier_id)
+
 	if modifier_id.is_empty():
 		return
 	GApiManager.value_api.rpc("remove_modifier", modifier_id)
 
-
 static func append_modifier(param) -> void:
 	var id = param["id"] if param["id"] else ""
 	var modifier = param["modifier"] if param["modifier"] else null
-	# print("append_modifier: ", modifier)
+
 	if id.is_empty() or modifier == null:
 		return
 	if modifier is not LuaTable:

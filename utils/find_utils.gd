@@ -43,7 +43,6 @@ static func find_condition_cards(condition: Dictionary, cards: Array = []) -> Ar
 					k = true
 					break
 			if not k: continue
-		# sets
 		if condition.has("sets"):
 			var k = false
 			for _set in condition["sets"]:

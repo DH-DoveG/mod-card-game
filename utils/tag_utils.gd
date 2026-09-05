@@ -8,53 +8,20 @@
 extends Object
 class_name TagUtils
 
-
 # FIXME: 待修复
 static func add_tag(id: String, tag: String) -> void:
-	# if tags.has(id):
-	# 	tags[id].append(tag)
-	# else:
-	# 	tags[id] = PackedStringArray([tag])
 	pass
-
 
 # FIXME: 待修复
 static func remove_tag(id: String, tag: String) -> void:
-	# if id.is_empty():
-	# 	for key in tags.keys():
-	# 		tags[key].erase(tag)
-	# if tags.has(id):
-	# 	tags[id].erase(tag)
 	pass
-
 
 # FIXME: 待修复
 # Returns: { id: [ "eq_tag1", "eq_tag2" ] }
 func find_all_tag(tag: String, strict: bool) -> Dictionary:
-	# var result: Dictionary = {}
-	# for key in tags.keys():
-	# 	if find_once_tag(key, tag, strict):
-	# 		result[key] = tags[key]
-	# return result
 	return {}
-
 
 # FIXME: 待修复
 # Returns: [ "eq_tag1", "eq_tag2" ]
 func find_once_tag(id: String, tag: String, strict: bool) -> Array:
-	# if id.is_empty():
-	# 	return []
-	# if strict:
-	# 	var result = []
-	# 	for item in tags[id]:
-	# 		if item == tag:
-	# 			result.append(item)
-	# else:
-	# 	var result = []
-	# 	for item in tags[id]:
-	# 		var split = item.split(".")
-	# 		for sub_tag in split:
-	# 			if sub_tag == tag:
-	# 				result.append(item)
-	# return []
 	return []

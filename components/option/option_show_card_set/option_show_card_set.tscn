@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="3_w0um4"]
 [ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="3_x6ney"]
 [ext_resource type="Script" uid="uid://0v4hxyxqypup" path="res://components/option/option_show_card_set/item.gd" id="4_v4ry4"]
-[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://addons/material_icons_importer/icons/keyboardArrowDown.png" id="6_1dy46"]
+[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://assets/images/icons/keyboardArrowDown.png" id="6_1dy46"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hnnub"]
 shader = ExtResource("3_w0um4")

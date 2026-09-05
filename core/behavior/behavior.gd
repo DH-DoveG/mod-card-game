@@ -1,7 +1,6 @@
 extends RefCounted
 class_name Behavior
 
-
 class BehaviorTrigger extends RefCounted:
 	var origin := "" # 作为行为源的 玩家ID、区域ID、卡片ID
 	var trigger := "" # 玩家ID、区域ID、卡片ID
@@ -43,7 +42,7 @@ func check_cost(_bt: BehaviorTrigger, _arg) -> bool:
 	return true
 
 # 检查是否可发动行为
-func check_launch(_bt: BehaviorTrigger, _args) -> bool: 
+func check_launch(_bt: BehaviorTrigger, _args) -> bool:
 	await Utils.get_scene_tree().process_frame
 	return true
 

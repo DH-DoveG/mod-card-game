@@ -1,7 +1,6 @@
 extends RefCounted
 class_name Value
 
-
 var value = 0
 var nick = ""
 var code = ""
@@ -10,7 +9,6 @@ var min_value = -1024
 var config = null
 
 var modifiers: Array[Modifier] = []
-
 
 func to_dict() -> Dictionary:
 	var result = {
@@ -23,10 +21,8 @@ func to_dict() -> Dictionary:
 	}
 	return result
 
-
 func to_table() -> LuaTable:
 	return LuaUtils.dictionary_to_table(to_dict())
-
 
 func get_value(user_id: String) -> int:
 	var v = value
@@ -38,7 +34,6 @@ func get_value(user_id: String) -> int:
 		if config["dynmic_get"] and (config["dynmic_get"] is LuaFunction or config["dynmic_get"] is Callable):
 			return config["dynmic_get"].invoke(user_id, dict)
 	return v
-
 
 func get_modifiers() -> Array:
 	for i in range(modifiers.size() - 1, -1, -1):

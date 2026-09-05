@@ -1,6 +1,5 @@
 extends MenuButton
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var popup = get_popup() #"theme_override_font_sizes/font_size"
@@ -17,7 +16,6 @@ func _ready() -> void:
 	)
 	update()
 
-
 func update() -> void:
 	if not Utils.is_battle_scene(): return
 	var battle: Battle = Utils.get_current_scene()
@@ -27,7 +25,5 @@ func update() -> void:
 	for key in keys:
 		popup.add_item(key)
 
-
 func _on_button_down() -> void:
 	update()
-	pass # Replace with function body.

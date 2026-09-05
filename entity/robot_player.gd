@@ -1,7 +1,6 @@
 extends Player
 class_name RobotPlayer
 
-
 func set_info(param: Dictionary) -> void:
 	super(param)
 	var t = GResourceManager.player_resource[param["template"]]
@@ -22,7 +21,7 @@ func set_info(param: Dictionary) -> void:
 		deck_config = JSON.parse_string(file.get_as_text())
 	use_deck_config = deck_config
 	use_card_back = data["card_back"]
-	
+
 	data["entity"]["id"] = param["pid"]
 	data["name"] = player_name
 	meta = data
@@ -44,7 +43,6 @@ func start_round() -> Variant:
 		assert(false, "ROBOT: [start_round] 错误：" + _res.message)
 	return _res
 
-
 func end_round() -> Variant:
 	var _res = meta["end_round"].invoke(meta)
 	if _res is LuaCoroutine:
@@ -64,7 +62,7 @@ func end_round() -> Variant:
 
 func interaction_processing(param) -> Variant:
 	await Utils.get_scene_tree().create_timer(0.25).timeout
-	var law = await ModManager.LuaAwaitWrapper.create_starter(func(_aw): 
+	var law = await ModManager.LuaAwaitWrapper.create_starter(func(_aw):
 		var _res = meta["action_input"].invoke(meta, param)
 		# 如果执行的返回值是携程，需要等待携程完成
 		if _res is LuaCoroutine:

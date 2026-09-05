@@ -1,11 +1,7 @@
 extends Command
 class_name ModProbeCommand
 
-## 探测命令
-## 探测mod的资源
-
 var _execute_result: Variant = null
-
 
 func execute() -> void:
 	# 样板代码
@@ -55,12 +51,11 @@ func execute() -> void:
 	_execute_state = true
 	return
 
-
 func undo() -> void:
 	# 样板代码
 	if not is_execute():
 		return
-	
+
 	# 检查参数
 	if not _args.has("path") and typeof(_args["path"]) != TYPE_STRING:
 		return
@@ -69,7 +64,7 @@ func undo() -> void:
 	for mod in ModManager.probe_mods:
 		if (mod["prefix"] as String).erase(0, _args["path"].length()) in _execute_result.keys():
 			ModManager.probe_mods.erase(mod)
-	
+
 	# 样板代码
 	_execute_result = null
 	_execute_state = false

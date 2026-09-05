@@ -1,14 +1,11 @@
 extends RefCounted
 class_name EventManager
 
-
 class EventListener extends RefCounted:
 	var id: String = ""
 	var callback: Callable
 
-
 var register: Dictionary = {}
-
 
 func subscribe(event_name: StringName, callback: Callable) -> String:
 	var id = IDUtils.generate("EVENT_LISTENER_")
@@ -20,11 +17,9 @@ func subscribe(event_name: StringName, callback: Callable) -> String:
 	register[event_name].append(listener)
 	return id
 
-
 func unsubscribe(event_name: StringName, id: String):
 	if register.has(event_name):
 		register[event_name].erase(id)
-
 
 func emit(event_name: StringName, ...args):
 	if register.has(event_name):

@@ -1,13 +1,6 @@
 extends Node3D
 
-
 @onready var deep_ray: DeepRayCast3D = $Node3D/DeepRayCast3D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -19,7 +12,7 @@ func _physics_process(delta: float) -> void:
 	var dr = $Node3D
 	dr.global_position = ray_origin
 	dr.look_at(ray_origin + ray_dir, Vector3.UP)
-		
+
 	print("\n=====鼠标悬浮命中堆叠物体=====")
 	for i in range(deep_ray.get_collider_count()):
 		var collider = deep_ray.get_collider(i)

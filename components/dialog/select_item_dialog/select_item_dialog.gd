@@ -5,7 +5,6 @@ class_name SelectItemDialog
 @onready var scroll = $Dialog/Scroll/HBox
 
 var items = [] # 可选择
-#var chooses = {} # 已选择，key=按钮名字，value=传入的value
 var chooses = [] # 已选择，结构： [ [按钮名字, 传入的value], ... ]
 var max_num = 1
 var min_num = 0
@@ -16,10 +15,8 @@ const not_choose_color = Color("#818181")
 func _ready() -> void:
 	super()
 
-
 func _exit_tree() -> void:
 	super()
-
 
 func set_value(param: Dictionary) -> void:
 	# 参数检查
@@ -31,13 +28,11 @@ func set_value(param: Dictionary) -> void:
 	# 构建列表
 	_build_list(param["list"])
 
-
-# override
 func _bind_btn_callback(callback) -> void:
 	var vs = []
 	for i in chooses:
 		vs.append(i[1])
-	
+
 	if typeof(callback) == TYPE_DICTIONARY:
 		var func_cache_host_id = callback["cache_host_id"]
 		var func_id = callback["id"]
@@ -47,7 +42,7 @@ func _bind_btn_callback(callback) -> void:
 			select_clicked.emit(v)
 			call_deferred("queue_free")
 		return
-	
+
 	if not callback.is_valid():
 		select_clicked.emit(vs)
 		call_deferred("queue_free")
@@ -59,7 +54,6 @@ func _bind_btn_callback(callback) -> void:
 		close.erase("close")
 		select_clicked.emit(close)
 		call_deferred("queue_free")
-
 
 func _build_list(list: Dictionary) -> void:
 	items = list["items"]
@@ -76,7 +70,6 @@ func _build_list(list: Dictionary) -> void:
 		dup.get_node("Label").text = item.text
 		dup.get_node("Image").pressed.connect(_list_item_pressed.bind(dup, item))
 		dup.show()
-
 
 # 列表选项的点击处理
 func _list_item_pressed(btn: ColorRect, param: Dictionary) -> void:

@@ -1,11 +1,7 @@
 extends Command
 class_name ModRegisterCommand
 
-## 注册命令
-## 注册mod的资源
-
 var _execute_result: Variant = null
-
 
 func execute() -> void:
 	# 样板代码
@@ -25,7 +21,7 @@ func execute() -> void:
 		return
 	# 业务逻辑
 	var register_metadata = load_table.invoke()
-	
+
 	assert(register_metadata is LuaTable, "ModRegisterCommand execute register_metadata not is LuaTable")
 
 	result["cards"] = _execute_register_cards(register_metadata, _args["prefix"])
@@ -47,7 +43,6 @@ func execute() -> void:
 	# 样板代码
 	_execute_state = true
 
-
 func undo() -> void:
 	# 样板代码
 	if not is_execute():
@@ -63,14 +58,12 @@ func undo() -> void:
 	# 样板代码
 	_execute_state = false
 
-
 func _execute_register_agents(table: LuaTable, prefix: String) -> Dictionary:
 	var agents = table["agents"].to_dictionary()
 	for key in agents:
 		var agent = "/".join([prefix, agents[key]])
 		GResourceManager.agent_resource[key] = agent
 	return agents
-
 
 func _execute_register_deck_check_tools(table: LuaTable, prefix: String) -> Dictionary:
 	var deck_check_tools = table["deck_check_tools"].to_dictionary()
@@ -79,7 +72,6 @@ func _execute_register_deck_check_tools(table: LuaTable, prefix: String) -> Dict
 		GResourceManager.deck_check_tool_resource[key] = deck_check_tool
 	return deck_check_tools
 
-
 func _execute_register_behaviors(table: LuaTable, prefix: String) -> Dictionary:
 	var behaviors = table["behaviors"].to_dictionary()
 	for key in behaviors:
@@ -87,14 +79,12 @@ func _execute_register_behaviors(table: LuaTable, prefix: String) -> Dictionary:
 		GResourceManager.behavior_resource[key] = behavior
 	return {}
 
-
 func _execute_register_values(table: LuaTable, prefix: String) -> Dictionary:
 	var values = table["values"].to_dictionary()
 	for key in values:
 		var value = "/".join([prefix, values[key]])
 		GResourceManager.value_resource[key] = value
 	return {}
-
 
 func _execute_register_cards(table: LuaTable, prefix: String) -> Dictionary:
 	var cards = table["cards"].to_dictionary()
@@ -158,7 +148,6 @@ func _execute_register_packs(table: LuaTable, prefix: String) -> Dictionary:
 		GResourceManager.package_resource[key] = pack
 	return {}
 
-
 func _execute_register_start_rules(table: LuaTable, _prefix: String) -> Dictionary:
 	var start_rules = table["start_rules"].to_array()
 	GResourceManager.start_rule_resource.append_array(start_rules)
@@ -170,7 +159,6 @@ func _execute_register_player_entitys(table: LuaTable, prefix: String) -> Dictio
 		var player_entity = "/".join([prefix, player_entitys[key]])
 		GResourceManager.player_entitys_resource[key] = player_entity
 	return {}
-
 
 func _undo_register_cards(table: LuaTable) -> Dictionary:
 	var cards = table["cards"]

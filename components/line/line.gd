@@ -1,7 +1,6 @@
 extends Node3D
 class_name Line
 
-
 signal finished
 
 @export var line_space = 4 # 0/m
@@ -16,11 +15,9 @@ signal finished
 
 var is_start = true
 
-
 # 计算耗时
 func get_time() -> float:
 	return path.curve.get_baked_length() / line_space
-
 
 func _physics_process(delta: float) -> void:
 	if !is_start:

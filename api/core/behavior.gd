@@ -1,9 +1,7 @@
 extends Node
 class_name CoreBehaviorApi
 
-
 #卡的效果添加的 Behavior 会导致错误（没有添加到 behaviors 中）
-
 
 func create(template: String) -> Behavior:
 	# 根据模板，创建行为
@@ -20,28 +18,18 @@ func create(template: String) -> Behavior:
 		assert(false, "CoreBehaviorApi: create: meta is lua error: " + meta.message)
 	if meta is not LuaTable:
 		assert(false, "CoreBehaviorApi: create: meta is not lua table")
-	
-	#var behavior_lua = load("res://core/behavior/behavior_lua.tscn").instantiate()
-	
+
 	var behavior_lua = BehaviorLua.new()
-	#var _behavior_id = ""
-	#if meta["id"]:
-		#_behavior_id = meta["id"]
-	#else:
-		#var _id = IDUtils.generate("BEHAVIOR_")
-		#meta["id"] = _id
-		#_behavior_id = _id
-	# print(">> Behavior Create: ", _behavior_id)
+
 	behavior_lua.init_data(meta)
-	#behavior_lua.name = _behavior_id
+
 	behavior_lua.template = template
 	return behavior_lua
-
 
 func get_all(entity_id: String) -> Array:
 	var scene: Battle = Utils.get_current_scene()
 	var bs = scene.battle_data_bind_list.card_bind_behaviors.get(entity_id, [])
-	
+
 	var result = []
 	for b in bs:
 		var br = FindUtils.find_behavior(b)
@@ -50,28 +38,26 @@ func get_all(entity_id: String) -> Array:
 
 #如果单一没有 ID 那么如何判断是哪个 card 的 行为？
 #因为 behavior 唯一，所以调用时传入卡片ID即可
-#* 那么只卡片只需要记录主机有哪些技能即可
 
 # 仅 Card 挂有 behavior
 func get_ownership(id: String) -> Variant:
 	var scene = Utils.get_current_scene()
 	if scene is not Battle:
 		return null
-	
+
 	var battle: Battle = scene
-	
+
 	var card_id = ""
 	for bkey in battle.battle_data_bind_list.card_bind_behaviors:
 		if id in battle.battle_data_bind_list.card_bind_behaviors[bkey]:
 			card_id = bkey
 	if not card_id:
 		return null
-	
+
 	var card = FindUtils.find_card(card_id)
 	if not card:
 		return null
 	return card
-
 
 @rpc("any_peer", "call_local", "reliable")
 func append_entity(entity_id, template, unique) -> void:
@@ -91,7 +77,6 @@ func append_entity(entity_id, template, unique) -> void:
 		var battle: Battle = Utils.get_current_scene()
 		battle.battle_data_bind_list.card_bind_behaviors[entity_id].append(behavior.name)
 
-
 @rpc("any_peer", "call_local", "reliable")
 func remove_entity(entity_id, template) -> void:
 	var entity: Entity = FindUtils.find_entity(entity_id)
@@ -107,11 +92,3 @@ func remove_entity(entity_id, template) -> void:
 				var battle: Battle = Utils.get_current_scene()
 				battle.battle_data_bind_list.card_bind_behaviors[entity_id].erase(b.name)
 			entity.behaviors.erase(b)
-			#b.queue_free()
-	# var behavior: Behavior = create(template)
-	# if not behavior:
-	# 	return
-	# entity.behaviors.add_behavior(behavior)
-	# if entity_id.begins_with("CARD_"):
-	# 	var battle: Battle = Utils.get_current_scene()
-	# 	battle.battle_data_bind_list.card_bind_behaviors[entity_id].append(behavior.name)

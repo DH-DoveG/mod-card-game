@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dy2byuumnnsij"]
 
 [ext_resource type="Script" uid="uid://dn745ctdrn727" path="res://components/card_set_info_panel/card_set_expend_panel.gd" id="1_exkpl"]
-[ext_resource type="Texture2D" uid="uid://o0hxk63x6i1k" path="res://addons/material_icons_importer/icons/keyboardArrowUp.png" id="2_mvthc"]
+[ext_resource type="Texture2D" uid="uid://o0hxk63x6i1k" path="res://assets/images/icons/keyboardArrowUp.png" id="2_mvthc"]
 
 [node name="CardSetExpendPanel" type="ColorRect" unique_id=460285167]
 custom_minimum_size = Vector2(328, 24)

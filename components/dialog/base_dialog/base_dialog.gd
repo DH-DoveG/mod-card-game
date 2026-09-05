@@ -16,13 +16,11 @@ func _ready() -> void:
 		scene.in_option = true
 		scene.scene.enabled_ray(false)
 
-
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.in_option = false
 		scene.scene.enabled_ray(true)
-
 
 func _on_visible_pressed() -> void:
 	visible_mode = !visible_mode
@@ -34,7 +32,6 @@ func _on_visible_pressed() -> void:
 		if scene is Battle:
 			scene.in_option = true
 			scene.scene.enabled_ray(true)
-
 
 func _on_show_dialog_pressed() -> void:
 	$HideBar.hide()

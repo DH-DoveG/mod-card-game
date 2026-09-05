@@ -1,7 +1,6 @@
 extends Object
 class_name ModCallbackApi
 
-
 static func require(state: LuaState) -> void:
 	var table = state.create_table()
 	table.set("call_hook", state.create_function(call_hook))
@@ -11,26 +10,15 @@ static func require(state: LuaState) -> void:
 	table.set("set_timepoint_queue_sort_method", state.create_function(set_timepoint_queue_sort_method))
 	table.set("set_card_info_show_method", state.create_function(set_card_info_show_method))
 	table.set("set_area_info_show_method", state.create_function(set_area_info_show_method))
-	# table.set("append_hook", state.create_function(append_hook))
-	# table.set("remove_hook", state.create_function(remove_hook))
+
 	state.globals["package"]["loaded"]["std.api.callback-api"] = table
 
-
-# static func append_hook(param: LuaTable) -> void:
-# 	var name = param["name"]
-# 	var priority = param["priority"]
-# 	var behavior = param["behavior"]
 # 	# Utils.get_current_scene().timepoint_manager.rr_hook[priority].append(behavior)
 
-
-# static func remove_hook(param: LuaTable) -> void:
-# 	var behavior = param["behavior"]
 # 	# Utils.get_current_scene().timepoint_manager.rr_hook[behavior["priority"]].remove(behavior)
-
 
 static func call_hook(param: LuaTable) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
-		# await Utils.get_scene_tree().process_frame
 		var _n = param["name"]
 		var _p = param["param"]
 
@@ -56,7 +44,6 @@ static func call_hook(param: LuaTable) -> Signal:
 		return _p
 	, param)
 
-
 # 关于 SN02 的效果循环问题：
 # 1. [1]处理过程中触发新的事件
 # 2. [1]触发的新事件调用call_event成为[2]
@@ -70,21 +57,15 @@ static func get_event(param: LuaTable) -> Variant:
 
 static func call_event(param: LuaTable) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
-		
+
 		print("[CORE] call_event: ", LuaUtils.table_to_dictionary(param))
-		
+
 		var event = param["event"]
 		# 其他的配置 config 作为动画演出效果，在这里处理
-		# animate
-		# sound
 		var config = LuaUtils.table_to_dictionary(param["config"])
 		var unlock = false
 		if config.has("unlock"):
 			unlock = config["unlock"]
-		
-		# ##### 表现效果
-		#effect_animate(event, config)
-		# #####
 
 		var table = null
 		var timepoint_queue = Utils.get_current_scene().timepoint_manager.create_timepoint_queue()
@@ -134,7 +115,7 @@ static func set_timepoint_queue_sort_method(param) -> void:
 static func set_card_info_show_method(param) -> void:
 	var method = param["method"]
 	Utils.get_current_scene().callback_cache.card_info_show_method = func(player_id, card_id):
-		#print("调用 card_info_show_method ： ", player_id, " | ", card_id)
+
 		var res = method.invoke(card_id, player_id)
 		if res is LuaError:
 			assert(false, "卡片信息自定义方法错误:" + res.message)
@@ -154,7 +135,7 @@ static func set_card_info_show_method(param) -> void:
 static func set_area_info_show_method(param) -> void:
 	var method = param["method"]
 	Utils.get_current_scene().callback_cache.area_info_show_method = func(player_id, area_id):
-		#print("调用 area_info_show_method ： ", player_id, " | ", area_id)
+
 		var res = method.invoke(area_id, player_id)
 		if res is LuaError:
 			assert(false, "时点队列排序方法错误:" + res.message)
@@ -190,7 +171,7 @@ static func effect_animate(event, config):
 			ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s][%s]）" % [area, c.name, behavior_info["type"], behavior_info["name"]])
 		else:
 			ToastUtils.info("在 [%s] 的 [%s] 的效果发动（[%s]）" % [area, c.name, behavior_info["type"]])
-		
+
 		if config.has("animate") and config["animate"] == "Default":
 			var sound = ""
 			if config.has("sound"):

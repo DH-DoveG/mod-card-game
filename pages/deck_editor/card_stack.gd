@@ -7,10 +7,8 @@ var show_cvo = null
 var show_ao = false
 var ao_card_entity = null
 
-
 func get_title() -> String:
 	return $Top/LineEdit.text
-
 
 #点击搜索栏的卡片的加号，这里会显示，除非再点击那个卡片的减号，或者那个项目消失时关闭显示
 func show_add_card(card: CardEntity, status: bool) -> void:
@@ -31,7 +29,6 @@ func show_add_card(card: CardEntity, status: bool) -> void:
 				grid.move_child(ta, grid.get_child_count())
 			)
 	update()
-
 
 func add_card(card: CardEntity) -> void:
 	var cv: CardView2D = load("res://components/card_view_2d/card_view_2d.tscn").instantiate()
@@ -58,26 +55,18 @@ func add_card(card: CardEntity) -> void:
 	)
 	update()
 
-
 func remove_card(index: int) -> void:
-	#for cv in grid.get_children():
-		#if cv is CardView and cv.data == card:
-			#cv.queue_free()
-			#break
 	grid.get_children()[index].queue_free()
 	update()
 
-
 func update():
 	get_tree().process_frame.connect(func():
-		# ceili | floori
 		var gsy = float(grid.get_child_count()) / float(10)
 		if not is_zero_approx(gsy):
 			gsy = ceili(gsy)
 		if gsy == 0: gsy = 1
 		custom_minimum_size.y = 246 + gsy * 182 - 182 + gsy * 8
 	, ConnectFlags.CONNECT_ONE_SHOT)
-
 
 func _on_remove_pressed() -> void:
 	queue_free()

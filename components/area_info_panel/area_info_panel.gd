@@ -1,15 +1,11 @@
 extends ColorRect
 
-
 @onready var title := $Back/Title
 
 var battle: Battle = null
 
-
 func _ready() -> void:
 	Utils.get_current_scene().event_manager.subscribe("SHOW_AREA_INFO_IN_PANEL", _event_bus_callable)
-	pass # Replace with function body.
-
 
 func _event_bus_callable(args) -> void:
 	if typeof(args) == TYPE_DICTIONARY:

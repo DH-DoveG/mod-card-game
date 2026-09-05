@@ -1,33 +1,25 @@
 extends CustomDialog
 class_name InputDialog
 
-
 func _ready() -> void:
 	super()
-
 
 func _exit_tree() -> void:
 	super()
 
-
 func get_value():
 	return $Dialog/VBox/LineEdit.text
 
-
 func set_value(param: Dictionary) -> void:
 	super(param)
-	#if param["can_hide"] == false:
-		#$Background/Visible.hide()
 	if param.get("value"):
 		$Dialog/VBox/LineEdit.text = param["value"]
 	if param["placeholder"]:
 		$Dialog/VBox/LineEdit.placeholder_text = param["placeholder"]
 
-
-# override
 func _bind_btn_callback(callback) -> void:
 	var vs = get_value()
-	
+
 	if typeof(callback) == TYPE_DICTIONARY:
 		var func_cache_host_id = callback["cache_host_id"]
 		var func_id = callback["id"]
@@ -37,7 +29,7 @@ func _bind_btn_callback(callback) -> void:
 			select_clicked.emit(v)
 			call_deferred("queue_free")
 		return
-	
+
 	if not callback.is_valid():
 		select_clicked.emit(vs)
 		call_deferred("queue_free")

@@ -14,7 +14,6 @@ static func table_to_dictionary(table: LuaTable, state: LuaState = null) -> Dict
 			dictionary[i] = cal
 	return dictionary
 
-
 ## 递归的将 Dictionary 转换为 LuaTable
 static func dictionary_to_table(dictionary: Dictionary, state: LuaState = null) -> LuaTable:
 	if state == null:
@@ -33,7 +32,6 @@ static func dictionary_to_table(dictionary: Dictionary, state: LuaState = null) 
 		else:
 			table.set(key, value)
 	return table
-
 
 ## 递归的将 Array 转换为 LuaTable
 static func array_to_table(array: Array, state: LuaState = null) -> LuaTable:

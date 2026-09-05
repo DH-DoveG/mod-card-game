@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cyv6b3v643u0g"]
 
 [ext_resource type="Script" uid="uid://bifdk8c1mw5sw" path="res://components/chat/chat_battlel.gd" id="1_5jqb5"]
-[ext_resource type="Texture2D" uid="uid://b4j80kgvhnmpk" path="res://addons/material_icons_importer/icons/chat.png" id="1_qocic"]
+[ext_resource type="Texture2D" uid="uid://b4j80kgvhnmpk" path="res://assets/images/icons/chat.png" id="1_qocic"]
 
 [node name="Control" type="Control" unique_id=263595563]
 layout_mode = 3

@@ -1,13 +1,10 @@
 extends ColorRect
 
-
 var battle: Battle = null
-
 
 func set_battle(_battle: Battle) -> void:
 	battle = _battle
 	battle.event_manager.subscribe("CardSetCreate", _create)
-
 
 func _create(args: Dictionary):
 	var set_key = args["set_key"]

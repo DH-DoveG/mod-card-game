@@ -3,12 +3,9 @@ extends PopupMenu
 var behaviors = []
 var card_entity: CardEntity
 
-#
 func _ready() -> void:
 	add_theme_font_size_override(&"font_size", 32)
 	add_theme_constant_override(&"font_separator_size", 16)
-	#pass
-
 
 func show_menu(pos, _behaviors, _entity: CardEntity) -> bool:
 	behaviors = _behaviors
@@ -30,11 +27,11 @@ func show_menu(pos, _behaviors, _entity: CardEntity) -> bool:
 	if not can: return false
 	clear()
 	var id = 0
-	
+
 	var bt = Behavior.BehaviorTrigger.new()
 	bt.trigger = battle.host_player_id
 	bt.origin = _entity.name
-	
+
 	for bname: String in behaviors:
 		var behavior: Behavior = scene.behaviors[bname]
 		bt.code = bname
@@ -54,10 +51,7 @@ func show_menu(pos, _behaviors, _entity: CardEntity) -> bool:
 	position = _pos
 	return true
 
-
-#func _on_popup_menu_popup_hide() -> void:
 	# FIXME: 先随便写写
-
 
 func _on_id_pressed(id: int) -> void:
 	var scene = get_tree().current_scene
@@ -73,10 +67,6 @@ func _on_id_pressed(id: int) -> void:
 	if battle.in_option:
 		return
 	var behavior_entry: Behavior = battle.behaviors[behaviors[id]]
-	#var check_launch = await behavior_entry.check_launch()
-	#var check_cost = await behavior_entry.check_cost()
-	#if !check_launch or !check_cost:
-		#return
 	var bt = Behavior.BehaviorTrigger.new()
 	bt.code = behavior_entry.get_info()["code"]
 	bt.trigger = battle.host_player_id
@@ -85,8 +75,4 @@ func _on_id_pressed(id: int) -> void:
 		trigger = (Utils.get_current_scene() as Battle).host_player_id
 	})
 
-
-func _on_popup_hide() -> void:
-	#if get_parent()
-	#get_parent().get_node("../Area3D/CollisionShape3D").disabled = false
-	pass # Replace with function body.
+func _on_popup_hide() -> void: pass
