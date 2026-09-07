@@ -20,6 +20,7 @@ func _process(_delta: float) -> void:
 			hide()
 		else:
 			show()
+			change_dirction(scene.visual_angle)
 
 func update_entity(entity: CardEntity):
 	$InfoView/SubViewport/Info/CardName.text = entity.card_name

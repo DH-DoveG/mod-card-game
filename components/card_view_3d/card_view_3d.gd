@@ -30,6 +30,9 @@ func animate_free():
 var is_hightlight := false
 var is_normallight_ing := false
 
+func _process(_delta: float) -> void:
+	nciv.rotation_degrees.x = 90
+
 func hightlight():
 	var m: ShaderMaterial = body.get_active_material(0).next_pass
 	var color := Color.from_hsv(outline_color.h, outline_color.s, 2, 1.0)

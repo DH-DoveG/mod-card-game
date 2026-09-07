@@ -13,19 +13,47 @@ static func require(state: LuaState) -> void:
 	table.set("get_controller", state.create_function(get_controller))
 	table.set("get_area", state.create_function(get_area))
 	table.set("set_area", state.create_function(set_area))
-
 	table.set("set_index", state.create_function(set_index))
 	table.set("find_condition", state.create_function(find_condition))
 	table.set("set_border_color", state.create_function(set_border_color))
 	table.set("set_public_information", state.create_function(set_public_information))
 	table.set("get_public_information", state.create_function(get_public_information))
-
+	table.set("get_rotation", state.create_function(get_rotation))
+	table.set("set_rotation", state.create_function(set_rotation))
 	state.globals["package"]["loaded"]["std.api.card-api"] = table
+
+# TODO: 实现对 y 轴的旋转获取
+static func get_rotation(param):
+	var id = param["id"] if param["id"] != null else ""
+	print("[CORE][lua][get_rotation] id : ", id)
+	if id == "":
+		return 0
+	var card = FindUtils.find_card(id)
+	print("[CORE][lua][get_rotation] card ", card, " | id : ", id)
+	if card == null:
+		return 0.0
+	var views: Array[CardView3D] = card.get_view_3d()
+	if views.is_empty():
+		return 0.0
+	var euler = views[0].quaternion.get_euler()
+	# return views[0].rotation_degress.y
+	print("[CORE][lua][get_rotation] euler : ", euler)
+	print("[CORE][lua][get_rotation] rotation : ",  views[0].rotation_degrees)
+	return views[0].rotation_degrees.y
+
+# TODO: 实现对 y 轴的旋转设置
+static func set_rotation(param):
+	var id = param["id"] if param["id"] != null else ""
+	var rotation = param["rotation"] if param["rotation"] != null else null
+	print("[CORE][lua][set_rotation] id : ", id, " | rotation : ", rotation)
+	if id == "" or rotation == null:
+		return
+	return GApiManager.card_api.rpc("set_rotation", id, rotation)
 
 static func set_public_information(param):
 	var cid = param["card_id"] if param["card_id"] != null else ""
 	var pids = param["player_ids"].to_array() if param["player_ids"] != null else []
-	print("[CORE] cid: ", cid, " | pids: ", pids)
+	print("[CORE][lua] cid: ", cid, " | pids: ", pids)
 	GApiManager.card_api.rpc("set_public_information", cid, pids)
 
 static func get_public_information(param):
@@ -85,7 +113,6 @@ static func get_ownership(param: LuaTable) -> String:
 	return GApiManager.card_api.get_ownership(card_id)
 
 static func get_controller(param: LuaTable) -> String:
-
 	var card_id = param["id"]
 	return GApiManager.card_api.get_controller(card_id)
 
@@ -135,7 +162,6 @@ static func find_condition(param: LuaTable) -> LuaTable:
 		if mode == "ID":
 			result.append(str(card.name))
 		elif mode == "ALL":
-
 			result.append(card.meta)
 
 	var table = LuaUtils.array_to_table(result)

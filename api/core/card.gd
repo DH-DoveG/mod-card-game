@@ -1,6 +1,19 @@
 extends Node
 class_name CoreCardApi
 
+
+@rpc("any_peer", "call_local", "reliable")
+func set_rotation(card_id: String, rotation: float) -> void:
+	var card = FindUtils.find_card(card_id)
+	print("[CORE][set_rotation] card ", card, " | id : ", card_id, " | rotation : ", rotation)
+	if card == null:
+		return
+	var views: Array[CardView3D] = card.get_view_3d()
+	if views.is_empty():
+		return
+	views[0].rotation_degrees.y = rotation
+
+
 @rpc("any_peer", "call_local", "reliable")
 func create_battle_more(configs) -> Array[CardEntity]:
 	# { CID: { resource: CardResourceID, owner: PlayerID }

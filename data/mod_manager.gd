@@ -125,9 +125,6 @@ static func set_package_paths(paths: Array) -> void:
 	pp = pp.replace("/", "\\")
 	state.globals["package"]["path"] = pp
 
-	#function foo1(v) return v + 1 end
-	#local bc = string.dump(foo1)
-
 static func reset_state() -> void:
 	state = LuaState.new()
 	# 基础库
