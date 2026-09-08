@@ -1,8 +1,10 @@
 extends StaticBody3D
 class_name CardView3D
 
-@onready var body: MeshInstance3D = $Body
-@onready var nciv = $NeoCardInfoView3D
+@onready var view := $View
+@onready var body: MeshInstance3D = $View/Body
+@onready var nciv = $View/NeoCardInfoView3D
+@onready var cs3d = $CS3D
 
 var entity: CardEntity = null
 
@@ -14,6 +16,7 @@ var origin_nciv_ration = null
 var origin_self_pos = null
 var origin_self_ration = null
 var origin_basis = null
+#var origin_cs3d_transform = null
 
 func _ready() -> void:
 	add_to_group(&"CardView3D")
@@ -24,7 +27,7 @@ func _exit_tree() -> void:
 var in_free := false
 func animate_free():
 	in_free = true
-	$CS3D.disabled = true
+	cs3d.disabled = true
 	queue_free()
 
 var is_hightlight := false
@@ -41,7 +44,7 @@ func hightlight():
 	tween1.tween_method(func(value: Color):
 		m.set_shader_parameter("color", value)
 	, c, color, 0.2)
-
+	
 	# 在主机玩家没有访问权限的情况下卡的展示不展示卡面与其余信息
 	var scene = get_tree().current_scene
 	if scene is Battle:
@@ -52,7 +55,7 @@ func hightlight():
 	if is_hightlight: return
 	is_hightlight = true
 
-	$NeoCardInfoView3D.set_rander_priority(4)
+	nciv.set_rander_priority(4)
 
 	if origin_body_pos == null:
 		origin_body_pos = body.global_position
@@ -61,7 +64,7 @@ func hightlight():
 	if origin_nciv_ration == null:
 		origin_nciv_ration = nciv.quaternion
 	if origin_basis == null:
-		origin_basis = self.global_transform.basis
+		origin_basis = view.global_transform.basis
 
 	var _dir: Vector3 = (scene.scene.camera.global_position - origin_body_pos).normalized()
 
@@ -72,19 +75,18 @@ func hightlight():
 
 	# 为什么 body、NeoCardInfoView3D 的旋转角度会变？
 	var tween = get_tree().create_tween().set_parallel(true)
-	tween.tween_property(self, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.10)
+	tween.tween_property(view, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.10)
 	tween.tween_property(body, "global_position", bd, 0.20)
 	tween.tween_property(nciv, "global_position", nd, 0.20)
 	tween.tween_property(body, "scale", Vector3(120, 120, 120), 0.20)
 	tween.tween_property(nciv, "scale", Vector3(1.2, 1.2, 1.2), 0.20)
 	tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
 
-	$NeoCardInfoView3D.change_x(false)
+	nciv.change_x(false)
 
 	await tween.finished
 
 	var msr = get_mesh_screen_rect()
-
 	var pos = scene.scene.camera.unproject_position(global_position)
 	pos.y -= msr.size.y / 2 # 160
 	pos.y -= 10
@@ -112,12 +114,12 @@ func normallight():
 	if is_normallight_ing: return
 	is_normallight_ing = true
 
-	$NeoCardInfoView3D.set_rander_priority(2)
+	nciv.set_rander_priority(2)
 
 	##print("<< ", scene.scene.camera)
 
 	var tween = get_tree().create_tween().set_parallel(true)
-	tween.tween_property(self, "global_transform:basis", origin_basis, 0.10)
+	tween.tween_property(view, "global_transform:basis", origin_basis, 0.10)
 	tween.tween_property(body, "global_position", origin_body_pos, 0.20)
 	tween.tween_property(nciv, "global_position", origin_nciv_pos, 0.20)
 	tween.tween_property(body, "scale", Vector3(100, 100, 100), 0.20)
@@ -125,7 +127,7 @@ func normallight():
 
 	# 旋转角度恢复时可能偏转是因为欧拉角的轴锁问题
 	tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
-	$NeoCardInfoView3D.change_x(true)
+	nciv.change_x(true)
 
 	await tween.finished
 
@@ -137,7 +139,6 @@ func normallight():
 	origin_nciv_pos = null
 	origin_basis = null
 	origin_nciv_ration = null
-
 	is_normallight_ing = false
 	is_hightlight = false
 
@@ -183,8 +184,17 @@ func set_entity(data: CardEntity):
 	var camp = GApiManager.player_api.get_camp(player.name)
 	if camp is Camp:
 		set_outline_color(camp.color)
-
 	nciv.update_entity(entity)
+
+# 检测所在区域顶部是否存在卡
+func check_area_top_has_card() -> bool:
+	var aid = GApiManager.card_api.get_area(name)["area_id"]
+	if aid == null:
+		return true
+	var b = GApiManager.area_api.get_heap(aid).back()
+	if b != name:
+		return true
+	return false
 
 func set_outline_visible(_visible: bool) -> void:
 	var shader: ShaderMaterial = body.get_active_material(0).next_pass

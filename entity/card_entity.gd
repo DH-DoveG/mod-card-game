@@ -41,7 +41,8 @@ func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 	if result.is_empty() and if_null_to_create:
 		var scene = Utils.get_current_scene()
 		if scene is Battle:
-			var view: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
+			# var view: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
+			var view: CardView3D = load("res://dev/neo_card_view_3d.tscn").instantiate()
 			scene.scene.card_mount.add_child(view)
 			view.hide()
 			view.set_entity(self)

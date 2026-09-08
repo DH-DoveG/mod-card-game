@@ -19,4 +19,5 @@ static func execute(param) -> Signal:
 static func append(param) -> void:
 	var rule_entry = load("res://core/rule/rule_entry_lua.gd").new()
 	rule_entry.rule = param["rule"].invoke()
-	Utils.get_current_scene().rule_manager.add_rule(rule_entry, param["name"])
+	var _name = rule_entry.rule["name"]
+	Utils.get_current_scene().rule_manager.add_rule(rule_entry, _name)

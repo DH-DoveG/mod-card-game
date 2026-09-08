@@ -2,6 +2,9 @@ extends Node3D
 
 var event_id := ""
 var user: CardView3D
+var enable_view := true
+
+#var current_direction = null
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
@@ -10,17 +13,25 @@ func _ready() -> void:
 			change_dirction(scene.visual_angle)
 		, ConnectFlags.CONNECT_ONE_SHOT)
 		event_id = scene.event_manager.subscribe("VISUAL_ANGLE_CHANGED", change_dirction)
-	user = get_parent()
+	user = get_parent().get_parent()
+
 
 func _process(_delta: float) -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
+		# 光标移动到卡片上时，即使被挡住也需要显示
+		if !enable_view or user.check_area_top_has_card():
+			hide()
+			return
 		if scene.host_player_id not in scene.battle_data_bind_list.card_public_information[user.entity.name] and \
 		   "PUBLIC" not in scene.battle_data_bind_list.card_public_information[user.entity.name]:
 			hide()
 		else:
 			show()
+			#if current_direction == scene.visual_angle:
+				#return
 			change_dirction(scene.visual_angle)
+
 
 func update_entity(entity: CardEntity):
 	$InfoView/SubViewport/Info/CardName.text = entity.card_name
@@ -79,3 +90,4 @@ func change_dirction(visual):
 		Vector2i.UP: global_rotation_degrees.y = 180
 		Vector2i.LEFT: global_rotation_degrees.y = 90
 		Vector2i.RIGHT: global_rotation_degrees.y = -90
+	#current_direction = visual

@@ -62,7 +62,8 @@ func create_battle(card_id: String, card_resource_id: String, card_owner: String
 
 func create_3d_view(card_entity: CardEntity, card_mount: NodePath) -> CardView3D:
 	# 给卡片创建 3D 视图
-	var card: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
+	# var card: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
+	var card: CardView3D = load("res://dev/neo_card_view_3d.tscn").instantiate()
 	card.hide()
 	card.set_entity(card_entity)
 

@@ -100,6 +100,7 @@ func _physics_process(_delta: float) -> void:
 				continue
 			if first_card == null and collider is CardView3D:
 				first_card = collider
+				#print("first_card: ", first_card)
 			elif first_area == null and collider is AreaView3D:
 				first_area = collider
 			if first_card and first_area:
