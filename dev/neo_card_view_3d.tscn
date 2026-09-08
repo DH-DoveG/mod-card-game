@@ -22,4 +22,4 @@ transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
 mesh = ExtResource("1_ulmhb")
 
 [node name="NeoCardInfoView3D" parent="View" unique_id=13795515 instance=ExtResource("2_140ys")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.05)

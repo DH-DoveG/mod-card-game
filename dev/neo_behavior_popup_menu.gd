@@ -119,6 +119,7 @@ func _process(_delta: float) -> void:
 	var mouse_position := get_viewport().get_mouse_position()
 	if (not mask_rect.has_point(mouse_position)) and (not vbox.get_rect().has_point(mouse_position)):
 		queue_free()
+		pass
 
 func _on_color_rect_gui_input(_event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()

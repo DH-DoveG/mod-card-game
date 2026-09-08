@@ -33,8 +33,11 @@ func animate_free():
 var is_hightlight := false
 var is_normallight_ing := false
 
-func _process(_delta: float) -> void:
-	nciv.rotation_degrees.x = 90
+#func _process(_delta: float) -> void:
+	## 侧面时 y 应为 0
+	##if is_hightlight:
+	#nciv.rotation_degrees.x = 90
+	#pass
 
 func hightlight():
 	var m: ShaderMaterial = body.get_active_material(0).next_pass
@@ -54,6 +57,8 @@ func hightlight():
 
 	if is_hightlight: return
 	is_hightlight = true
+	
+	nciv.set_process(false)
 
 	nciv.set_rander_priority(4)
 
@@ -85,6 +90,8 @@ func hightlight():
 	nciv.change_x(false)
 
 	await tween.finished
+	
+	nciv.set_process(false)
 
 	var msr = get_mesh_screen_rect()
 	var pos = scene.scene.camera.unproject_position(global_position)
@@ -132,6 +139,7 @@ func normallight():
 	await tween.finished
 
 	nciv.quaternion = origin_nciv_ration
+	nciv.set_process(true)
 
 	await get_tree().process_frame
 
@@ -179,7 +187,7 @@ func set_entity(data: CardEntity):
 	var uv = ImageUtils.make_card_criterion_card_uv(front.get_image(), back.get_image())
 	var s: StandardMaterial3D = body.get_active_material(0)
 	s.albedo_texture = uv
-
+	
 	# 获取 player 的 camp
 	var camp = GApiManager.player_api.get_camp(player.name)
 	if camp is Camp:

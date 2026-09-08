@@ -17,6 +17,12 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	#func _process(_delta: float) -> void:
+	# 侧面时 y 应为 0
+	#if is_hightlight:
+	#nciv.
+	#rotation_degrees.x = 90
+	#pass
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		# 光标移动到卡片上时，即使被挡住也需要显示
@@ -85,9 +91,19 @@ func change_x(status: bool):
 		tween.tween_property($InfoView, "position:y", 0.02, 0.2)
 
 func change_dirction(visual):
+	#rotation_degrees.x = 90
+	
 	match visual:
-		Vector2i.DOWN: global_rotation_degrees.y = 0
-		Vector2i.UP: global_rotation_degrees.y = 180
+		Vector2i.DOWN: 
+			global_rotation_degrees.y = 0
+			rotation_degrees.x = -90
+		Vector2i.UP:
+			global_rotation_degrees.y = 180
+			rotation_degrees.x = 90
 		Vector2i.LEFT: global_rotation_degrees.y = 90
 		Vector2i.RIGHT: global_rotation_degrees.y = -90
+		#Vector2i.DOWN: global_rotation_degrees = Vector3(90, 0, 0)
+		#Vector2i.UP: global_rotation_degrees = Vector3(90, 180, 0)
+		#Vector2i.LEFT: global_rotation_degrees = Vector3(90, 90, 0)
+		#Vector2i.RIGHT: global_rotation_degrees = Vector3(90, -90, 0)
 	#current_direction = visual
