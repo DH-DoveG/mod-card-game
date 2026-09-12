@@ -119,6 +119,26 @@ func set_orientation(card_id: String, orientation: bool) -> void:
 	adjust_card_rotation(view_3d)
 
 @rpc("any_peer", "call_local", "reliable")
+func set_index(card_id: String, index: int) -> void:
+	var area: String = get_area(card_id)["area_id"]
+	var area_entity: AreaEntity = FindUtils.find_area(area)
+	
+	var battle: Battle = Utils.get_current_scene()
+	var cards = battle.battle_data_bind_list.area_bind_cards[area]
+	
+	cards.erase(card_id)
+	cards.insert(index, card_id)
+	
+	#var base_pos = area_view.get_top()
+	for i in range(0, cards.size()):
+		var _c: CardEntity = FindUtils.find_card(cards[i])
+		var card_view = _c.get_view_3d()[0]
+		#card_view.global_position = base_pos
+		card_view.global_position = area_entity.get_position()
+		card_view.global_position.y = area_entity.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (i + 1))
+		print("[set_index] CV POS : ", card_view.global_position, " | ", (i + 1))
+
+@rpc("any_peer", "call_local", "reliable")
 func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void:
 	var card: CardEntity = FindUtils.find_card(card_id)
 	var area: AreaEntity = FindUtils.find_area(area_id)
@@ -154,8 +174,8 @@ func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void
 	}).size()
 
 	view_3d.global_position = area.get_position()
-
 	view_3d.global_position.y = area.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
+	print("[set_area] CV POS : ", view_3d.global_position, " | ", cards_in_area)
 
 @rpc("any_peer", "call_local", "reliable")
 func get_image(id: String) -> Dictionary:

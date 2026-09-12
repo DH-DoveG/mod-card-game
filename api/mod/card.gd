@@ -135,7 +135,11 @@ static func set_area(param: LuaTable) -> void:
 	GApiManager.card_api.rpc("set_area", card_id, area_id, config)
 
 static func set_index(_param: LuaTable) -> void:
-	pass
+	var index = _param["index"] - 1 if (_param["index"] != null and _param["index"] != 0) else 0
+	var card_id: String = _param["card_id"] if _param["card_id"] != null else ""
+	if card_id.is_empty():
+		pass
+	GApiManager.card_api.rpc("set_index", card_id, index)
 
 static func find_condition(param: LuaTable) -> LuaTable:
 	var values = param["values"].to_array() if param["values"] != null else []

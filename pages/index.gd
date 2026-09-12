@@ -7,15 +7,12 @@ func _init() -> void:
 
 func _ready() -> void:
 	super()
-
 	if ConfigManager.page_index_title.is_empty():
 		title.text = "Mod Card"
 	else:
 		title.text = ConfigManager.page_index_title
 	# 这里断开网络连接
 	multiplayer.multiplayer_peer = null
-
-##func arr(a: Array) -> void:
 
 func _on_mod_pressed() -> void:
 	AsyncScene.new(

@@ -24,7 +24,7 @@ static func show_choose_areas(param) -> Signal:
 		var _max = _arg["max_num"] if _arg["max_num"] != null else 1
 		var _min = _arg["min_num"] if _arg["min_num"] != null else 1
 		var can_cancel = _arg["can_cancel"] if _arg["can_cancel"] != null else true
-
+	
 		var player = FindUtils.find_player(use)
 		# 这里需要判断是不是主机玩家
 		var scene: Battle = Utils.get_current_scene()
@@ -36,7 +36,7 @@ static func show_choose_areas(param) -> Signal:
 			# Utils.get_current_scene().add_child(await_component)
 			# await_component.set_text("请等待[" + player.name + "]操作")
 			pass
-
+	
 		var pbtns = []
 		for btn in btns:
 			pbtns.append({
@@ -56,9 +56,9 @@ static func show_choose_areas(param) -> Signal:
 							"value": btn["value"],
 						}
 			})
-
+	
 		GApiManager.interaction_api.rpc("player_option", true)
-
+	
 		if not player: return null
 		# 可以预处理，如果已经预处理了，就直接返回
 		var interaction_processing = await player.interaction_processing(param)
@@ -67,7 +67,7 @@ static func show_choose_areas(param) -> Signal:
 			scene.in_option = false
 			if await_component: await_component.queue_free()
 			return interaction_processing
-
+	
 		var config = {
 			"use": use,
 			"title": title,
@@ -79,9 +79,7 @@ static func show_choose_areas(param) -> Signal:
 			"can_cancel": can_cancel,
 		}
 		var _res = null
-
 		if scene.host_player_id != use:
-
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:
@@ -106,22 +104,22 @@ static func show_choose_areas(param) -> Signal:
 			_res = await GApiManager.interaction_api.show_choose_areas(config)
 		var table = ModManager.state.create_table({})
 		table = LuaUtils.dictionary_to_table(_res)
-
+	
 		GApiManager.interaction_api.rpc("player_option", false)
-
+	
 		return table
-
+	
 	, param)
 
 static func show_select_dialog(param) -> Signal:
 	return ModManager.LuaAwaitWrapper.create_starter(func(_arg):
 		await Utils.get_scene_tree().process_frame
-
+	
 		var use = _arg["use"] if _arg["use"] else ""
 		if use.is_empty(): return null
-
+	
 		var player = FindUtils.find_player(use)
-
+	
 		# 这里需要判断是不是主机玩家
 		var scene: Battle = Utils.get_current_scene()
 		var await_component = null
@@ -186,16 +184,16 @@ static func show_select_dialog(param) -> Signal:
 					"choose_list": chooses,
 					"choose_text": "Cancel",
 				}})
-
+	
 		# 上面的保留部分用于兼容Robot玩家
 		# 下面需要对于多人游戏时做额外处理
-
+	
 		assert(scene is Battle, "Scene is not battle!!!")
-
+	
 		var _res = null
-
+	
 		if scene.host_player_id != use:
-
+	
 			var bs = []
 			var ccids = []
 			for b in config["btns"]:

@@ -56,17 +56,14 @@ func enabled_ray(state := true):
 
 func _physics_process(_delta: float) -> void:
 	# 摄像机拖拽
-
 	var mouse_pos := get_viewport().get_mouse_position()
-
 	# 从鼠标屏幕点生成3D射线 origin 起点，end 终点
 	var ray_normal := camera.project_ray_normal(mouse_pos)
 	var ray_origin := camera.project_ray_origin(mouse_pos)
-
 	var ray = $Ray
 	ray.global_position = ray_origin
 	ray.look_at(ray_origin + ray_normal, Vector3.UP)
-
+	
 	if deep_ray.get_collider_count() == 0:
 		if current_hight_card:
 			current_hight_card.normallight()
@@ -74,7 +71,7 @@ func _physics_process(_delta: float) -> void:
 		if current_hight_area:
 			current_hight_area.normallight()
 			current_hight_area = null
-
+	
 	# 如果点击就检查是否有检查到CardView3D，进行模板的弹出尝试
 	if check_click and deep_ray.get_collider_count() and Input.is_action_just_pressed("click"):
 		var first_card: CardView3D = null
@@ -94,6 +91,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		var first_card: CardView3D = null
 		var first_area: AreaView3D = null
+		
 		for i in range(deep_ray.get_collider_count()):
 			var collider = deep_ray.get_collider(i)
 			if collider == null:
@@ -105,14 +103,14 @@ func _physics_process(_delta: float) -> void:
 				first_area = collider
 			if first_card and first_area:
 				break
-		if first_card:
-			Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
-				"params": first_card.entity
-			})
-			first_card.hightlight()
-			if current_hight_card and current_hight_card != first_card:
-				current_hight_card.normallight()
-			current_hight_card = first_card
+		#if first_card:
+			#Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+				#"params": first_card.entity
+			#})
+			#first_card.hightlight()
+			#if current_hight_card and current_hight_card != first_card:
+				#current_hight_card.normallight()
+			#current_hight_card = first_card
 		if first_area:
 			Utils.get_current_scene().event_manager.emit("SHOW_AREA_INFO_IN_PANEL", {
 				"params": first_area.entity
@@ -126,33 +124,26 @@ func battle_visual_angle_changed(visual_angle: Vector2i) -> void:
 	var config = camera_direction_config[visual_angle]
 	camera.position = config["position"]
 	camera.quaternion = config["rotation"]
-
+	
 	Utils.get_current_scene().event_manager.emit("BATTLE_VISUAL_ANGLE_CHANGED", {
 		"visual_angle": visual_angle,
 		"camera": camera
 	})
 
 func get_area_center() -> Dictionary:
-
 	var width: float = max_x * ConfigManager.AREA_SIZE
 	var height: float = max_y * ConfigManager.AREA_SIZE
-
 	#    第一个除2是得到这个形成的矩形的中心点，减去 TILE_SIZE / 2 是为了修正偏移量
 	var center_x = width / 2
 	var center_y = height / 2
-
 	var up_x = center_x
 	var up_y = center_y - height / 2 + 0.5
-
 	var down_x = center_x
 	var down_y = center_y + height / 2 - 0.5 #+ #ConfigManager.AREA_SIZE
-
 	var left_x = center_x + width / 2 - 0.5
 	var left_y = center_y
-
 	var right_x = center_x - width / 2 + 0.5
 	var right_y = center_y
-
 	# 结果
 	var result = {
 		"up": Vector2(up_x, up_y),
@@ -177,7 +168,6 @@ func add_area(x: int, y: int, z: int = 1) -> AreaView3D:
 	area.position.y = 0
 	area.position.z = y
 	area_mount.add_child(area)
-
 	adjust_camera()
 	adjust_position()
 	return area

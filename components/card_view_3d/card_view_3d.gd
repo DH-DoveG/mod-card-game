@@ -1,6 +1,12 @@
 extends StaticBody3D
 class_name CardView3D
 
+
+#突出面向屏幕变为“动画效果”（仅view_3d）
+#交互使用列表的形式，
+#点击后固定左侧的卡片列表，鼠标移动到上面时
+
+
 @onready var view := $View
 @onready var body: MeshInstance3D = $View/Body
 @onready var nciv = $View/NeoCardInfoView3D
@@ -16,7 +22,6 @@ var origin_nciv_ration = null
 var origin_self_pos = null
 var origin_self_ration = null
 var origin_basis = null
-#var origin_cs3d_transform = null
 
 func _ready() -> void:
 	add_to_group(&"CardView3D")
@@ -32,12 +37,6 @@ func animate_free():
 
 var is_hightlight := false
 var is_normallight_ing := false
-
-#func _process(_delta: float) -> void:
-	## 侧面时 y 应为 0
-	##if is_hightlight:
-	#nciv.rotation_degrees.x = 90
-	#pass
 
 func hightlight():
 	var m: ShaderMaterial = body.get_active_material(0).next_pass
@@ -55,9 +54,27 @@ func hightlight():
 		   "PUBLIC" not in scene.battle_data_bind_list.card_public_information[entity.name]:
 			return
 
+	if check_area_top_has_card():
+		var msr = get_mesh_screen_rect()
+		var pos = scene.scene.camera.unproject_position(global_position)
+		pos.y -= msr.size.y / 2 # 160
+		pos.y -= 10
+		var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
+		get_tree().current_scene.add_child(n)
+		await n.set_popup(pos, entity.behaviors, entity)
+		if is_instance_valid(n):
+			n.set_exp_mask(msr)
+			n.set_process(true)
+			n.tree_exited.connect(func():
+				normallight()
+				pass
+			, ConnectFlags.CONNECT_ONE_SHOT)
+		return
+
 	if is_hightlight: return
 	is_hightlight = true
 	
+	nciv.useev = false
 	nciv.set_process(false)
 
 	nciv.set_rander_priority(4)
@@ -123,8 +140,6 @@ func normallight():
 
 	nciv.set_rander_priority(2)
 
-	##print("<< ", scene.scene.camera)
-
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(view, "global_transform:basis", origin_basis, 0.10)
 	tween.tween_property(body, "global_position", origin_body_pos, 0.20)
@@ -140,6 +155,7 @@ func normallight():
 
 	nciv.quaternion = origin_nciv_ration
 	nciv.set_process(true)
+	nciv.useev = true
 
 	await get_tree().process_frame
 
