@@ -20,9 +20,7 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
-		scene.scene.set_physics_process(true)
-		scene.scene.enabled_ray(true)
-		scene.player_hand_view.get_node("Hand").set_process(true)
+		scene.unblock_scene_input(name)
 
 func set_popup(pos, _cards):
 	visible = true
@@ -38,9 +36,7 @@ func set_popup(pos, _cards):
 	if hbox.get_child_count() == 0:
 		pass
 	if scene is Battle:
-		scene.scene.set_physics_process(false)
-		scene.scene.enabled_ray(false)
-		scene.player_hand_view.get_node("Hand").set_process(false)
+		scene.block_scene_input(name)
 	$ColorRect2.size = clp.size
 	$ColorRect2.position = clp.position
 	print("SP pos: ", pos, " | size: ", clp.size)

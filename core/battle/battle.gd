@@ -50,6 +50,31 @@ var areas := {} # 区域ID: AreaEntity
 # 为 true 时，大部分行为不可操作
 var in_option = true
 
+# ===== 场景输入开关封装 =====
+# 弹窗等组件通过 block_scene_input 暂停场景物理处理、射线与手牌渲染，
+# 通过 unblock_scene_input 恢复。多个请求方共享同一个字典：
+# 只要字典里存在 value 为 false 的 key 就保持禁用；
+# 全部为 true 或字典为空时才启用。
+var _scene_input_blocks: Dictionary = {}
+
+func block_scene_input(key: String) -> void:
+	_scene_input_blocks[key] = false
+	_apply_scene_input_state()
+
+func unblock_scene_input(key: String) -> void:
+	_scene_input_blocks.erase(key)
+	_apply_scene_input_state()
+
+func _apply_scene_input_state() -> void:
+	var enable := true
+	for v in _scene_input_blocks.values():
+		if not v:
+			enable = false
+			break
+	scene.set_physics_process(enable)
+	scene.enabled_ray(enable)
+	$UI/PlayerHandView/Hand.set_process(enable)
+
 # 游戏中产生的数据
 var battle_global_data = {}
 

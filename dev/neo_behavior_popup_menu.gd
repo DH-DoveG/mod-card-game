@@ -21,10 +21,7 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
-		scene.scene.set_physics_process(true)
-		scene.scene.enabled_ray(true)
-		scene.player_hand_view.get_node("Hand").set_process(true)
-		pass
+		scene.unblock_scene_input(name)
 
 func set_popup(pos, _behaviors, _entity: CardEntity):
 	visible = true
@@ -55,9 +52,7 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 	if vbox.get_child_count() == 0:
 		pass
 	if scene is Battle:
-		scene.scene.set_physics_process(false)
-		scene.scene.enabled_ray(false)
-		scene.player_hand_view.get_node("Hand").set_process(false)
+		scene.block_scene_input(name)
 		print("...")
 
 	$ColorRect2.size = vbox.size
@@ -91,10 +86,8 @@ func add_item(title: String, id: int):
 	)
 
 func set_exp_mask(rect: Rect2):
-
 	var mr = make_b_touch_a(vbox.get_rect(), rect)
 	mask_rect = mr
-
 	$Mask.size = mr.size
 	$Mask.position = mr.position
 
