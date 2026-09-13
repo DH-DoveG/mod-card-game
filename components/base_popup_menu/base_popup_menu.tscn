@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://3dblljpldf5r"]
+
+[ext_resource type="Script" uid="uid://6v477o7jlspx" path="res://components/base_popup_menu/base_popup_menu.gd" id="1_base"]
+
+[node name="BasePopupMenu" type="CanvasLayer" unique_id=1508345325]
+script = ExtResource("1_base")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1885269530]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Mask" type="ColorRect" parent="." unique_id=832364131]
+offset_left = -40.0
+offset_top = -40.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.3137255)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1411328764]
+offset_left = -104.0
+offset_top = -120.0
+offset_bottom = -56.0
+mouse_filter = 2
+color = Color(1, 0, 0, 0.5529412)
+
+[connection signal="gui_input" from="ColorRect" to="." method="_on_color_rect_gui_input"]

@@ -1,37 +1,13 @@
 [gd_scene format=3 uid="uid://clxwp1jsuercc"]
 
-[ext_resource type="Script" uid="uid://c5ig4h67l5uhe" path="res://dev/neo_behavior_popup_menu.gd" id="1_k7nj7"]
+[ext_resource type="PackedScene" path="res://components/base_popup_menu/base_popup_menu.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://c5ig4h67l5uhe" path="res://dev/neo_behavior_popup_menu.gd" id="2_neo"]
 
-[node name="NeoBehaviorPopupMenu" type="CanvasLayer" unique_id=1848221144]
+[node name="NeoBehaviorPopupMenu" unique_id=770950072 instance=ExtResource("1_base")]
 process_mode = 3
 layer = 10
-script = ExtResource("1_k7nj7")
+script = ExtResource("2_neo")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1452649256]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2090883473]
+[node name="VBoxContainer" type="VBoxContainer" parent="." index="3" unique_id=1767808094]
 offset_right = 256.0
 theme_override_constants/separation = 12
-
-[node name="Mask" type="ColorRect" parent="." unique_id=1086155748]
-visible = false
-offset_left = -40.0
-offset_top = -40.0
-mouse_filter = 2
-color = Color(1, 1, 1, 0.3137255)
-
-[node name="ColorRect2" type="ColorRect" parent="." unique_id=1102852539]
-visible = false
-offset_left = -104.0
-offset_top = -120.0
-offset_bottom = -56.0
-mouse_filter = 2
-color = Color(1, 0, 0, 0.5529412)
-
-[connection signal="gui_input" from="ColorRect" to="." method="_on_color_rect_gui_input"]

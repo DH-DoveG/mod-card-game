@@ -90,7 +90,7 @@ func show_behavior(_rect = null):
 	if _rect:
 		msr = _rect
 	var pos = scene.scene.camera.unproject_position(global_position)
-	pos.y -= msr.size.y / 2 # 160
+	pos.y -= get_mesh_screen_rect().size.y / 2 # 160
 	pos.y -= 10
 
 	var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()

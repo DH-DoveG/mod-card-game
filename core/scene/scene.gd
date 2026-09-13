@@ -223,18 +223,31 @@ func _physics_process(delta: float) -> void:
 					var clpm := preload("res://components/card_list_popup_menu/card_list_popup_menu.tscn").instantiate()
 					get_tree().current_scene.add_child(clpm)
 					var msr = first_card.get_mesh_screen_rect()
-					#var qp = Utils.split_rect_center(msr, true)
+					var qp: Array = Utils.split_rect_center(msr, true)
+					
+					#qp[0].size.y += 20
+					#qp[1].size.y -= 20
+					#qp[1].position.y -= 20
+					
 					var pos = camera.unproject_position(first_card.global_position)
-					pos.x -= msr.size.x / 2 # 160
-					#pos.x -= qp[1].size.x / 2 # 160
+					pos.x -= qp[1].size.x / 2 # 160
 					pos.x -= 40
 					pos.y += 100
-					print("msr:", msr)
-					await clpm.set_popup(pos, ids)
-					if is_instance_valid(clpm):
-						clpm.set_exp_mask(msr)
-						clpm.set_process(true)
-					first_card.show_behavior(msr)
+					
+					# 如果
+					if qp[0].has_point(mouse_pos) and qp[1].has_point(mouse_pos):
+						await clpm.set_popup(pos, ids)
+						if is_instance_valid(clpm):
+							clpm.set_exp_mask(qp[1])
+							clpm.set_process(true)
+						first_card.show_behavior(qp[0])
+					elif (qp[1] as Rect2).has_point(mouse_pos):
+						await clpm.set_popup(pos, ids)
+						if is_instance_valid(clpm):
+							clpm.set_exp_mask(qp[1])
+							clpm.set_process(true)
+					else:
+						first_card.show_behavior(qp[0])
 				elif ids.size() > 0:
 					Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
 						"params": first_card.entity

@@ -1,27 +1,10 @@
-extends CanvasLayer
+extends BasePopupMenu
 class_name NeoBehaviorPopuopMenu
 
 @onready var vbox: VBoxContainer = $VBoxContainer
-@onready var mask: ColorRect = $Mask
 
 var behaviors = []
 var card_entity: CardEntity
-
-var mask_rect: Rect2
-
-static var only = null
-
-func _ready() -> void:
-	set_process(false)
-	if only:
-		only.queue_free()
-		only = null
-	only = self
-
-func _exit_tree() -> void:
-	var scene = get_tree().current_scene
-	if scene is Battle:
-		scene.unblock_scene_input(name)
 
 func set_popup(pos, _behaviors, _entity: CardEntity):
 	visible = true
@@ -51,12 +34,15 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 
 	if vbox.get_child_count() == 0:
 		pass
-	if scene is Battle:
-		scene.block_scene_input(name)
-		print("...")
+	block_scene()
+	claim_topmost()
+	print("...")
 
 	$ColorRect2.size = vbox.size
 	$ColorRect2.position = vbox.position
+
+func _get_panel_rect() -> Rect2:
+	return vbox.get_rect()
 
 func add_item(title: String, id: int):
 	var button := Button.new()
@@ -84,37 +70,3 @@ func add_item(title: String, id: int):
 		})
 		queue_free()
 	)
-
-func set_exp_mask(rect: Rect2):
-	var mr = make_b_touch_a(vbox.get_rect(), rect)
-	mask_rect = mr
-	$Mask.size = mr.size
-	$Mask.position = mr.position
-
-# inset：允许侵入A内部的像素，0=刚好接触；>0=B钻进A里面
-func make_b_touch_a(a:Rect2, b:Rect2, inset:float = 2.0) -> Rect2:
-	var b_bottom:float = b.end.y
-	var target_top_y:float = a.end.y - inset
-
-	var new_height:float = b_bottom - target_top_y
-
-	# 保护：高度不能小于0
-	new_height = max(new_height, 0.0)
-
-	# 构造新B：position.y被往上提，height变大，底部不变
-	var new_b = Rect2()
-	new_b.position.x = b.position.x
-	new_b.position.y = target_top_y
-	new_b.size.x = b.size.x
-	new_b.size.y = new_height
-
-	return new_b
-
-func _process(_delta: float) -> void:
-	var mouse_position := get_viewport().get_mouse_position()
-	if (not mask_rect.has_point(mouse_position)) and (not vbox.get_rect().has_point(mouse_position)):
-		queue_free()
-		pass
-
-func _on_color_rect_gui_input(_event: InputEvent) -> void:
-	get_viewport().set_input_as_handled()
