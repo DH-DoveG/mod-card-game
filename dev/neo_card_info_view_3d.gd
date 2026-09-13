@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		# 光标移动到卡片上时，即使被挡住也需要显示
-		print("useev : ", useev)
+		# print("useev : ", useev)
 		if (!enable_view or user.check_area_top_has_card()) and useev:
 			hide()
 			return

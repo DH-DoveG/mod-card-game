@@ -16,17 +16,6 @@ func _ready() -> void:
 	)
 	event_manager.subscribe("VISUAL_ANGLE_CHANGED", set_angle_of_view)
 
-# 客户端不用执行lua规则（这里指的是 start_rule）
-# 因为 Entity 等都是GD实体，lua只是注册表
-# 那么，需要考虑的只有那种调用交互时的询问
-# 不过具体的还是要思考
-# 有几种存在问题：
-# 1. 对于素材选取有特定要求的带有验证函数的（特别是那种有 upvalue 的）
-# 以下几种有解决方案
-# 1. game_api 的值是会同步的
-# 2. behavior 的调用是不依赖上下文的
-# 关于预感会出现，但是又无法具体的定位分析的问题，最好在遇到时再想办法解决
-
 var _init_plase_finished = 0
 
 # 这个用于等待其他玩家是否加载好
@@ -124,8 +113,8 @@ func _init_plase3():
 
 func _bind_action_events():
 	var behavior_manager_list = get_tree().get_nodes_in_group(&"behaviors")
-	for behaviors in behavior_manager_list:
-		behaviors.bind_action_events()
+	for _behaviors in behavior_manager_list:
+		_behaviors.bind_action_events()
 
 func _init_starter(arg: Dictionary):
 	var param = arg.duplicate(true)

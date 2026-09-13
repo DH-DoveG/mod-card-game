@@ -58,7 +58,9 @@ func set_card(card: CardEntity, is_check_see = true) -> void:
 
 func check_menu():
 	var battle: Battle = Utils.get_current_scene()
-	if entity.name in battle.battle_data_bind_list.card_public_information[battle.host_player_id]:
+	print(">> BBDBL >>", battle.battle_data_bind_list.card_public_information[entity.name])
+	print(">> EN >>", entity.name)
+	if battle.host_player_id in battle.battle_data_bind_list.card_public_information[entity.name]:
 		var ownership = GApiManager.card_api.get_ownership(entity.name)
 		if battle.host_player_id == ownership:
 			set_menu(true)
@@ -66,24 +68,33 @@ func check_menu():
 	set_menu(false)
 
 func set_menu(k: bool):
+	print("SetMenu : ", menu_key)
 	menu_key = k
 
 func set_outline(k: bool):
 	$RR.visible = k
 
 func _on_mouse_entered() -> void:
+	print("1")
+
 	if Utils.get_current_scene().get("event_manager") != null:
 		Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
 			"params": entity
 		})
 
+	print("2")
+
 	if enable_outline:
 		set_outline(true)
+
+	print("3")
 
 	if menu_key:
 		is_s = true
 		await get_tree().create_timer(0.25).timeout
 		if is_s == false: return
+		
+		print("4")
 		
 		enable_outline = false
 		var gp = global_position

@@ -24,6 +24,7 @@ func _exit_tree() -> void:
 		scene.scene.set_physics_process(true)
 		scene.scene.enabled_ray(true)
 		scene.player_hand_view.get_node("Hand").set_process(true)
+		pass
 
 func set_popup(pos, _behaviors, _entity: CardEntity):
 	visible = true
@@ -57,6 +58,7 @@ func set_popup(pos, _behaviors, _entity: CardEntity):
 		scene.scene.set_physics_process(false)
 		scene.scene.enabled_ray(false)
 		scene.player_hand_view.get_node("Hand").set_process(false)
+		print("...")
 
 	$ColorRect2.size = vbox.size
 	$ColorRect2.position = vbox.position

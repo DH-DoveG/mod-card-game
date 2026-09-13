@@ -22,7 +22,8 @@
 				"33c39e61-457e-43d3-94a0-6fab6515bfda",
 				"103977ce-892f-4c16-988e-d59211594e59",
 				"d66dbd8a-e328-410d-a38c-7ff6d94360bb",
-				"e415d2c8-d353-4cc8-81c0-74a69c1b0501"
+				"e415d2c8-d353-4cc8-81c0-74a69c1b0501",
+				"d140f3ac-3db8-4f5a-aec1-e397d555680b"
 			]
 		},
 		{
@@ -494,6 +495,13 @@
 		{
 			"uuid": "e415d2c8-d353-4cc8-81c0-74a69c1b0501",
 			"title": "替换TopTips为battle_net的顶部栏",
+			"description": "",
+			"category": "fec5515c-e97b-40b8-8d0a-8010fe297268",
+			"steps": []
+		},
+		{
+			"uuid": "d140f3ac-3db8-4f5a-aec1-e397d555680b",
+			"title": "CardListPanel",
 			"description": "",
 			"category": "fec5515c-e97b-40b8-8d0a-8010fe297268",
 			"steps": []
