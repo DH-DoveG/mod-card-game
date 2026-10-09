@@ -49,7 +49,7 @@ func _ready() -> void:
 
 				match i.content:
 					"卡堆列表":
-						var scs = preload("res://components/sidebar/card_stack/sidebar_card_stack.tscn").instantiate()
+						var scs = load("res://components/sidebar/card_stack/sidebar_card_stack.tscn").instantiate()
 						$Content.add_child(scs)
 						pass
 					"对局信息": pass

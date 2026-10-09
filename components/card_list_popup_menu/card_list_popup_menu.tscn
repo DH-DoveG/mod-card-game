@@ -71,28 +71,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "卡
-表"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Count" type="ColorRect" parent="CardListPanel" index="3" unique_id=1183261598]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -20.0
-grow_horizontal = 0
-grow_vertical = 2
-color = Color(0.5176471, 0.5176471, 0.5176471, 1)
-
-[node name="Label" type="Label" parent="CardListPanel/Count" index="0" unique_id=697956347]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "0"
+堆"
 horizontal_alignment = 1
 vertical_alignment = 1

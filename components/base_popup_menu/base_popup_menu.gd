@@ -1,15 +1,18 @@
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 class_name BasePopupMenu
 
 # 弹窗菜单分组名，用于在多个弹窗之间协调 _process 的启停
 const GROUP_NAME := &"base_popup_menu"
 
-## 弹窗菜单基类：统一处理场景输入锁定、遮罩延申、鼠标移出关闭等公共逻辑。
+## 弹窗菜单基类：统一处理场景输入锁定、遮罩延申、鼠标点击空白处关闭等公共逻辑。
 ## 子类需覆写 _get_panel_rect()，返回弹窗面板所在区域的 Rect2。
 
-@onready var mask: ColorRect = $Mask
+#@onready var mask: ColorRect = $Mask
 
-var mask_rect: Rect2
+#var mask_rect: Rect2
+
+var rects := []
 
 #static var only = null
 
@@ -20,6 +23,7 @@ func _ready() -> void:
 		#only.queue_free()
 		#only = null
 	#only = self
+	#$ColorRect.inp
 
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
@@ -58,9 +62,11 @@ func _restore_topmost_process() -> void:
 func set_exp_mask(rect: Rect2):
 	var panel_rect := _get_panel_rect()
 	var mr = make_b_touch_a(panel_rect, rect)
-	mask_rect = mr
-	$Mask.size = mr.size
-	$Mask.position = mr.position
+	#mask_rect = mr
+	rects.append(mr)
+	rects.append(panel_rect)
+	#$Mask.size = mr.size
+	#$Mask.position = mr.position
 
 # 让 size.x（宽度）更小的 Rect2 延申来与另一个 Rect2 相连
 # 宽度小的一方保持其远离另一方的边缘不动，把邻近边缘延申到与另一方贴合
@@ -82,13 +88,24 @@ func make_b_touch_a(a: Rect2, b: Rect2, inset: float = 2.0) -> Rect2:
 		result.size.y = max(smaller.end.y - new_top_y, 0.0)
 	return result
 
-func _process(_delta: float) -> void:
-	var mouse_position := get_viewport().get_mouse_position()
-	if (not mask_rect.has_point(mouse_position)) and (not _get_panel_rect().has_point(mouse_position)):
-		queue_free()
+# func _process(_delta: float) -> void:
+# 	pass
 
-func _on_color_rect_gui_input(_event: InputEvent) -> void:
-	get_viewport().set_input_as_handled()
+#func _on_color_rect_gui_input(event: InputEvent) -> void:
+#	if event.is_action_pressed("click"):
+#	# if event is InputEventMouseButton and event.pressed:
+#		queue_free()
+#	get_viewport().set_input_as_handled()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("click"):
+		var mouse_pos := get_viewport().get_mouse_position()
+		for r: Rect2 in rects:
+			if r.has_point(mouse_pos):
+				return
+		queue_free()
+#	get_viewport().set_input_as_handled()
+
 
 # 子类实现：返回弹窗面板所在区域的 Rect2
 func _get_panel_rect() -> Rect2:

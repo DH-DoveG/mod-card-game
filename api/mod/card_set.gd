@@ -31,7 +31,7 @@ static func append(param: LuaTable) -> void:
 	var pid = param["pid"] if param["pid"] != null else null
 	var cards = param["cards"] if param["cards"] != null else null
 	cards = LuaUtils.table_to_dictionary(cards).values()
-	print("[MOD] card_set append > csi: ", card_set_id, " | pid: ", pid, " | cards: ", cards)
+	# LogUtils.info(str("[MOD] card_set append > csi: ", card_set_id, " | pid: ", pid, " | cards: ", cards))
 	if not card_set_id or not pid or not cards:
 		return
 	GApiManager.card_set_api.rpc("append", card_set_id, pid, cards)

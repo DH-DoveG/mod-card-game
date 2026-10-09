@@ -48,7 +48,19 @@ var areas := {} # 区域ID: AreaEntity
 
 # 在等待玩家处理输入交互时，应当设置为 true
 # 为 true 时，大部分行为不可操作
-var in_option = true
+# 采用 Array 方案，多个组件各自以唯一ID加入/移出，
+# Array 非空时视为 true，空时视为 false，避免 bool 覆盖冲突。
+var _in_option: Array = []
+
+func is_in_option() -> bool:
+	return not _in_option.is_empty()
+
+func add_in_option(key: String) -> void:
+	if key not in _in_option:
+		_in_option.append(key)
+
+func remove_in_option(key: String) -> void:
+	_in_option.erase(key)
 
 # ===== 场景输入开关封装 =====
 # 弹窗等组件通过 block_scene_input 暂停场景物理处理、射线与手牌渲染，

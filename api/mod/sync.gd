@@ -8,7 +8,7 @@ static func require(state: LuaState) -> void:
 	table.set("create", state.create_function(create))
 	table.set("clear", state.create_function(clear))
 	table.set("wait", state.create_function(wait))
-	table.set("create_sync", state.create_function(create_sync))
+	# table.set("create_sync", state.create_function(create_sync))
 	state.globals["package"]["loaded"]["std.api.sync-api"] = table
 
 static func create(param) -> String:
@@ -43,12 +43,12 @@ static func wait(param) -> Signal:
 			#"method": [LuaFunction:0x162679d6ae0]
 	#"method": [LuaFunction:0x1624d08d1a0]
 
-static func create_sync(param) -> Signal:
-	return ModManager.LuaAwaitWrapper.create_starter(func(_param):
-		var co = param["method"]
-		var arg = param["param"]
-		var mode = param["mode"] if param["mode"] != null else "TABLE"
+# static func create_sync(param) -> Signal:
+# 	return ModManager.LuaAwaitWrapper.create_starter(func(_param):
+# 		var co = param["method"]
+# 		var arg = param["param"]
+# 		var mode = param["mode"] if param["mode"] != null else "TABLE"
 
-		var res = await ModManager.run_lua_function(co, arg, mode)
-		return res
-	, param)
+# 		var res = await ModManager.run_lua_function(co, arg, mode)
+# 		return res
+# 	, param)

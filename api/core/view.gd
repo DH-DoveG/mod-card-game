@@ -23,10 +23,11 @@ func phase_show(content: String, sound) -> void:
 	await animate.finished
 	await Utils.get_scene_tree().create_timer(0.1).timeout
 
-func card_effect_show(title: String, detail: String, form: String, image: String, sound: String) -> void:
+func card_effect_show(bt: Behavior.BehaviorTrigger, title: String, detail: String, form: String, image: String, sound: String) -> void:
 	var animate = load("res://animate/animate_play_card_highlight.tscn").instantiate()
 	Utils.get_current_scene().add_child(animate)
 	animate.set_arg({
+		"card": bt.origin,
 		"title": title,
 		"detail": detail,
 		"form": form,

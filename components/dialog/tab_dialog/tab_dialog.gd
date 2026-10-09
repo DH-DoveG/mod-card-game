@@ -19,9 +19,8 @@ func _exit_tree() -> void:
 	super()
 
 func set_value(param: Dictionary) -> void:
-	# 复用代码
 	super(param)
-	# 	"items": [ { "text": "", "image": "RES_IMG_ID", "value": "" } ]
+	# "items": [ { "text": "", "image": "RES_IMG_ID", "value": "" } ]
 	build_tabs(param["tabs"])
 
 func build_tabs(tabs: Array):
@@ -55,10 +54,8 @@ func _build_items(t: Control, config: Array):
 			var index = int(ti.name.substr(5))
 			select_value = item_values[index]
 			# 显示选中的选项的值在 E2
-			var behavior: Behavior = FindUtils.find_behavior(select_value)
+			var behavior: Behavior = FindUtils.find_behavior(select_value["code"])
 
-			#TODO: 这里需要补完
-			#待补完内容：
 			t.get_node("Info/HBoxContainer/VBoxContainer2/TabDetails").text = behavior.get_info()["description"]
 
 		)

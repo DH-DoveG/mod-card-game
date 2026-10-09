@@ -1,11 +1,11 @@
 extends Object
 class_name LogUtils
 
-static func info(msg: String) -> void:
-	print(msg)
+static func info(_msg: String) -> void:
+	pass
 
 static func warn(msg: String) -> void:
-	print(msg)
+	push_warning(msg)
 
 static func error(msg: String) -> void:
-	print(msg)
+	push_error(msg)

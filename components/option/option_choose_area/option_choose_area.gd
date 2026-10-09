@@ -10,6 +10,7 @@ var _cancel = true
 
 var _show_areas = []
 var _choose_show_areas = []
+var _active_tweens: Array[Tween] = []
 
 func set_data(param) -> void:
 
@@ -43,8 +44,15 @@ func _build_btn_item(parent: Node, text: String) -> Button:
 	btn.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_FILL
 	return btn
 
+func _create_tracked_tween() -> Tween:
+	var tween = get_tree().create_tween()
+	_active_tweens.append(tween)
+	return tween
+
 func _process(_delta: float) -> void:
 	for areamask in _choose_show_areas:
+		if not is_instance_valid(areamask):
+			continue
 		var camera: Camera3D = get_tree().current_scene.scene.camera
 		var btn = areamask.get_node("Btn")
 		if btn and camera:
@@ -58,7 +66,7 @@ func _set_area_height() -> void:
 		var pos := area.get_position()
 		pos.y += 0.001
 
-		var areamask: StaticBody3D = preload("res://components/area_mask/area_mask.tscn").instantiate()
+		var areamask: StaticBody3D = load("res://components/area_mask/area_mask.tscn").instantiate()
 		battle.scene.add_child(areamask)
 		areamask.position = pos
 		areamask.name = id
@@ -68,7 +76,7 @@ func _set_area_height() -> void:
 				return
 			var mi: MeshInstance3D = areamask.get_node("MeshInstance3D")
 			var sm: StandardMaterial3D = mi.get_active_material(0)
-			var tween = get_tree().create_tween()
+			var tween = _create_tracked_tween()
 			tween.tween_property(sm, "albedo_color", Color("b0b0b07a"), 0.2)
 		)
 		areamask.mouse_exited.connect(func():
@@ -76,7 +84,7 @@ func _set_area_height() -> void:
 				return
 			var mi: MeshInstance3D = areamask.get_node("MeshInstance3D")
 			var sm: StandardMaterial3D = mi.get_active_material(0)
-			var tween = get_tree().create_tween()
+			var tween = _create_tracked_tween()
 			tween.tween_property(sm, "albedo_color", Color("7a7a7a7a"), 0.2)
 		)
 		areamask.input_event.connect(func(camera: Camera3D, event: InputEvent, _event_position, _normal, _shape_idx):
@@ -90,7 +98,7 @@ func _set_area_height() -> void:
 						_csa.get_node("Btn").queue_free()
 					var mi: MeshInstance3D = areamask.get_node("MeshInstance3D")
 					var sm: StandardMaterial3D = mi.get_active_material(0)
-					var tween = get_tree().create_tween()
+					var tween = _create_tracked_tween()
 					tween.tween_property(sm, "albedo_color", Color("7a7a7a7a"), 0.2)
 					if areamask.get_node("Btn"):
 						areamask.get_node("Btn").queue_free()
@@ -99,7 +107,7 @@ func _set_area_height() -> void:
 					_choose_show_areas.append(areamask)
 					var mi: MeshInstance3D = areamask.get_node("MeshInstance3D")
 					var sm: StandardMaterial3D = mi.get_active_material(0)
-					var tween = get_tree().create_tween()
+					var tween = _create_tracked_tween()
 					tween.tween_property(sm, "albedo_color", Color("ffffffff"), 0.2)
 					# 添加一个按钮
 					var btn = TextureButton.new()
@@ -109,7 +117,7 @@ func _set_area_height() -> void:
 					btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 					btn.custom_minimum_size = Vector2(100, 100)
 					btn.custom_maximum_size = Vector2(100, 100)
-					btn.texture_normal = preload("res://assets/images/icon/right.png")
+					btn.texture_normal = load("res://assets/images/icon/right.png")
 					btn.position = camera.unproject_position(areamask.position) - Vector2(50, 50)
 					btn.pressed.connect(func():
 						if chooses.size() < _min or chooses.size() > _max:
@@ -118,7 +126,7 @@ func _set_area_height() -> void:
 					)
 
 					var outline = ShaderMaterial.new()
-					outline.shader = preload("res://assets/shader/canvas_item/2d_outline.gdshader")
+					outline.shader = load("res://assets/shader/canvas_item/2d_outline.gdshader")
 					btn.material = outline
 					outline.set_shader_parameter("thickness", 4)
 
@@ -127,9 +135,8 @@ func _set_area_height() -> void:
 						var first = _choose_show_areas.pop_front()
 						mi = first.get_node("MeshInstance3D")
 						sm = mi.get_active_material(0)
-						tween = get_tree().create_tween()
+						tween = _create_tracked_tween()
 						tween.tween_property(sm, "albedo_color", Color("7a7a7a7a"), 0.2)
-						print("替换")
 						if first.get_node("Btn"):
 							first.get_node("Btn").queue_free()
 		)
@@ -141,9 +148,16 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	super()
+	for tween in _active_tweens:
+		if is_instance_valid(tween):
+			tween.kill()
+	_active_tweens.clear()
 	get_tree().current_scene.scene.enabled_ray_click_check(true)
 	for area in _show_areas:
-		area.queue_free()
+		if is_instance_valid(area):
+			area.queue_free()
+	_show_areas.clear()
+	_choose_show_areas.clear()
 
 func _on_confirmed_pressed() -> void:
 	if chooses.size() < _min or chooses.size() > _max:

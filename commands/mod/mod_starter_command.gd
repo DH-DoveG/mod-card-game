@@ -3,11 +3,7 @@ class_name ModStarterCommand
 
 var _execute_result: Variant = null
 
-func execute():
-	# 样板代码
-	if is_execute():
-		return
-
+func _do_execute():
 	# 参数检查
 	if typeof(_args) != TYPE_DICTIONARY:
 		return
@@ -23,23 +19,14 @@ func execute():
 		return
 	var table = load_table.invoke()
 	var use_result = table["use"].invoke(table, LuaUtils.dictionary_to_table(param))
-	if use_result is LuaError:
+
+	if use_result is LuaError: 
+		ModManager.print_lua_function_debug(table["use"], "use starter Error")
 		assert(false, "use starter Error: " + use_result.message)
 		return
 	_execute_result = table
 
-	# 样板代码
-	_execute_state = true
-
 	return use_result
 
-func undo() -> void:
-	# 样板代码
-	if not is_execute():
-		return
-
+func _do_undo() -> void:
 	_execute_result = null
-
-	# 样板代码
-	_execute_state = false
-	return

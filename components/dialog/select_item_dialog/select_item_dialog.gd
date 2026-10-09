@@ -59,8 +59,6 @@ func _build_list(list: Dictionary) -> void:
 	items = list["items"]
 	max_num = list["max"]
 	min_num = list["min"]
-	# FIXME: 如果 item.id 不能作为节点名称呢？
-	# 那某只能用 .bind 来绑定参数了
 	for item in items:
 		var dup = temp_item.duplicate()
 		scroll.add_child(dup)

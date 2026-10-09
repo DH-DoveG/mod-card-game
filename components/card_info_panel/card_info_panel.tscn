@@ -5,9 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://c848c3jnvt4qi" path="res://assets/images/icon/Unlock.png" id="3_bsr1f"]
 
 [node name="CardInfoPanel" type="ColorRect" unique_id=1660859181]
-offset_right = 336.0
-offset_bottom = 632.0
-color = Color(0.3403393, 0.34033936, 0.34033924, 0.8980392)
+custom_minimum_size = Vector2(300, 448)
+offset_right = 300.0
+offset_bottom = 448.0
+color = Color(0.34117648, 0.34117648, 0.34117648, 0.5882353)
 script = ExtResource("1_bsr1f")
 
 [node name="Back" type="ColorRect" parent="." unique_id=1688343561]
@@ -16,7 +17,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 24.0
 grow_horizontal = 2
-color = Color(0.22310299, 0.22310287, 0.22310293, 1)
+color = Color(0.22352941, 0.22352941, 0.22352941, 0.78431374)
 
 [node name="Title" type="Label" parent="Back" unique_id=1939313897]
 layout_mode = 1
@@ -38,6 +39,7 @@ custom_minimum_size = Vector2(24, 24)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_right = 24.0
 grow_vertical = 2
 texture_normal = ExtResource("2_l2rbv")
 ignore_texture_size = true
@@ -51,6 +53,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -24.0
 grow_horizontal = 0
 grow_vertical = 2
 texture_normal = ExtResource("3_bsr1f")
@@ -58,7 +61,8 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Info" type="RichTextLabel" parent="." unique_id=1995148338]
-custom_minimum_size = Vector2(328, 0)
+custom_minimum_size = Vector2(292, 416)
+custom_maximum_size = Vector2(292, 416)
 clip_contents = false
 layout_mode = 1
 anchors_preset = 15
@@ -70,6 +74,9 @@ offset_right = -4.0
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
+scroll_active = false
+shortcut_keys_enabled = false
 
 [connection signal="pressed" from="Back/Close" to="." method="_on_close_pressed"]

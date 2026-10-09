@@ -8,10 +8,14 @@ var units = []
 var values = []
 var custom = {}
 var orientation = { "x": 0, "y": 0 }
+var enemys = []
 var color := Color("999")
 
 func add_units(player: String):
 	units.append(player)
+
+func add_enemys(camp: String):
+	enemys.append(camp)
 
 func to_dict() -> Dictionary:
 	return {
@@ -22,7 +26,8 @@ func to_dict() -> Dictionary:
 		"values": values.map(func(value: Value): return value.to_dict()),
 		"custom": custom,
 		"orientation": orientation,
-		"color": color.to_html(false)
+		"color": color.to_html(false),
+		"enemys": enemys,
 	}
 
 func to_table() -> LuaTable:

@@ -5,7 +5,7 @@ class_name CoreCardApi
 @rpc("any_peer", "call_local", "reliable")
 func set_rotation(card_id: String, rotation: float) -> void:
 	var card = FindUtils.find_card(card_id)
-	print("[CORE][set_rotation] card ", card, " | id : ", card_id, " | rotation : ", rotation)
+	# LogUtils.info(str("[CORE][set_rotation] card ", card, " | id : ", card_id, " | rotation : ", rotation))
 	if card == null:
 		return
 	var views: Array[CardView3D] = card.get_view_3d()
@@ -63,7 +63,7 @@ func create_battle(card_id: String, card_resource_id: String, card_owner: String
 func create_3d_view(card_entity: CardEntity, card_mount: NodePath) -> CardView3D:
 	# 给卡片创建 3D 视图
 	# var card: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
-	var card: CardView3D = load("res://dev/neo_card_view_3d.tscn").instantiate()
+	var card: CardView3D = load("res://components/card_view_3d/neo_card_view_3d.tscn").instantiate()
 	card.hide()
 	card.set_entity(card_entity)
 
@@ -98,14 +98,22 @@ func get_public_information(card_id: String) -> Array:
 	return []
 
 @rpc("any_peer", "call_local", "reliable")
-func set_front(card_id: String, front: bool) -> void:
+func set_front(card_id: String, front: bool, change_public_information: bool = true) -> void:
 	var card: CardEntity = FindUtils.find_card(card_id)
 	if card is not CardEntity:
 		return
 
-	card.is_front = front
+	var battle = Utils.get_current_scene()
+	if battle is Battle:
+		var card_public = battle.battle_data_bind_list.card_public_information[card_id]
+		if change_public_information and not card_public.has("PUBLIC"):
+			card_public.append("PUBLIC")
+		else:
+			card_public.erase("PUBLIC")
 
-	# FIXME: 这里需要找到 CardEntity 对应的 CardView3D
+	card.is_front = front
+	if not card.get_view_3d().is_empty():
+		adjust_card_rotation(card.get_view_3d()[0])
 
 @rpc("any_peer", "call_local", "reliable")
 func set_orientation(card_id: String, orientation: bool) -> void:
@@ -136,7 +144,7 @@ func set_index(card_id: String, index: int) -> void:
 		#card_view.global_position = base_pos
 		card_view.global_position = area_entity.get_position()
 		card_view.global_position.y = area_entity.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (i + 1))
-		print("[set_index] CV POS : ", card_view.global_position, " | ", (i + 1))
+		# LogUtils.info(str("[set_index] CV POS : ", card_view.global_position, " | ", (i + 1)))
 
 @rpc("any_peer", "call_local", "reliable")
 func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void:
@@ -175,7 +183,7 @@ func set_area(card_id: String, area_id: String, config: Dictionary = {}) -> void
 
 	view_3d.global_position = area.get_position()
 	view_3d.global_position.y = area.get_position().y + 0.04 + (ConfigManager.CARD_THICKNESS * (cards_in_area + 1))
-	print("[set_area] CV POS : ", view_3d.global_position, " | ", cards_in_area)
+	# LogUtils.info(str("[set_area] CV POS : ", view_3d.global_position, " | ", cards_in_area))
 
 @rpc("any_peer", "call_local", "reliable")
 func get_image(id: String) -> Dictionary:
@@ -208,16 +216,25 @@ func get_direction(id: String) -> Dictionary:
 	var views = card.get_view_3d()
 	if views.is_empty():
 		return {"x": 0, "y": 0}
-	# FIXME: 一个潜在的BUG，这些值需要四舍五入，因为浮点数的精度问题，可能不会匹配上。需要四舍五入
 	var view = views.front()
 	var direction = Vector2(0, 0)
 	# 0朝左方向，90朝下方向，-90朝上方向，180朝右方向
 	# 这个修正是因为坐标从0，0开始，从左上角开始
-	match int(view.global_rotation_degrees.y):
-		0: direction = Vector2(-1, -1)
-		90: direction = Vector2(1, 1)
-		-90: direction = Vector2(-1, -1)
-		180: direction = Vector2(1, 1)
+	#print("card direction: ", view.global_rotation_degrees.y)
+	#match int(view.global_rotation_degrees.y):
+		#0: direction = Vector2(-1, -1)
+		#90: direction = Vector2(1, 1)
+		#-90: direction = Vector2(-1, -1)
+		#180: direction = Vector2(1, 1)
+	var y = view.global_rotation_degrees.y
+	if is_equal_approx(y, 0):
+		direction = Vector2(0, -1)
+	elif is_equal_approx(y, 90):
+		direction = Vector2(1, 0)
+	elif is_equal_approx(y, -90):
+		direction = Vector2(0, -1)
+	elif is_equal_approx(abs(y), 180):
+		direction = Vector2(0, 1)
 	return {"x": direction.x, "y": direction.y}
 
 func get_ownership(id: String) -> String:
@@ -249,6 +266,7 @@ func get_area(id: String) -> Dictionary:
 	for k in battle.battle_data_bind_list.area_bind_cards:
 		if id in battle.battle_data_bind_list.area_bind_cards[k]:
 			info["area_id"] = k
+			info["type"] = "Area"
 			return info
 	# 查卡堆
 	for set_id in battle.battle_data_bind_list.card_set:

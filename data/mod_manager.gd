@@ -10,12 +10,21 @@ class LuaAwaitWrapper extends Object:
 	var id = ""
 	# 私有方法：执行异步任务
 	func _run_async_task() -> void:
+		# print("run_async_task ---> ", _method)
 		await Utils.get_scene_tree().process_frame
+		# print("run_async_task 2 1---> ", _method)
+		# print("run_async_task 2 2---> ", _method.is_valid())
+		# print("run_async_task 2 3---> ", _method.is_null())
+		# print("run_async_task 2 4---> ", _method.is_standard())
+		# print("run_async_task 2 5---> ", _method.is_custom())
+		# print("run_async_task 2 6---> ", _method.get_object()) # 调用系统API时，系统为 RefCounted ,
+		# print("run_async_task 2 7---> ", _method.call)
 		var taskResult = await _method.call(_arg)
 		await_completed.emit(taskResult)
-		Utils.get_scene_tree().process_frame.connect(func():
-			self.free()
-		, ConnectFlags.CONNECT_ONE_SHOT)
+		#Utils.get_scene_tree().process_frame.connect(func():
+			##self.free()
+			#pass
+		#, ConnectFlags.CONNECT_ONE_SHOT)
 	func start() -> Signal:
 		_run_async_task()
 		return await_completed
@@ -51,7 +60,7 @@ class LuaAwaitWrapperSet extends Object:
 		if _start_run_count == await_wrappers.size():
 			await_all_completed.emit(LuaUtils.array_to_table(_start_run_results))
 			await Utils.get_scene_tree().process_frame
-			self.free()
+			#self.free()
 	func start() -> Signal:
 		Utils.get_scene_tree().process_frame.connect(func():
 			for awaitWrapper: LuaAwaitWrapper in await_wrappers:
@@ -81,40 +90,48 @@ static func do_mod_file(file_path: String) -> Variant:
 		assert(false, "DO MOD FILE ERROR: " + load_table.message)
 	return load_table
 
+# 打印出错的 LuaFunction 的 get_debug_info() 信息
+static func print_lua_function_debug(method, context: String = "") -> void:
+	if method is not LuaFunction:
+		printerr(">> ", context + " 发生 LuaError，且无法获取出错的 LuaFunction")
+		LogUtils.error(context + " 发生 LuaError，且无法获取出错的 LuaFunction")
+		return
+	var debug: LuaDebug = method.get_debug_info()
+	var st = "%s 出错的 LuaFunction 调试信息: what: %s, name: %s(%s), short_src: %s, source: %s, current_line: %d, line_defined: %d-%d" % [
+		context,
+		debug.get_what(),
+		debug.get_name(),
+		debug.get_name_what(),
+		debug.get_short_src(),
+		debug.get_source(),
+		debug.get_current_line(),
+		debug.get_line_defined(),
+		debug.get_last_line_defined(),
+	]
+	printerr("ST: ", st)
+	LogUtils.error(st)
+
 static func run_lua_function(method, param, mode = "TABLE") -> Variant:
 	assert(method is LuaFunction, "run_lua_function: method is not LuaFunction")
+	var co = LuaCoroutine.create(method)
 	var _res = null
-	var _p = null
 	if param != null:
 		if mode == "TABLE":
-			_p = param
-			_res = method.invoke(_p)
+			_res = co.resume(param)
 		else:
-			_p = param.to_array()
-			_res = method.invokev(_p)
+			_res = co.resumev(param.to_array())
 	else:
-		_res = method.invoke()
-	# 如果执行的返回值是携程，需要等待携程完成
-	if _res is LuaCoroutine:
-		var error = null
-		if _p != null:
-			if mode == "TABLE":
-				error = _res.resume(_p)
-			else:
-				error = _res.resumev(_p)
-		else:
-			error = _res.resume()
-		if error is LuaError:
-			assert(false, error.message)
-		if _res.status == LuaCoroutine.STATUS_YIELD:
-			_res = await _res.completed
-		else:
-			_res = error
+		_res = co.resume()
+	if _res is LuaError:
+		print_lua_function_debug(method, "run_lua_function: [Coroutine]")
+		assert(false, _res.message)
+	if co.status == LuaCoroutine.STATUS_YIELD:
+		_res = await co.completed
 	# 如果执行的返回值是信号，需要等待信号触发
 	if _res is Signal:
 		_res = await _res
 	if _res is LuaError:
-		print(_res.message)
+		print_lua_function_debug(method, "run_lua_function: [wait]")
 		assert(false, "Async: [wait] 错误：" + _res.message)
 	return _res
 

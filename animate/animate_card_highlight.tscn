@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://biu78gcyoulcg"]
+
+[ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://dkgg7amh8dp1d" path="res://animate/animate_card_highlight.gd" id="2_scr"]
+
+[node name="AnimateCardHighlight" unique_id=826842191 instance=ExtResource("1_base")]
+script = ExtResource("2_scr")

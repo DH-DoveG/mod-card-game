@@ -16,22 +16,15 @@
 			"uuid": "e8059903-d628-475e-8bf7-59fdf28a4566",
 			"title": " Await",
 			"tasks": [
-				"b2fbb088-80d2-4402-83b0-a03fe1acc703",
-				"1c945537-37d4-43f2-bdc4-562b34537887",
 				"985cf17b-751e-407a-b450-e1aca4a5e900",
-				"33c39e61-457e-43d3-94a0-6fab6515bfda",
 				"103977ce-892f-4c16-988e-d59211594e59",
-				"d66dbd8a-e328-410d-a38c-7ff6d94360bb",
-				"e415d2c8-d353-4cc8-81c0-74a69c1b0501",
-				"d140f3ac-3db8-4f5a-aec1-e397d555680b"
+				"e415d2c8-d353-4cc8-81c0-74a69c1b0501"
 			]
 		},
 		{
 			"uuid": "8a075338-f67f-450f-ad7d-f098be2f9f04",
 			"title": "Doing Todo",
 			"tasks": [
-				"2d3288f9-465f-4788-abc3-4ecd7e8b772b",
-				"18345bdf-a26c-4b0c-bcd2-7d507b8c8b8d",
 				"325ff768-c577-479f-92c8-b2eac9ba6e76"
 			]
 		},
@@ -39,6 +32,12 @@
 			"uuid": "8efcb79e-d12d-4642-aa8c-7f1de77b54ab",
 			"title": "Done Todo",
 			"tasks": [
+				"d140f3ac-3db8-4f5a-aec1-e397d555680b",
+				"33c39e61-457e-43d3-94a0-6fab6515bfda",
+				"18345bdf-a26c-4b0c-bcd2-7d507b8c8b8d",
+				"2d3288f9-465f-4788-abc3-4ecd7e8b772b",
+				"b2fbb088-80d2-4402-83b0-a03fe1acc703",
+				"1c945537-37d4-43f2-bdc4-562b34537887",
 				"42d48400-4a6b-49bb-a103-f681d3169ed4",
 				"72f43131-470b-43c4-be9c-f978f033f54a",
 				"eec20115-80d7-47a9-b7c4-5823e567cdcf",
@@ -58,7 +57,8 @@
 			"uuid": "999b4480-e761-4f01-9bbb-dd708fd3b2a7",
 			"title": "Fix BUG",
 			"tasks": [
-				"32cfad01-2ec0-4688-bf64-ad3381b56614"
+				"32cfad01-2ec0-4688-bf64-ad3381b56614",
+				"d66dbd8a-e328-410d-a38c-7ff6d94360bb"
 			]
 		},
 		{

@@ -19,8 +19,7 @@ func _ready() -> void:
 	_build_mod_list_view()
 
 func _load_mods() -> void:
-	print("load_mods: ", ConfigManager.get_mod_env_paths())
-	ModProbeCommand.new().args({"paths": ConfigManager.get_mod_env_paths()}).execute()
+	ModProbeCommand.new().args({"paths": ConfigManager.mod.get_mod_env_paths()}).execute()
 
 func _build_mod_list_view() -> void:
 	for i in ModManager.probe_mods:

@@ -17,12 +17,12 @@ static func set_current(param) -> void:
 	GApiManager.round_api.rpc("set_current", round_num, id)
 
 static func get_current(param) -> LuaTable:
-	var mode = param["mode"] if param["mode"] else "ID"
 	var scene = Utils.get_current_scene()
 	if scene is not Battle:
 		return
 	var battle: Battle = scene
 	var player = battle.current_round_player
+	var mode = param["mode"] if param["mode"] else "ID"
 	if mode == "ALL":
 		player = FindUtils.find_player(player).meta
 	return ModManager.state.create_table({
@@ -58,7 +58,7 @@ static func end_round() -> void:
 static func set_action_sequence(param) -> void:
 	var list = param["list"].to_array() if param["list"] else null
 	var index = param["index"] if param["index"] else null
-	print("LIST: ", list)
+	# LogUtils.info(str("LIST: ", list))
 	GApiManager.round_api.rpc("set_action_sequence", list, index)
 
 static func get_action_sequence(param) -> LuaTable:
@@ -95,9 +95,9 @@ static func get_action_sequence(param) -> LuaTable:
 		"index": battle.round_index
 	})
 
-	print("GET ACTION SEQUENCE: ", {
-		"list": new_dic,
-		"index": battle.round_index
-	})
+	# LogUtils.info(str("GET ACTION SEQUENCE: ", {
+	# 	"list": new_dic,
+	# 	"index": battle.round_index
+	# }))
 
 	return table

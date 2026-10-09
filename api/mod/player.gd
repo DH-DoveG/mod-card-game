@@ -12,12 +12,50 @@ static func require(state: LuaState) -> void:
 	table.set("start_player_timeout", state.create_function(start_player_timeout))
 	table.set("stop_player_timeout", state.create_function(stop_player_timeout))
 
+	# 实验
+	table.set("set_camp_enemys", state.create_function(set_camp_enemys))
+	table.set("get_camp_enemys", state.create_function(get_camp_enemys))
+	table.set("get_camp_table", state.create_function(get_camp_table))
+	table.set("get_players_in_camp", state.create_function(get_players_in_camp))
+
 	state.globals["package"]["loaded"]["std.api.player-api"] = table
 
-static func add_blackboard_var(param) -> void:
-	var id = param["player_id"] if param["player_id"] != null else ""
-	var p = FindUtils.find_player(id)
-	p.bt_player.blackboard.set_var(param["var"], param["value"])
+# 获取阵营里的玩家
+static func get_players_in_camp(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	#print("GPIC : camp : ", camp.to_dict())
+	if camp is not Camp:
+		return null
+	return LuaUtils.array_to_table(camp.units)
+
+static func get_camp_table(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	if camp is not Camp:
+		return null
+	return camp.to_table()
+
+static func get_camp_enemys(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	return LuaUtils.array_to_table(camp.enemys)
+
+static func set_camp_enemys(param) -> void:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	var enemys = param["enemys"] if param["enemys"] != null else []
+	GApiManager.player_api.rpc("set_camp_enemys", camp_id, enemys)
+
+# static func add_blackboard_var(param) -> void:
+# 	var id = param["player_id"] if param["player_id"] != null else ""
+# 	var p = FindUtils.find_player(id)
+# 	p.bt_player.blackboard.set_var(param["var"], param["value"])
 
 static func get_player(param) -> LuaTable:
 	var id = param["id"] if param["id"] != null else ""
@@ -111,6 +149,7 @@ static func get_player_timeout(param: LuaTable) -> int:
 
 static func start_player_timeout(param: LuaTable) -> void:
 	var pid = param["player_id"] if param["player_id"] else null
+	print("start_player_timeout : ", pid)
 	if typeof(pid) != TYPE_STRING:
 		return
 	GApiManager.player_api.rpc("start_player_timeout", pid)

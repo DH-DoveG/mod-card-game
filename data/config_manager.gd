@@ -16,30 +16,17 @@ const window_size = Vector2(1920, 1080)
 static var page_index_title: String = ""
 static var page_config: Dictionary = {}
 
-## 内容格式： { "${mod_name}": {"version": "${mod_version}", "path": "${mod_path}" }, ... }
-static var MOD_CONFIG_FILE_PATH: String = "configs/mod_load_config.json"
-static var mod_config = {}
+static var mod: ModConfigManager = ModConfigManager.new()
 
-## 		"${mod_setting_item1}": "${mod_setting_item1_value}",
-# static var MOD_SETTING_FILE_PATH: String = "configs/mod_setting.json"
-# static var MOD_ENV_PATH_SET_FILE_PATH: String = "configs/mod_env_paths.json"
 const IMAGE_SETTING_FILE_PATH: String = "configs/image_setting.json"
-const MOD_SETTING_FILE_PATH: String = "configs/mod_setting.json"
 const SOUND_SETTING_FILE_PATH: String = "configs/sound_setting.json"
 const MULTIPLAYER_CONFIG_FILE_PATH = "configs/multiplayer_config.json"
 const DECK_SEARCH_CONDITION_CONFIG_FILE_PATH = "configs/deck_search_condition_config.json"
 const DECK_FOLDER_PATH = "decks/"
 
-static var mod_env_paths: Array = []
 static var multiplayer_config = []
 static var deck_search_condition_config = {}
 static var decks = []
-
-static var setting_mod_config = [
-	{"id": 0, "title": "模组搜索路径", "paths": [
-		{"path": OS.get_executable_path().get_base_dir().path_join("mods"), "enable": true},
-	]}
-]
 
 static var setting_sound_config = {
 	"music": { "value": 5, "enable": true },
@@ -69,7 +56,7 @@ static var setting_image_config = [
 ]
 
 static func load_config_for_file():
-	_load_config_for_file_mod()
+	mod.load_config_for_file()
 	_load_config_for_file_image()
 	_load_config_for_file_other()
 
@@ -84,35 +71,6 @@ static func _load_config_for_file_image() -> void:
 				for sic in setting_image_config:
 					if sic["id"] == int(id):
 						sic["choose"] = int(data[id])
-	file.close()
-
-static func _load_config_for_file_music() -> void:
-	var file: FileAccess = PersistenceUtils.open_file(MOD_SETTING_FILE_PATH)
-	if file:
-		var text = file.get_as_text()
-		if text.is_empty(): pass
-		else:
-			setting_sound_config = JSON.parse_string(text)
-	file.close()
-
-static func _load_config_for_file_mod() -> void:
-	var file: FileAccess = PersistenceUtils.open_file(MOD_SETTING_FILE_PATH)
-	var text = ""
-	if file:
-		text = file.get_as_text()
-		if text.is_empty():
-			mod_env_paths = []
-		else:
-			mod_env_paths = JSON.parse_string(text)
-		setting_mod_config[0]["paths"] = mod_env_paths
-	file.close()
-
-	file = PersistenceUtils.open_file(MOD_CONFIG_FILE_PATH)
-	if file:
-		text = file.get_as_text()
-		if text.is_empty(): pass
-		else:
-			mod_config = JSON.parse_string(text)
 	file.close()
 
 static func _load_config_for_file_other() -> void:
@@ -138,32 +96,5 @@ static func load_image_setting() -> void:
 		for item in setting_image_config:
 			sv.set(item["property"], item["options"][item["choose"]]["value"])
 
-static func load_mod_setting() -> void:
-	var paths = get_mod_env_paths()
-	ModManager.reset_state()
-	ModManager.set_package_paths(paths)
-
-	ModProbeCommand.new().args({"paths": paths}).execute()
-
-	var mods = ModManager.probe_mods
-	var uses = []
-	for mod: Dictionary in mods:
-		var lii: LuaTable = mod["load_introducer_info"]
-		if mod_config.has(lii["id"]) and mod_config[lii["id"]]["version"] == lii["version"]:
-			uses.append(mod)
-	ModUseCommand.new().args({"mods": uses}).execute()
-
 static func load_sound_setting():
 	pass
-
-static func get_mod_env_paths() -> Array:
-	var paths = []
-	for smc in mod_env_paths:
-		if smc["enable"]:
-			paths.append(smc["path"])
-	# 如果没有那么就初始化一个路径
-	if paths.is_empty():
-		PersistenceUtils.make_folder("mods")
-		paths.append(PersistenceUtils.get_exec_path().path_join("mods"))
-
-	return paths

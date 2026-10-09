@@ -102,11 +102,15 @@ func reload_config() -> void:
 		dup.get_node("CardBack").texture = GResourceManager.get_image_resoure(config["card_back"])
 		dup.get_node("Avatar").texture = GResourceManager.get_image_resoure(config["avatar"])
 		dup.get_node("Btns/SC/BeServer").pressed.connect(func():
+			$ConnectMask.show()
+			$MaskTimer.start()
 			var finish = await GNetManager.be_connect("Server", {
 				"nick": config["nick"],
 				"avatar": config["avatar"],
 				"card_back": config["card_back"]
 			}, int(config["port"]), config["address"])
+			$ConnectMask.hide()
+			$MaskTimer.stop()
 			if not finish: return
 			AsyncScene.new(
 				"res://pages/pvp_ready/pvp_ready.tscn",
@@ -117,14 +121,16 @@ func reload_config() -> void:
 			.start()
 		)
 		dup.get_node("Btns/SC/BeClient").pressed.connect(func():
-			print("BeClient: ", config)
+			$ConnectMask.show()
+			$MaskTimer.start()
 			GNetManager.be_connect("Client", {
 				"nick": config["nick"],
 				"avatar": config["avatar"],
 				"card_back": config["card_back"]
 			}, int(config["port"]), config["address"])
 			var finish = await GNetManager.be_finished
-			print("____", finish)
+			$ConnectMask.hide()
+			$MaskTimer.stop()
 			if not finish: return
 			AsyncScene.new(
 				"res://pages/pvp_ready/pvp_ready.tscn",

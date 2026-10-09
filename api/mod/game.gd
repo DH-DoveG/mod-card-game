@@ -14,7 +14,15 @@ static func require(state: LuaState) -> void:
 	table.set("create_camp", state.create_function(create_camp))
 	table.set("get_camp", state.create_function(get_camp))
 	table.set("get_battle_info", state.create_function(get_battle_info))
+	table.set("get_host_player_id", state.create_function(get_host_player_id))
 	state.globals["package"]["loaded"]["std.api.game-api"] = table
+
+static func get_host_player_id() -> String:
+	var scene = Utils.get_current_scene()
+	if scene is not Battle:
+		return ""
+	var battle: Battle = scene
+	return battle.host_player_id
 
 static func get_battle_info(param) -> LuaTable:
 	var player_id = param["player_id"] if param["player_id"] != null else null
@@ -73,7 +81,8 @@ static func create_camp(param) -> void:
 	var units = param["units"].to_array() if param["units"] != null else []
 	var orientation = param["orientation"].to_dictionary() if param["orientation"] != null else {x = 0, y = 0}
 	var color = param["color"] if param["color"] != null else "999"
-	GApiManager.game_api.rpc("create_camp", title, leader, units, orientation, color)
+	var enemys = param["enemys"].to_array() if param["enemys"] != null else []
+	GApiManager.game_api.rpc("create_camp", title, leader, units, orientation, color, enemys)
 
 static func get_camp(param) -> LuaTable:
 	var title = param["title"] if param["title"] != null else ""

@@ -17,7 +17,7 @@ func _on_btn_pressed() -> void:
 	if battle.host_player_id != battle.current_round_player:
 		return
 
-	if battle.in_option:
+	if battle.is_in_option():
 		return
 
 	btn.disabled = true

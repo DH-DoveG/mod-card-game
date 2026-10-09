@@ -8,4 +8,6 @@ func execute(_data):
 	await Utils.get_scene_tree().process_frame
 	execute_finished.emit(null)
 
-func later(): pass
+func later(_data = null): 
+	await Utils.get_scene_tree().process_frame
+	pass

@@ -2,32 +2,17 @@ extends StaticBody3D
 class_name CardView3D
 
 
-#突出面向屏幕变为“动画效果”（仅view_3d）
-#交互使用列表的形式，
-#点击后固定左侧的卡片列表，鼠标移动到上面时
-
-
 @onready var view := $View
 @onready var body: MeshInstance3D = $View/Body
 @onready var nciv = $View/NeoCardInfoView3D
 @onready var cs3d = $CS3D
 
 var entity: CardEntity = null
-
 var outline_color: Color
 
-var origin_body_pos = null
-var origin_nciv_pos = null
-var origin_nciv_ration = null
-var origin_self_pos = null
-var origin_self_ration = null
-var origin_basis = null
 
 func _ready() -> void:
 	add_to_group(&"CardView3D")
-
-func _exit_tree() -> void:
-	remove_from_group(&"CardView3D")
 
 var in_free := false
 func animate_free():
@@ -38,70 +23,38 @@ func animate_free():
 var is_hightlight := false
 var is_normallight_ing := false
 
+# 当前正在显示的行为菜单；点击卡片时触发，用此引用保证同一卡片只创建一个菜单
+var _behavior_popup: BasePopupMenu = null
+
 func show_behavior(_rect = null):
 	# 在主机玩家没有访问权限的情况下卡的展示不展示卡面与其余信息
 	var scene: Battle = get_tree().current_scene
-	if check_area_top_has_card():
-		#var msr = get_mesh_screen_rect()
-		#var pos = scene.scene.camera.unproject_position(global_position)
-		#pos.y -= msr.size.y / 2 # 160
-		#pos.y -= 10
-		#var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
-		#get_tree().current_scene.add_child(n)
-		#await n.set_popup(pos, entity.behaviors, entity)
-		#if is_instance_valid(n):
-			#n.set_exp_mask(msr)
-			#n.set_process(true)
-			#n.tree_exited.connect(func():
-				#normallight()
-				#pass
-			#, ConnectFlags.CONNECT_ONE_SHOT)
+	if scene.is_in_option():
 		return
-	#if is_hightlight: return
-	#is_hightlight = true
-	#nciv.useev = false
-	#nciv.set_process(false)
-	#nciv.set_rander_priority(4)
-	#if origin_body_pos == null:
-		#origin_body_pos = body.global_position
-	#if origin_nciv_pos == null:
-		#origin_nciv_pos = nciv.global_position
-	#if origin_nciv_ration == null:
-		#origin_nciv_ration = nciv.quaternion
-	#if origin_basis == null:
-		#origin_basis = view.global_transform.basis
-	#var _dir: Vector3 = (scene.scene.camera.global_position - origin_body_pos).normalized()
-	#var bd = origin_body_pos + _dir * 0.75
-	#var nd = origin_nciv_pos + _dir * 0.75
-	#nciv.quaternion = Quaternion(0.707107, 0, 0, 0.707107)
-	## 为什么 body、NeoCardInfoView3D 的旋转角度会变？
-	#var tween = get_tree().create_tween().set_parallel(true)
-	#tween.tween_property(view, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.10)
-	#tween.tween_property(body, "global_position", bd, 0.20)
-	#tween.tween_property(nciv, "global_position", nd, 0.20)
-	#tween.tween_property(body, "scale", Vector3(120, 120, 120), 0.20)
-	#tween.tween_property(nciv, "scale", Vector3(1.2, 1.2, 1.2), 0.20)
-	#tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
-	#nciv.change_x(false)
-	#await tween.finished
-	#nciv.set_process(false)
-
+	if check_area_top_has_card():
+		return
+	# 已有活动菜单时直接返回，等待其关闭（鼠标移出或点击选项）后才允许再次弹出
+	if is_instance_valid(_behavior_popup):
+		return
 	var msr = get_mesh_screen_rect()
 	if _rect:
 		msr = _rect
 	var pos = scene.scene.camera.unproject_position(global_position)
 	pos.y -= get_mesh_screen_rect().size.y / 2 # 160
 	pos.y -= 10
-
-	var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
+	var n = load("res://components/behavior_popup_menu/neo_behavior_popup_menu.tscn").instantiate()
+	await get_tree().create_timer(0.01).timeout
 	get_tree().current_scene.add_child(n)
+	_behavior_popup = n
+	if n == null:
+		_behavior_popup = null
+		return
 	await n.set_popup(pos, entity.behaviors, entity)
 	if is_instance_valid(n):
 		n.set_exp_mask(msr)
 		n.set_process(true)
 		n.tree_exited.connect(func():
 			normallight()
-			pass
 		, ConnectFlags.CONNECT_ONE_SHOT)
 
 func hightlight():
@@ -112,70 +65,6 @@ func hightlight():
 	tween1.tween_method(func(value: Color):
 		m.set_shader_parameter("color", value)
 	, c, color, 0.2)
-	## 在主机玩家没有访问权限的情况下卡的展示不展示卡面与其余信息
-	#var scene = get_tree().current_scene
-	#if scene is Battle:
-		#if scene.host_player_id not in scene.battle_data_bind_list.card_public_information[entity.name] and \
-		   #"PUBLIC" not in scene.battle_data_bind_list.card_public_information[entity.name]:
-			#return
-	#if check_area_top_has_card():
-		#var msr = get_mesh_screen_rect()
-		#var pos = scene.scene.camera.unproject_position(global_position)
-		#pos.y -= msr.size.y / 2 # 160
-		#pos.y -= 10
-		#var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
-		#get_tree().current_scene.add_child(n)
-		#await n.set_popup(pos, entity.behaviors, entity)
-		#if is_instance_valid(n):
-			#n.set_exp_mask(msr)
-			#n.set_process(true)
-			#n.tree_exited.connect(func():
-				#normallight()
-				#pass
-			#, ConnectFlags.CONNECT_ONE_SHOT)
-		#return
-	#if is_hightlight: return
-	#is_hightlight = true
-	#nciv.useev = false
-	#nciv.set_process(false)
-	#nciv.set_rander_priority(4)
-	#if origin_body_pos == null:
-		#origin_body_pos = body.global_position
-	#if origin_nciv_pos == null:
-		#origin_nciv_pos = nciv.global_position
-	#if origin_nciv_ration == null:
-		#origin_nciv_ration = nciv.quaternion
-	#if origin_basis == null:
-		#origin_basis = view.global_transform.basis
-	#var _dir: Vector3 = (scene.scene.camera.global_position - origin_body_pos).normalized()
-	#var bd = origin_body_pos + _dir * 0.75
-	#var nd = origin_nciv_pos + _dir * 0.75
-	#nciv.quaternion = Quaternion(0.707107, 0, 0, 0.707107)
-	## 为什么 body、NeoCardInfoView3D 的旋转角度会变？
-	#var tween = get_tree().create_tween().set_parallel(true)
-	#tween.tween_property(view, "global_transform:basis", scene.scene.camera.global_transform.basis, 0.10)
-	#tween.tween_property(body, "global_position", bd, 0.20)
-	#tween.tween_property(nciv, "global_position", nd, 0.20)
-	#tween.tween_property(body, "scale", Vector3(120, 120, 120), 0.20)
-	#tween.tween_property(nciv, "scale", Vector3(1.2, 1.2, 1.2), 0.20)
-	#tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
-	#nciv.change_x(false)
-	#await tween.finished
-	#nciv.set_process(false)
-	#var msr = get_mesh_screen_rect()
-	#var pos = scene.scene.camera.unproject_position(global_position)
-	#pos.y -= msr.size.y / 2 # 160
-	#pos.y -= 10
-	#var n = preload("res://dev/neo_behavior_popup_menu.tscn").instantiate()
-	#get_tree().current_scene.add_child(n)
-	#await n.set_popup(pos, entity.behaviors, entity)
-	#if is_instance_valid(n):
-		#n.set_exp_mask(msr)
-		#n.set_process(true)
-		#n.tree_exited.connect(func():
-			#normallight()
-			#pass
-		#, ConnectFlags.CONNECT_ONE_SHOT)
 
 func normallight():
 	var m: ShaderMaterial = body.get_active_material(0).next_pass
@@ -184,30 +73,6 @@ func normallight():
 	tween1.tween_method(func(value: Color):
 		m.set_shader_parameter("color", value)
 	, current_color, outline_color, 0.2)
-	#if not is_hightlight: return
-	#if is_normallight_ing: return
-	#is_normallight_ing = true
-	#nciv.set_rander_priority(2)
-	#var tween = get_tree().create_tween().set_parallel(true)
-	#tween.tween_property(view, "global_transform:basis", origin_basis, 0.10)
-	#tween.tween_property(body, "global_position", origin_body_pos, 0.20)
-	#tween.tween_property(nciv, "global_position", origin_nciv_pos, 0.20)
-	#tween.tween_property(body, "scale", Vector3(100, 100, 100), 0.20)
-	#tween.tween_property(nciv, "scale", Vector3(1, 1, 1), 0.20)
-	## 旋转角度恢复时可能偏转是因为欧拉角的轴锁问题
-	#tween.tween_property(body, "rotation", Vector3(0, 0, 0), 0.21)
-	#nciv.change_x(true)
-	#await tween.finished
-	#nciv.quaternion = origin_nciv_ration
-	#nciv.set_process(true)
-	#nciv.useev = true
-	#await get_tree().process_frame
-	#origin_body_pos = null
-	#origin_nciv_pos = null
-	#origin_basis = null
-	#origin_nciv_ration = null
-	#is_normallight_ing = false
-	#is_hightlight = false
 
 # (0, 0.707107, -0.707107, 0) 背面向上
 # (0.707107, 0, 0, 0.707107) 背面向上
@@ -231,10 +96,6 @@ func get_front() -> bool:
 	return false
 
 func trigger(_pos := Vector2(-1, -1)):
-	var scene = get_tree().current_scene
-	var pos = _pos
-	if pos == Vector2(-1, -1):
-		pos = scene.scene.camera.unproject_position(global_position)
 	return
 
 func set_entity(data: CardEntity):

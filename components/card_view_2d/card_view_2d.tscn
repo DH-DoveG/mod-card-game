@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://dg3gh6q4knxrl"]
 
-[ext_resource type="Texture2D" uid="uid://cm1x7vh52w0fk" path="res://sn-0008.png" id="1_3mbby"]
+[ext_resource type="Texture2D" uid="uid://u5sxuty43mxb" path="res://Screenshot.png" id="1_3mbby"]
 [ext_resource type="Script" uid="uid://bw3fccpmt2uss" path="res://components/card_view_2d/card_view_2d.gd" id="2_3mbby"]
 
 [node name="CardView2D" type="TextureButton" unique_id=873884852]
 custom_minimum_size = Vector2(65, 91)
 offset_right = 130.0
 offset_bottom = 182.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
 texture_normal = ExtResource("1_3mbby")
 ignore_texture_size = true
-stretch_mode = 5
+stretch_mode = 6
 script = ExtResource("2_3mbby")
 
 [node name="RR" type="ReferenceRect" parent="." unique_id=277423094]

@@ -31,6 +31,9 @@ var standing_sign = "":
 func get_code():
 	return meta["entity"]["code"]
 
+func get_type():
+	return meta["type"]
+
 func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 	var result: Array[CardView3D] = []
 	var card_views = Utils.get_scene_tree().get_nodes_in_group(&"CardView3D")
@@ -42,7 +45,7 @@ func get_view_3d(if_null_to_create: bool = false) -> Array[CardView3D]:
 		var scene = Utils.get_current_scene()
 		if scene is Battle:
 			# var view: CardView3D = load("res://components/card_view_3d/card_view_3d.tscn").instantiate()
-			var view: CardView3D = load("res://dev/neo_card_view_3d.tscn").instantiate()
+			var view: CardView3D = load("res://components/card_view_3d/neo_card_view_3d.tscn").instantiate()
 			scene.scene.card_mount.add_child(view)
 			view.hide()
 			view.set_entity(self)

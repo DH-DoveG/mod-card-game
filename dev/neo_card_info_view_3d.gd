@@ -5,8 +5,6 @@ var user: CardView3D
 var enable_view := true
 var useev := true
 
-#var current_direction = null
-
 func _ready() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
@@ -18,16 +16,9 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	#func _process(_delta: float) -> void:
-	# 侧面时 y 应为 0
-	#if is_hightlight:
-	#nciv.
-	#rotation_degrees.x = 90
-	#pass
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		# 光标移动到卡片上时，即使被挡住也需要显示
-		# print("useev : ", useev)
 		if (!enable_view or user.check_area_top_has_card()) and useev:
 			hide()
 			return
@@ -35,10 +26,8 @@ func _process(_delta: float) -> void:
 		   "PUBLIC" not in scene.battle_data_bind_list.card_public_information[user.entity.name]:
 			hide()
 		else:
-			show()
-			#if current_direction == scene.visual_angle:
-				#return
 			change_dirction(scene.visual_angle)
+			show()
 
 
 func update_entity(entity: CardEntity):
@@ -93,21 +82,13 @@ func change_x(status: bool):
 		tween.tween_property($InfoView, "position:y", 0.02, 0.2)
 
 func change_dirction(visual):
-	#print("cd: ", visual)
-	#rotation_degrees.z = 0
 	match visual:
 		Vector2i.DOWN: 
 			global_rotation_degrees.y = 0
-			#rotation_degrees.x = -90
 		Vector2i.UP:
 			global_rotation_degrees.y = 180
-			#rotation_degrees.x = 90
-			#global_rotation_degrees.x = -90
 		Vector2i.LEFT:
 			global_rotation_degrees.y = 90
-			#rotation_degrees.x = 90
 		Vector2i.RIGHT:
 			global_rotation_degrees.y = -90
-			#rotation_degrees.x = 90
-	#rotation_degrees.x = 90
-	#print("RD: ", rotation_degrees)
+	rotation_degrees.x = 90

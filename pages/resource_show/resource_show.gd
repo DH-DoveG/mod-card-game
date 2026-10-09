@@ -71,7 +71,6 @@ func _build_card_view():
 		cv.custom_maximum_size = Vector2i(200, 280)
 		cv.pressed.connect(func():
 			# 展开一个单独的卡片展示页面
-			print("单独展示卡片详细内容：", card)
 			pass
 		)
 	IDUtils.clear("CARD_")

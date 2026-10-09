@@ -52,15 +52,12 @@ func update(sets) -> void:
 
 	for cid in await_add_cards:
 		var ce := FindUtils.find_card(cid)
-
 		var view: CardView2D = load("res://components/card_view_2d/card_view_2d.tscn").instantiate()
-		view.custom_minimum_size = Vector2(78, 109)
 		view.set_card(ce)
 		$Hand.add_child(view)
 		view.set_menu(true)
-		view.custom_minimum_size = Vector2(164, 228)
-
-	if $Hand.get_child_count() >= 7:
-		$Hand.dynamic_radius = false
-	else:
-		$Hand.dynamic_radius = true
+		#view.custom_minimum_size = Vector2(164, 228)
+	#if $Hand.get_child_count() >= 7:
+	#	$Hand.dynamic_radius = false
+	#else:
+	#	$Hand.dynamic_radius = true

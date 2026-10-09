@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://cjr26faedk234"]
+
+[ext_resource type="PackedScene" uid="uid://h36mkqf5pxlw" path="res://components/dialog/select_item_dialog/select_item_dialog.tscn" id="1_s3n4l"]
+[ext_resource type="Script" uid="uid://btumiegv86l55" path="res://components/dialog/select_card_dialog/select_card_dialog.gd" id="2_p0vwj"]
+[ext_resource type="Script" uid="uid://o75ri4b2h3lk" path="res://components/card_info_panel/card_info_panel.gd" id="3_rl7lt"]
+[ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="4_ybfq4"]
+[ext_resource type="Texture2D" uid="uid://c848c3jnvt4qi" path="res://assets/images/icon/Unlock.png" id="5_33htf"]
+
+[node name="SelectCardDialog" unique_id=2138887807 instance=ExtResource("1_s3n4l")]
+script = ExtResource("2_p0vwj")
+
+[node name="CardInfoPanel" type="ColorRect" parent="Dialog" parent_id_path=PackedInt32Array(361497538) index="5" unique_id=1660859181]
+visible = false
+custom_minimum_size = Vector2(300, 448)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -223.0
+offset_right = 350.0
+offset_bottom = 225.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.34117648, 0.34117648, 0.34117648, 0.5882353)
+script = ExtResource("3_rl7lt")
+
+[node name="Back" type="ColorRect" parent="Dialog/CardInfoPanel" index="0" unique_id=1688343561]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+color = Color(1, 1, 1, 0.78431374)
+
+[node name="Title" type="Label" parent="Dialog/CardInfoPanel/Back" index="0" unique_id=1939313897]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 24.0
+offset_right = -24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+text = "卡名"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="Close" type="TextureButton" parent="Dialog/CardInfoPanel/Back" index="1" unique_id=614329890]
+visible = false
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 24.0
+grow_vertical = 2
+texture_normal = ExtResource("4_ybfq4")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Lock" type="TextureButton" parent="Dialog/CardInfoPanel/Back" index="2" unique_id=656437242]
+visible = false
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("5_33htf")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Info" type="RichTextLabel" parent="Dialog/CardInfoPanel" index="1" unique_id=1995148338]
+custom_minimum_size = Vector2(292, 416)
+custom_maximum_size = Vector2(292, 416)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 28.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Dialog/CardInfoPanel" index="2" unique_id=1362220823]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="Dialog/CardInfoPanel/Back/Close" to="Dialog/CardInfoPanel" method="_on_close_pressed"]

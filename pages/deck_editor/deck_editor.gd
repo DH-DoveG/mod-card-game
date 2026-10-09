@@ -219,11 +219,6 @@ func get_search_card_dialog_data():
 	for v in _cvb:
 		card_behaviors.append(v.get_node("Text").text)
 	# 检查
-	print("NAME: ", card_name)
-	print("TYPE: ", card_type)
-	print("VALUE: ", card_values)
-	print("TAG: ", card_tags)
-	print("BEHAVIOR: ", card_behaviors)
 	# 过滤
 	return {
 		"card_name": card_name,
@@ -370,7 +365,9 @@ func _on_deck_save_as_file_pressed() -> void:
 	var _file_name = v["value"] + ".json"
 	var _file_obj = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(_file_name))
 	var context = str(to_dict())
+	_file_obj.seek(0)
 	_file_obj.store_string(context)
+	_file_obj.resize(context.length())
 	_file_obj.flush()
 	file_obj.close()
 	file_name = _file_name
@@ -419,10 +416,44 @@ func _on_deck_create_file_pressed() -> void:
 	_file_obj.close()
 
 func _on_save_file_pressed() -> void:
-	if not file_obj: return
+	if not file_obj:
+		var dialog = DialogUtils.show_input_dialog({
+			"title": "创建卡组",
+			"detail": "当前未打开卡组文件，请输入卡组名称以创建并保存",
+			"can_hide": false,
+			"placeholder": "请输入卡组名称",
+			"btns": [
+				{"text": "确定",
+					"callback": func(_v):
+						var close = true
+						if _v.is_empty(): close = false
+						if PersistenceUtils.find_file(ConfigManager.DECK_FOLDER_PATH, _v + ".json"):
+							ToastUtils.error("文件已存在")
+							return
+						return {
+							"close": close,
+							"value": _v,
+							"choose": "Confirm"
+					}},
+				{"text": "取消",
+					"callback": func(_v):
+						return {
+							"close": true,
+							"value": _v,
+							"choose": "Cancel"
+					}},
+			]
+		})
+		var v = await dialog.select_clicked
+		if v["choose"] != "Confirm": return
+		var _file_name = v["value"] + ".json"
+		file_obj = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(_file_name))
+		file_name = _file_name
+		update_status({})
 	var context = str(to_dict())
-	file_obj.resize(context.length())
+	file_obj.seek(0)
 	file_obj.store_string(context)
+	file_obj.resize(context.length())
 	file_obj.flush()
 	ToastUtils.info("卡组已保存")
 

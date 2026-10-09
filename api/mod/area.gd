@@ -16,7 +16,34 @@ static func require(state: LuaState) -> void:
 	table.set("set_height_level", state.create_function(set_height_level))
 	table.set("find_condition", state.create_function(find_condition))
 	table.set("get_all", state.create_function(get_all))
+	table.set("get_all_in_card", state.create_function(get_all_in_card))
+	table.set("get_area_for_position", state.create_function(get_area_for_position))
 	state.globals["package"]["loaded"]["std.api.area-api"] = table
+
+# 通过位置来找到对应的区域
+static func get_area_for_position(param: LuaTable) -> String:
+	# 提取参数
+	var x = param["x"] if param["x"] != null else 0
+	var y = param["y"] if param["y"] != null else 0
+	# 执行业务逻辑
+	var battle: Battle = Utils.get_current_scene()
+	for key in battle.areas:
+		var area: AreaEntity = battle.areas[key]
+		if area.x == x and area.y == y:
+			return area.name
+	return ""
+
+static func get_all_in_card():
+	var result := {}
+	# 获取所有区域上的卡
+	# 数据结构：{ "AreaID":  [CardID1, CardID2, ...] }
+	var battle: Battle = Utils.get_current_scene()
+	for key in battle.areas:
+		var area: AreaEntity = battle.areas[key]
+		var heap = GApiManager.area_api.get_heap(area.name, 1, -1)
+		if heap.size() != 0:
+			result[area.name] = heap
+	return LuaUtils.dictionary_to_table(result)
 
 static func get_all(param: LuaTable):
 	var mode = param["mode"] if param["mode"] else "ID"

@@ -10,6 +10,9 @@ static func show_select_item_dialog(param: Dictionary) -> BaseDialog:
 static func show_select_image_dialog(param: Dictionary) -> BaseDialog:
 	return show_dialog(param, load("res://components/dialog/select_image_dialog/select_image_dialog.tscn"))
 
+static func show_select_card_dialog(param: Dictionary) -> BaseDialog:
+	return show_dialog(param, load("res://components/dialog/select_card_dialog/select_card_dialog.tscn"))
+
 static func show_input_dialog(param: Dictionary) -> BaseDialog:
 	return show_dialog(param, load("res://components/dialog/input_dialog/input_dialog.tscn"))
 

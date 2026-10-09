@@ -52,6 +52,12 @@ static func find_condition_cards(condition: Dictionary, cards: Array = []) -> Ar
 						break
 				if k: break
 			if not k: continue
+		if condition.has("codes"):
+			# print("|| find_utils || cards | ", card.get_code(), " | ", condition["codes"])
+			var k = false
+			if card.get_code() in condition["codes"]:
+				k = true
+			if not k: continue
 		result.append(card)
 	return result
 

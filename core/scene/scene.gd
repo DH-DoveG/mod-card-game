@@ -101,6 +101,8 @@ func _input(event: InputEvent) -> void:
 				_await_duration = 0.0
 				if _is_long_press_dragging:
 					_is_long_press_dragging = false
+				else:
+					_handle_click(event.position)
 				_hide_progress()
 
 func _physics_process(delta: float) -> void:
@@ -124,7 +126,6 @@ func _physics_process(delta: float) -> void:
 	if _pressing:
 		if LONG_PRESS_AWAIT_DURATION > _await_duration:
 			_await_duration += delta
-			pass
 		elif _is_long_press_dragging:
 			_progress_rect.visible = true
 			# 拖拽摄像机在 xz 平面移动
@@ -168,29 +169,8 @@ func _physics_process(delta: float) -> void:
 					_is_long_press_dragging = true
 					_last_mouse_pos = mouse_pos  # 防止拖拽起始跳跃
 					_hide_progress()
-	else:
-		# 如果不在长按状态下，确保射线检查恢复（在 input 里释放时已重置 _is_long_press_dragging）
-		pass
-	
-	# ==== 卡片 / 区域点击检查 ====
-	# 如果长按拖拽中，跳过 click 触发，但保留高亮
-	if check_click and deep_ray.get_collider_count() and Input.is_action_just_pressed("click") and not _is_long_press_dragging:
-		#var first_card: CardView3D = null
-		#var first_area: AreaView3D = null
-		#for i in range(deep_ray.get_collider_count()):
-			#var collider = deep_ray.get_collider(i)
-			#if first_card == null and collider is CardView3D:
-				#first_card = collider
-			#elif first_area == null and collider is AreaView3D:
-				#first_area = collider
-			#if first_card and first_area:
-				#break
-		#if first_card:
-			#first_card.trigger()
-		#if first_area:
-			#first_area.trigger()
-		pass
-	elif not _is_long_press_dragging:
+	# ==== 卡片 / 区域悬停检查（仅预览信息，不弹出行为菜单 / 卡堆列表）====
+	if not _is_long_press_dragging:
 		var first_card: CardView3D = null
 		var first_area: AreaView3D = null
 		
@@ -213,58 +193,90 @@ func _physics_process(delta: float) -> void:
 			if current_hight_area and current_hight_area != first_area:
 				current_hight_area.normallight()
 			current_hight_area = first_area
-			if first_card:
-				var ids = GApiManager.area_api.get_heap(first_area.entity.name)
-				if ids.size() > 1:
-					#多个卡片时的展示效果
-					#Utils.get_current_scene().event_manager.emit("SHOW_CARD_LIST_IN_PANEL", {
-						#"params": ids
-					#})
-					var clpm := preload("res://components/card_list_popup_menu/card_list_popup_menu.tscn").instantiate()
-					get_tree().current_scene.add_child(clpm)
-					var msr = first_card.get_mesh_screen_rect()
-					var qp: Array = Utils.split_rect_center(msr, true)
-					
-					#qp[0].size.y += 20
-					#qp[1].size.y -= 20
-					#qp[1].position.y -= 20
-					
-					var pos = camera.unproject_position(first_card.global_position)
-					pos.x -= qp[1].size.x / 2 # 160
-					pos.x -= 40
-					pos.y += 100
-					
-					# 如果
-					if qp[0].has_point(mouse_pos) and qp[1].has_point(mouse_pos):
-						await clpm.set_popup(pos, ids)
-						if is_instance_valid(clpm):
-							clpm.set_exp_mask(qp[1])
-							clpm.set_process(true)
-						first_card.show_behavior(qp[0])
-					elif (qp[1] as Rect2).has_point(mouse_pos):
-						await clpm.set_popup(pos, ids)
-						if is_instance_valid(clpm):
-							clpm.set_exp_mask(qp[1])
-							clpm.set_process(true)
-					else:
-						first_card.show_behavior(qp[0])
-				elif ids.size() > 0:
-					Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
-						"params": first_card.entity
-					})
-					first_card.show_behavior()
-					#first_card.hightlight()
-					#if current_hight_card and current_hight_card != first_card:
-						#current_hight_card.normallight()
-					#current_hight_card = first_card
+		
+		if first_card:
+			Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+				"params": first_card.entity
+			})
 
 func _show_progress(pos: Vector2) -> void:
 	_progress_rect.position = pos - _progress_rect.size * 0.5
 	_progress_material.set_shader_parameter("progress", 0.0)
-	#_progress_rect.visible = true
 
 func _hide_progress() -> void:
 	_progress_rect.visible = false
+
+func _handle_click(mouse_pos: Vector2) -> void:
+	# 如果鼠标在 2D 手牌区域（CardView2D）上，跳过 3D 射线处理，避免冲突
+	for card in get_tree().get_nodes_in_group("CardView2D"):
+		if card is CardView2D and card.is_visible_in_tree() and card.get_global_rect().has_point(mouse_pos):
+			return
+
+	var ray_normal := camera.project_ray_normal(mouse_pos)
+	var ray_origin := camera.project_ray_origin(mouse_pos)
+	var ray = $Ray
+	ray.global_position = ray_origin
+	ray.look_at(ray_origin + ray_normal, Vector3.UP)
+
+	if deep_ray.has_method("force_raycast_update"):
+		deep_ray.force_raycast_update()
+
+	var card: CardView3D = null
+	var area: AreaView3D = null
+
+	for i in range(deep_ray.get_collider_count()):
+		var collider = deep_ray.get_collider(i)
+		if collider is CardView3D and card == null:
+			card = collider
+		elif collider is AreaView3D and area == null:
+			area = collider
+		if card and area:
+			break
+
+	if card:
+		card.show_behavior()
+		Utils.get_current_scene().event_manager.emit("LOCK_CARD_INFO", {"card": card.entity})
+	elif area:
+		_handle_area_click(area, mouse_pos)
+		print("UNLOCK_CARD_INFO 1")
+		Utils.get_current_scene().event_manager.emit("UNLOCK_CARD_INFO", {})
+	else:
+		print("UNLOCK_CARD_INFO 2")
+		Utils.get_current_scene().event_manager.emit("UNLOCK_CARD_INFO", {})
+
+func _handle_area_click(area: AreaView3D, mouse_pos: Vector2) -> void:
+	var ids = GApiManager.area_api.get_heap(area.entity.name)
+	if ids.size() <= 0:
+		return
+
+	if ids.size() > 1:
+		var clpm = load("res://components/card_list_popup_menu/card_list_popup_menu.tscn").instantiate()
+		get_tree().current_scene.add_child(clpm)
+
+		for card_node in get_tree().get_nodes_in_group("CardView3D"):
+			if card_node is CardView3D and card_node.entity and card_node.entity.name in ids:
+				var msr = card_node.get_mesh_screen_rect()
+				var qp: Array = Utils.split_rect_center(msr, true)
+				var pos = camera.unproject_position(card_node.global_position)
+				pos.x -= qp[1].size.x / 2
+				pos.x -= 40
+				pos.y += 100
+				await clpm.set_popup(pos, ids)
+				if is_instance_valid(clpm):
+					clpm.set_exp_mask(qp[1])
+					clpm.set_process(true)
+				card_node.show_behavior(qp[0])
+				break
+	else:
+		var top_card_id = ids.back()
+		if top_card_id:
+			var scene = get_tree().current_scene
+			if scene is Battle:
+				var card_entity = scene.cards.get(top_card_id)
+				if card_entity:
+					Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+						"params": card_entity
+					})
 
 func battle_visual_angle_changed(visual_angle: Vector2i) -> void:
 	var config = camera_direction_config[visual_angle]

@@ -33,7 +33,7 @@ func _init_image_set_options():
 		i += 1
 
 func _init_mod_set_options():
-	for config in ConfigManager.setting_mod_config[0]["paths"]:
+	for config in ConfigManager.mod.setting_mod_config[0]["paths"]:
 		_create_mod_load_path_item(config["path"], config["enable"])
 
 func _init_sound_set_options():
@@ -71,28 +71,20 @@ func _on_save_pressed() -> void:
 		var set_item = ConfigManager.setting_image_config[int(item.name)]
 		set_item["choose"] = item.get_node("HBox/Option").selected
 		save_image[str(set_item["id"])] = set_item["choose"]
-	var file = PersistenceUtils.open_file(ConfigManager.IMAGE_SETTING_FILE_PATH)
-	var text = str(save_image)
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
+	PersistenceUtils.write_file(ConfigManager.IMAGE_SETTING_FILE_PATH, str(save_image))
 
 	for item in mod_load_paths.get_children():
 		var path = item.get_node("Path").text
 		var check = item.get_node("CheckBox").button_pressed
 		var k = true
-		for c in ConfigManager.setting_mod_config[0]["paths"]:
+		for c in ConfigManager.mod.setting_mod_config[0]["paths"]:
 			if c["path"] == path:
 				c["enable"] = check
 				k = false
 				break
 		if k:
-			ConfigManager.setting_mod_config[0]["paths"].append({"path": path, "enable": check})
-	file = PersistenceUtils.open_file(ConfigManager.MOD_SETTING_FILE_PATH)
-	text = str(ConfigManager.setting_mod_config[0]["paths"])
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
+			ConfigManager.mod.setting_mod_config[0]["paths"].append({"path": path, "enable": check})
+	PersistenceUtils.write_file(ModConfigManager.MOD_SETTING_FILE_PATH, str(ConfigManager.mod.setting_mod_config[0]["paths"]))
 
 	for item in panel_sound.get_children():
 		var v = {
@@ -101,10 +93,6 @@ func _on_save_pressed() -> void:
 		}
 		if item.name == "Music": ConfigManager.setting_sound_config["music"] = v
 		if item.name == "Sound": ConfigManager.setting_sound_config["sound"] = v
-	file = PersistenceUtils.open_file(ConfigManager.SOUND_SETTING_FILE_PATH)
-	text = str(ConfigManager.setting_sound_config)
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
+	PersistenceUtils.write_file(ConfigManager.SOUND_SETTING_FILE_PATH, str(ConfigManager.setting_sound_config))
 
 	ToastUtils.success("设置已保存")

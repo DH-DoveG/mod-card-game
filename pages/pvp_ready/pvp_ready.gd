@@ -293,8 +293,7 @@ func _ready() -> void:
 	info_side_user_avatar.texture = GResourceManager.get_image_resoure(GNetManager.player_info.avatar)
 	info_side_user_name.text = GNetManager.player_info.nick
 
-	# FIXME: 这里需要对卡组进行检查吗？
-	# 这里应该对卡组进行过滤，由 mod 指定一个规定的 检查工具
+	# 这里对卡组进行过滤，由 mod 指定一个规定的 检查工具
 	# 或者说在准备时检查（最好是准备时检查）
 	var files = PersistenceUtils.folder_all_files(ConfigManager.DECK_FOLDER_PATH)
 	files = files.filter(func(_v): return _v.ends_with(".json"))
@@ -326,11 +325,6 @@ func _ready() -> void:
 		rpc("to_joinudience", GNetManager.uid)
 	else:
 		rpc("to_joinudience", GNetManager.uid)
-
-func on_scene_loaded(_arg):
-	# FIXME: 这里会释放 game_api 但是其他的不会释放，而且没有任何地方写了 game_api 的释放
-
-	pass
 
 func _on_add_robot_pressed() -> void:
 	pop_robot_dialog()

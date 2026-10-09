@@ -2,7 +2,7 @@ extends Node
 class_name CoreGameApi
 
 @rpc("any_peer", "call_local", "reliable")
-func create_camp(title, leader, units, orientation, color) -> void:
+func create_camp(title, leader, units, orientation, color, enemys: Array) -> void:
 	var battle = Utils.get_current_scene()
 	if battle is not Battle:
 		assert(false, "create_camp: not in battle scene")
@@ -16,6 +16,7 @@ func create_camp(title, leader, units, orientation, color) -> void:
 	camp.units = units
 	camp.orientation = orientation
 	camp.color = Color(color)
+	camp.enemys = enemys
 
 @rpc("any_peer", "call_local", "reliable")
 func game_end(wins, loses, dogfall) -> void:

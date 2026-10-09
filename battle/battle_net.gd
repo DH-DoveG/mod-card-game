@@ -151,6 +151,7 @@ func set_battle_to_component():
 	$UI/PlayerHandView.set_battle(self)
 	$UI/CardInfoPanel.battle = self
 	$UI/AreaInfoPanel.battle = self
+	$UI/CardInfoPanel.connect_event()
 
 func _init_player(_camps):
 	var result = {}
@@ -221,7 +222,7 @@ func _on_round_end_btn_pressed() -> void:
 	# 判断当前行动的是否是主机玩家
 	if host_player_id != current_round_player:
 		return
-	if in_option:
+	if is_in_option():
 		return
 	btn.disabled = true
 	var player = FindUtils.find_player(host_player_id)

@@ -28,7 +28,6 @@ func find_card(card_id: String) -> Variant:
 	var battle: Battle = Utils.get_current_scene()
 	for key in battle.battle_data_bind_list.card_set:
 		for pid in battle.battle_data_bind_list.card_set[key]["data"]:
-
 			if card_id in battle.battle_data_bind_list.card_set[key]["data"][pid]:
 				return {
 					"type": key,

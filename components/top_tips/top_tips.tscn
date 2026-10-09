@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://c7ls8pownrp1l"]
+
+[ext_resource type="Script" uid="uid://bck48wqelatue" path="res://components/top_tips/top_tips.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c2pceev6cd4a6" path="res://assets/images/icons/autorenew.png" id="2_bwy0l"]
+
+[sub_resource type="Animation" id="Animation_bwy0l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Run:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_df02b"]
+resource_name = "loop"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Run:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.2831855]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8dkll"]
+_data = {
+&"RESET": SubResource("Animation_bwy0l"),
+&"loop": SubResource("Animation_df02b")
+}
+
+[node name="TopTips" type="ColorRect" unique_id=38206198]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 576.0
+offset_top = 40.0
+offset_right = -576.0
+offset_bottom = -1008.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.78431374)
+script = ExtResource("1_script")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=1799748771]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true
+
+[node name="AwaitPlayerAvatar" type="TextureRect" parent="." unique_id=794495561]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 32.0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Run" type="TextureButton" parent="." unique_id=1597659276]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture_normal = ExtResource("2_bwy0l")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="." unique_id=831304269]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 1.0
+offset_right = -64.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=135247229]
+libraries/ = SubResource("AnimationLibrary_8dkll")
+autoplay = &"loop"

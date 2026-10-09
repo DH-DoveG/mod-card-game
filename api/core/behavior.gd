@@ -13,8 +13,10 @@ func create(template: String) -> Behavior:
 		assert(false, "CoreBehaviorApi: create: meta is lua error: " + meta.message)
 	if meta is not LuaFunction:
 		assert(false, "CoreBehaviorApi: create: meta is not lua function")
-	meta = meta.invoke()
+	var meta_fn: LuaFunction = meta
+	meta = meta_fn.invoke()
 	if meta is LuaError:
+		ModManager.print_lua_function_debug(meta_fn, "CoreBehaviorApi: create: meta is lua error")
 		assert(false, "CoreBehaviorApi: create: meta is lua error: " + meta.message)
 	if meta is not LuaTable:
 		assert(false, "CoreBehaviorApi: create: meta is not lua table")
@@ -72,6 +74,8 @@ func append_entity(entity_id, template, unique) -> void:
 	if not behavior:
 		return
 	entity.add_behavior(behavior)
+	var code = behavior.get_info()["code"]
+	entity.get_behavior_state(code)
 
 	if entity_id.begins_with("CARD_"):
 		var battle: Battle = Utils.get_current_scene()
@@ -85,10 +89,14 @@ func remove_entity(entity_id, template) -> void:
 	for b: Behavior in entity.behaviors:
 		if b.template == template:
 			for _timepoint in Utils.get_current_scene().timepoint_manager.rr_meta:
-				if _timepoint.entity == b:
+				var entry_origin = _timepoint.get("origin", "") if _timepoint is Dictionary else ""
+				var entry_behavior_data = _timepoint.get("behavior") if _timepoint is Dictionary else null
+				if entry_origin == entity_id or entry_origin == "" and _timepoint is LuaTable:
 					Utils.get_current_scene().timepoint_manager.rr_meta.erase(_timepoint)
 					break
 			if entity_id.begins_with("CARD_"):
 				var battle: Battle = Utils.get_current_scene()
 				battle.battle_data_bind_list.card_bind_behaviors[entity_id].erase(b.name)
+			var _code = b.get_info()["code"]
+			entity.clear_behavior_state(_code)
 			entity.behaviors.erase(b)

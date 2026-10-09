@@ -47,8 +47,10 @@ func append(entity_id: String, v: Dictionary) -> void:
 	if template is LuaError:
 		assert(false, template.message)
 	assert(template is LuaFunction, "Value Template: is function")
-	template = template.invoke()
+	var template_fn: LuaFunction = template
+	template = template_fn.invoke()
 	if template is LuaError:
+		ModManager.print_lua_function_debug(template_fn, "Value Template")
 		assert(false, template.message)
 
 	var value: Dictionary = LuaUtils.table_to_dictionary(template)

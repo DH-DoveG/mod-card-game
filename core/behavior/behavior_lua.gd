@@ -12,10 +12,10 @@ func get_info() -> Dictionary:
 		return super()
 	var table: LuaTable = data as LuaTable
 	return {
-		"name": table.get("name", ""),
-		"type": table.get("type", ""),
-		"description": table.get("description", ""),
-		"code": table.get("code", "")
+		"name": table.rawget("name", ""),
+		"type": table.rawget("type", ""),
+		"description": table.rawget("description", ""),
+		"code": table.rawget("code", "")
 	}
 
 # 支付行为代价
@@ -25,8 +25,19 @@ func cost(bt: BehaviorTrigger, arg):
 
 # 发动行为
 func launch(bt: BehaviorTrigger, arg) -> void:
-	var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
-	await _run_function("launch", _table)
+	# var _table = LuaUtils.array_to_table([data, bt.to_dict(), arg])
+	# 第一处 Behavior 触发点
+	var lua_arg = {
+		"bt": bt.to_dict(),
+		"other": arg
+	}
+
+	print("行为发动参数1: ", lua_arg)
+
+	var scene: Battle = Utils.get_current_scene()
+	var res = await scene.rule_manager.exec_rule(scene.rule_manager.behavior_launch_rule, LuaUtils.dictionary_to_table(lua_arg))
+	print("行为发动结果1: ", res)
+	# await _run_function("launch", _table)
 
 # 执行行为
 func execute(bt: BehaviorTrigger, arg):

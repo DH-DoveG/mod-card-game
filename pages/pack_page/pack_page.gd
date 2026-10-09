@@ -20,7 +20,8 @@ func _build_view() -> void:
 		var fun: LuaFunction = res as LuaFunction
 		var res2 = fun.invoke()
 		if res2 is LuaError:
-			ToastUtils.error(res.message)
+			ModManager.print_lua_function_debug(fun, "PACK_PAGE: 卡片加载错误")
+			ToastUtils.error(res2.message)
 			continue
 		# 取： name    image    type
 		var table: LuaTable = res2 as LuaTable

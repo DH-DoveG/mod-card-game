@@ -43,7 +43,7 @@ func add_card(card: CardEntity) -> void:
 		show_cvo = cvo
 		cvo.show()
 		cvo.get_node("VBox/Info").pressed.connect(func():
-			print("CVO Info")
+			pass
 		)
 		cvo.get_node("VBox/Remove").pressed.connect(func():
 			remove_card(cv.get_index())

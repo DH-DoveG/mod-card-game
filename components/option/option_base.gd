@@ -1,16 +1,14 @@
 extends CanvasLayer
 class_name OptionBase
 
-# TODO: 应当找到一个办法规避当前状态下因为点击一些东西触发效果等内容
-# 方案1：给battle一个属性，根据这个属性来控制，behaviorItem 与 回合阶段按钮（等互动按钮【可能会触发其他事件的】）
-# 采用方案1
-
 @onready var side = $Side
 
 var is_hidden = false
 var battle: Battle = null
 
-signal finished # 完成时发出的信号
+var _in_option_key: String = ""
+
+signal finished
 
 func set_data(_param) -> void:
 	pass
@@ -23,9 +21,13 @@ func _enter_tree() -> void:
 		return
 
 	battle = scene
+	_in_option_key = "OPT_" + str(get_instance_id())
+	battle.add_in_option(_in_option_key)
 
 func _exit_tree() -> void:
 	if battle:
+		if not _in_option_key.is_empty():
+			battle.remove_in_option(_in_option_key)
 		battle.ui.show()
 
 func _on_close_pressed() -> void:

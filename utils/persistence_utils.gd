@@ -35,3 +35,13 @@ static func open_file(file_path: String) -> FileAccess:
 	if FileAccess.file_exists(get_exec_path().path_join(file_path)):
 		return FileAccess.open(get_exec_path().path_join(file_path), FileAccess.READ_WRITE) # 读写，会先读再写，只适合文件已经存在的情况
 	return FileAccess.open(get_exec_path().path_join(file_path), FileAccess.WRITE_READ) # 写读，会先写再读，如果没有这个文件会创建，如果有会覆盖内容（表现为打开后空白内容）
+
+## 覆盖写入文件（文件路径是相对于 exec_path 的路径，传入时应当不带 user:// 并且不应该由 / 符号作路径开头）
+## 使用 FileAccess.WRITE 模式，自动截断已存在的文件内容后再写入
+static func write_file(file_path: String, content: String) -> void:
+	var full_path = get_exec_path().path_join(file_path)
+	DirAccess.make_dir_recursive_absolute(full_path.get_base_dir())
+	var file = FileAccess.open(full_path, FileAccess.WRITE)
+	if file:
+		file.store_string(content)
+		file.close()

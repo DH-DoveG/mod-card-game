@@ -3,10 +3,7 @@ class_name ModRegisterCommand
 
 var _execute_result: Variant = null
 
-func execute() -> void:
-	# 样板代码
-	if is_execute():
-		return
+func _do_execute() -> void:
 	var result = {}
 
 	# 检查参数
@@ -40,13 +37,7 @@ func execute() -> void:
 
 	_execute_result = result
 
-	# 样板代码
-	_execute_state = true
-
-func undo() -> void:
-	# 样板代码
-	if not is_execute():
-		return
+func _do_undo() -> void:
 	# 业务逻辑
 	_undo_register_cards(_execute_result)
 	_undo_register_images(_execute_result)
@@ -55,8 +46,6 @@ func undo() -> void:
 	_undo_register_decks(_execute_result)
 	_undo_register_players(_execute_result)
 	_undo_register_packs(_execute_result)
-	# 样板代码
-	_execute_state = false
 
 func _execute_register_agents(table: LuaTable, prefix: String) -> Dictionary:
 	var agents = table["agents"].to_dictionary()

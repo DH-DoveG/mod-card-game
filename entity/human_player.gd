@@ -26,37 +26,36 @@ func set_info(param: Dictionary) -> void:
 	meta = data
 
 func start_round() -> Variant:
-
-	var _res = meta["start_round"].invoke(meta)
-	if _res is LuaCoroutine:
-		var error = _res.resume(meta)
-		if error is LuaError:
-			assert(false, "HUMAN: [start_round] 错误：" + error.message)
-		if _res.status == LuaCoroutine.STATUS_YIELD:
-			_res = await _res.completed
-		else:
-			_res = error
+	var fun = meta["start_round"] as LuaFunction
+	var co = LuaCoroutine.create(fun)
+	var _res = co.resume(meta)
+	if _res is LuaError:
+		ModManager.print_lua_function_debug(fun, "HUMAN: [start_round]")
+		assert(false, "HUMAN: [start_round] 错误：" + _res.message)
+	if co.status == LuaCoroutine.STATUS_YIELD:
+		_res = await co.completed
 	# 如果执行的返回值是信号，需要等待信号触发
 	if _res is Signal:
 		_res = await _res
 	if _res is LuaError:
+		ModManager.print_lua_function_debug(fun, "HUMAN: [start_round]")
 		assert(false, "HUMAN: [start_round] 错误：" + _res.message)
 	return _res
 
 func end_round() -> Variant:
-	var _res = meta["end_round"].invoke(meta)
-	if _res is LuaCoroutine:
-		var error = _res.resume(meta)
-		if error is LuaError:
-			assert(false, "HUMAN: [end_round] 错误：" + error.message)
-		if _res.status == LuaCoroutine.STATUS_YIELD:
-			_res = await _res.completed
-		else:
-			_res = error
+	var fun = meta["end_round"] as LuaFunction
+	var co = LuaCoroutine.create(fun)
+	var _res = co.resume(meta)
+	if _res is LuaError:
+		ModManager.print_lua_function_debug(fun, "HUMAN: [end_round]")
+		assert(false, "HUMAN: [end_round] 错误：" + _res.message)
+	if co.status == LuaCoroutine.STATUS_YIELD:
+		_res = await co.completed
 	# 如果执行的返回值是信号，需要等待信号触发
 	if _res is Signal:
 		_res = await _res
 	if _res is LuaError:
+		ModManager.print_lua_function_debug(fun, "HUMAN: [end_round]")
 		assert(false, "HUMAN: [end_round] 错误：" + _res.message)
 	return _res
 

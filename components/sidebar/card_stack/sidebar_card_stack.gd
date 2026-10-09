@@ -14,7 +14,7 @@ func update() -> void:
 		$TabContainer.add_child(vbox)
 		var content = battle.battle_data_bind_list.card_set[key]["data"]
 		for cs in content:
-			var item = preload("res://components/sidebar/card_stack/card_stack_item.tscn").instantiate()
+			var item = load("res://components/sidebar/card_stack/card_stack_item.tscn").instantiate()
 			vbox.add_child(item)
 
 			var dup = (content[cs] as Array).duplicate_deep()

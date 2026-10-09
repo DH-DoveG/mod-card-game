@@ -17,7 +17,7 @@ static func remove(_param) -> void:
 
 static func has(param) -> bool:
 	var id: String = param["entity_id"] if param["entity_id"] else ""
-	var tag: String = param["tag"] if param["tag"] else ""
+	var tags: Array = param["tags"].to_array() if param["tags"] else []
 	var strict: bool = param["strict"] if param["strict"] else false
 
 	var entity: Entity = null
@@ -32,11 +32,12 @@ static func has(param) -> bool:
 
 	for t in entity.tags:
 		if strict:
-			if t == tag:
+			if t in tags:
 				return true
 		else:
-			if t == tag or t.contains(tag):
-				return true
+			for tag in tags:
+				if t == tag or t.contains(tag):
+					return true
 	return false
 
 static func find_condition(_param) -> void:

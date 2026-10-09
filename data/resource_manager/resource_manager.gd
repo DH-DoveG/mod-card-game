@@ -33,7 +33,7 @@ func load_music_resoure(id: String, path: String, _tags: PackedStringArray = [])
 	struct.path = path
 	struct.tags = _tags
 	struct.resource = FileAccess.get_file_as_bytes(path)
-	sound_resource.append(struct)
+	music_resource.append(struct)
 
 func get_music_resoure(id: String) -> PackedByteArray:
 	for i: DataStruct.LoadSoundResoureStruct in music_resource:

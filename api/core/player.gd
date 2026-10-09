@@ -1,6 +1,12 @@
 extends Node
 class_name CorePlayerApi
 
+func set_camp_enemys(camp_id: String, enemys: Array):
+	var camp: Camp = Utils.get_current_scene().camps.get(camp_id)
+	if camp is not Camp:
+		return
+	camp.enemys = enemys
+
 func get_camp(pid: String) -> Camp:
 	var battle: Battle = Utils.get_current_scene()
 	var camp_id := ""
@@ -26,7 +32,7 @@ func create(pid: String, item: Dictionary, _player_mount: NodePath, camp: String
 	else:
 		# 如果是机器人玩家，那么需要从 GResourceManager.player_resource 中获取到他的数据
 		var f = GResourceManager.player_resource[item["template"]]
-		print("Robot: ", f)
+		# LogUtils.info(str("Robot: ", f))
 		item["avatar"] = f.avatar
 		item["name"] = f.name
 		item["template"] = item["template"]
@@ -47,8 +53,7 @@ func create(pid: String, item: Dictionary, _player_mount: NodePath, camp: String
 
 	return node
 
-# 	# print(battle.uid, ":SET HAND card_ids:", card_ids)
-# 	# print(battle.uid, ":SET HAND uniq:", uniq)
+
 # 		# battle.battle_data_bind_list.clean_card(_id, [
 # 		# 	DataStruct.BattleBindDataSetKey.AREA_BIND_CARDS,
 # 		# 	# DataStruct.BattleBindDataSetKey.PLAYER_BIND_CARDS_OF_DECK,
@@ -77,17 +82,9 @@ func set_player_timeout(player_id: String, sec: int, cal: String, cal_net_id: in
 func start_player_timeout(player_id: String):
 
 	var player = FindUtils.find_player(player_id)
-	if GNetManager.uid != 1:
-		return
-
-	# 只有主机会流逝-停止时间
 	player.set_time(true)
 
 @rpc("any_peer", "call_local", "reliable")
 func stop_player_timeout(player_id: String):
 	var player = FindUtils.find_player(player_id)
-	if GNetManager.uid != 1:
-		return
-
-	# 只有主机会流逝-停止时间
 	player.set_time(false)

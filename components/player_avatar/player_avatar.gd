@@ -5,6 +5,9 @@ class_name PlayerAvatar
 @onready var nickname: Label = $HBox/Info/Nickname
 @onready var value = $HBox/Info/Value
 
+@onready var time_label: Label = $RoundTime/Label
+@onready var round_time_container: HBoxContainer = $RoundTime
+
 var use_player: Player = null
 
 func set_player(player: Player) -> void:
@@ -12,7 +15,8 @@ func set_player(player: Player) -> void:
 	icon.texture = GResourceManager.get_image_resoure(player.player_avatar)
 	nickname.text = player.player_name
 	use_player.time_update.connect(func(sec):
-		$RoundTime/Label.text = str(sec) + "s"
+		time_label.text = str(sec) + "s"
+		round_time_container.visible = sec > 0
 	)
 
 func update() -> void:
@@ -20,8 +24,6 @@ func update() -> void:
 
 	nickname.text = use_player.player_name
 
-	# BUG: 这一部分会导致性能与占用急剧下滑？
-	#      也有可能是 values
 	var entity: Entity = use_player
 		# 先只做最简单的拼接工作
 	var value_str = PackedStringArray()

@@ -35,17 +35,16 @@ size = Vector3(0.05, 0.025, 0.11)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5iwjq"]
 resource_local_to_scene = true
-load_path = "res://.godot/imported/ArrowRed.png-7cfc26366ecd9ec6114eff4242abf7ab.s3tc.ctex"
 
 [node name="ArrowLine" unique_id=919300013 instance=ExtResource("1_apcrd")]
 script = ExtResource("2_uv5jm")
 type = 0
 line_space = 1.25
 
-[node name="Path" parent="." index="0"]
+[node name="Path" parent="." index="0" unique_id=1012569609]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="PathFollow3D" parent="Path" index="0"]
+[node name="PathFollow3D" parent="Path" index="0" unique_id=67411414]
 rotation_mode = 4
 use_model_front = true
 

@@ -105,19 +105,19 @@ func _on_connected_to_server():
 	players[peer_id] = player_info
 	uid = peer_id
 	pass # 连接到服务器
-	print("[Net Server] 连接成功")
+	# LogUtils.info("[Net Server] 连接成功")
 	be_finished.emit(true)
 
 func _on_peer_disconnected(id: int):
 	remove_player.emit(id)
 	players.erase(id)
-	print("[Net Server] 断开连接：", id)
+	# LogUtils.info(str("[Net Server] 断开连接：", id))
 
 func _on_peer_connected(id: int):
 	# 当有人连接成功后，需要将其发送自己的信息
 	# 这个会让所有人都接收到
 	_register_player.rpc_id(id, player_info)
-	print("[Net Server] 连接建立：", id)
+	# LogUtils.info(str("[Net Server] 连接建立：", id))
 
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):
