@@ -43,7 +43,6 @@ static func find_condition_cards(condition: Dictionary, cards: Array = []) -> Ar
 					k = true
 					break
 			if not k: continue
-		# sets
 		if condition.has("sets"):
 			var k = false
 			for _set in condition["sets"]:
@@ -52,6 +51,12 @@ static func find_condition_cards(condition: Dictionary, cards: Array = []) -> Ar
 						k = true
 						break
 				if k: break
+			if not k: continue
+		if condition.has("codes"):
+			# print("|| find_utils || cards | ", card.get_code(), " | ", condition["codes"])
+			var k = false
+			if card.get_code() in condition["codes"]:
+				k = true
 			if not k: continue
 		result.append(card)
 	return result
@@ -64,10 +69,10 @@ static func find_condition_areas(condition: Dictionary, areas: Array = []) -> Ar
 	for area: AreaEntity in areas:
 		if area.name.begins_with("AREA_INLAY_"):
 			continue
-		if condition.has("owners"):
+		if condition.has("controllers"):
 			var k = false
-			for owner in condition["owners"]:
-				if owner in battle.battle_data_bind_list.area_bind_players[area.name]:
+			for controllers in condition["controllers"]:
+				if controllers in battle.battle_data_bind_list.area_bind_players[area.name]:
 					k = true
 					break
 			if not k: continue

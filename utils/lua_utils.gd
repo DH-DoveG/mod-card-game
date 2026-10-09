@@ -14,7 +14,6 @@ static func table_to_dictionary(table: LuaTable, state: LuaState = null) -> Dict
 			dictionary[i] = cal
 	return dictionary
 
-
 ## 递归的将 Dictionary 转换为 LuaTable
 static func dictionary_to_table(dictionary: Dictionary, state: LuaState = null) -> LuaTable:
 	if state == null:
@@ -34,6 +33,20 @@ static func dictionary_to_table(dictionary: Dictionary, state: LuaState = null) 
 			table.set(key, value)
 	return table
 
+## 将 LuaTable（Lua 数组，索引从 1 开始）转换为 GDScript Array
+## 只遍历连续的数字索引，遇到缺失的索引即停止
+static func table_to_array(table: LuaTable) -> Array:
+	if table == null:
+		return []
+	var result: Array = []
+	var index: int = 1
+	while true:
+		var value = table.rawget(index)
+		if value == null:
+			break
+		result.append(value)
+		index += 1
+	return result
 
 ## 递归的将 Array 转换为 LuaTable
 static func array_to_table(array: Array, state: LuaState = null) -> LuaTable:
@@ -45,11 +58,11 @@ static func array_to_table(array: Array, state: LuaState = null) -> LuaTable:
 	for i in range(array.size()):
 		var value = array[i]
 		if value is Callable:
-			table.set(i + 1, state.create_function(value)) # Lua 数组索引从 1 开始
+			table.rawset(i + 1, state.create_function(value)) # Lua 数组索引从 1 开始
 		elif value is Dictionary:
-			table.set(i + 1, dictionary_to_table(value, state))
+			table.rawset(i + 1, dictionary_to_table(value, state))
 		elif value is Array:
-			table.set(i + 1, array_to_table(value, state))
+			table.rawset(i + 1, array_to_table(value, state))
 		else:
-			table.set(i + 1, value)
+			table.rawset(i + 1, value)
 	return table

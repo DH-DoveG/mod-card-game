@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://dakkbmd8bdj7t" path="res://components/sidebar/sidebar.gd" id="1_1bqev"]
 [ext_resource type="PackedScene" uid="uid://cnohiaufulm0r" path="res://components/icon_side_button/icon_side_button.tscn" id="1_dygoq"]
-[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://addons/material_icons_importer/icons/ampStories.png" id="2_qhwwe"]
-[ext_resource type="Texture2D" uid="uid://c1grat628csw7" path="res://addons/material_icons_importer/icons/info.png" id="3_tkbf3"]
-[ext_resource type="Texture2D" uid="uid://bhj1r8qqdcofb" path="res://addons/material_icons_importer/icons/link.png" id="4_flkow"]
-[ext_resource type="Texture2D" uid="uid://ds8hhul47phdi" path="res://addons/material_icons_importer/icons/extension.png" id="5_j24hk"]
-[ext_resource type="Texture2D" uid="uid://deq02fm13b4wj" path="res://addons/material_icons_importer/icons/borderColor.png" id="6_3e56s"]
-[ext_resource type="Texture2D" uid="uid://p3e7qqnslkps" path="res://addons/material_icons_importer/icons/upcoming.png" id="7_qqxwt"]
-[ext_resource type="Texture2D" uid="uid://b4j80kgvhnmpk" path="res://addons/material_icons_importer/icons/chat.png" id="8_svu1p"]
+[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://assets/images/icons/ampStories.png" id="2_qhwwe"]
+[ext_resource type="Texture2D" uid="uid://c1grat628csw7" path="res://assets/images/icons/info.png" id="3_tkbf3"]
+[ext_resource type="Texture2D" uid="uid://bhj1r8qqdcofb" path="res://assets/images/icons/link.png" id="4_flkow"]
+[ext_resource type="Texture2D" uid="uid://ds8hhul47phdi" path="res://assets/images/icons/extension.png" id="5_j24hk"]
+[ext_resource type="Texture2D" uid="uid://deq02fm13b4wj" path="res://assets/images/icons/borderColor.png" id="6_3e56s"]
+[ext_resource type="Texture2D" uid="uid://p3e7qqnslkps" path="res://assets/images/icons/upcoming.png" id="7_qqxwt"]
+[ext_resource type="Texture2D" uid="uid://b4j80kgvhnmpk" path="res://assets/images/icons/chat.png" id="8_svu1p"]
 
 [sub_resource type="Gradient" id="Gradient_631em"]
 offsets = PackedFloat32Array(0, 0.9556314, 1)

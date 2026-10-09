@@ -37,7 +37,6 @@ extends TextureButton
 				$Text.horizontal_alignment = HorizontalAlignment.HORIZONTAL_ALIGNMENT_RIGHT
 			pass
 
-
 func _ready() -> void:
 	if icon != null:
 		icon = icon

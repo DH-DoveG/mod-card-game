@@ -4,16 +4,15 @@
 [ext_resource type="Script" uid="uid://br8n6fxhx88jy" path="res://battle/battle_net.gd" id="2_elvdx"]
 [ext_resource type="PackedScene" uid="uid://ddm4xshppnqi1" path="res://components/player_panel/player_panel.tscn" id="3_vxj5u"]
 [ext_resource type="Texture2D" uid="uid://dj4f63xwxcsxv" path="res://assets/images/icon/v.png" id="4_0k3r2"]
-[ext_resource type="PackedScene" uid="uid://bxfw0huwxxgo4" path="res://components/card_info_panel/card_info_panel.tscn" id="4_grut4"]
-[ext_resource type="Texture2D" uid="uid://b68yhkllka34p" path="res://addons/material_icons_importer/icons/square.png" id="4_vmnpc"]
+[ext_resource type="Texture2D" uid="uid://b68yhkllka34p" path="res://assets/images/icons/square.png" id="4_vmnpc"]
 [ext_resource type="PackedScene" uid="uid://clu4dj0711y3u" path="res://components/card_set_info_panel/card_set_info_panel.tscn" id="5_8w61a"]
-[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://addons/material_icons_importer/icons/ampStories.png" id="5_j3p8a"]
+[ext_resource type="Texture2D" uid="uid://kfl7flq5dml0" path="res://assets/images/icons/ampStories.png" id="5_j3p8a"]
 [ext_resource type="Texture2D" uid="uid://djvkatr3gcy37" path="res://assets/images/icon/log.png" id="6_o21fp"]
-[ext_resource type="PackedScene" uid="uid://c8ejnte1obkse" path="res://components/lua_memory_panel/lua_memory_panel.tscn" id="9_8w61a"]
 [ext_resource type="PackedScene" uid="uid://cst8gj65puneo" path="res://components/player_hand_view/player_hand_view.tscn" id="9_grut4"]
 [ext_resource type="Texture2D" uid="uid://cwyae4lmo6cfl" path="res://assets/images/icon/stack-solid.png" id="9_o21fp"]
 [ext_resource type="PackedScene" uid="uid://c3ipunxga8s3y" path="res://components/area_info_panel/area_info_panel.tscn" id="10_8w61a"]
 [ext_resource type="PackedScene" uid="uid://coeapgd7rpgmq" path="res://components/loading_panel/loading_panel.tscn" id="12_j3p8a"]
+[ext_resource type="PackedScene" uid="uid://bxfw0huwxxgo4" path="res://components/card_info_panel/card_info_panel.tscn" id="13_0k3r2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j3p8a"]
 font_size = 22
@@ -104,6 +103,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="CardSetInfoShowBtn" type="TextureButton" parent="UI/BottomBar" index="3" unique_id=1360632198]
+modulate = Color(0.78431374, 0.78431374, 0.78431374, 1)
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 1
 anchors_preset = 9
@@ -188,13 +188,20 @@ label_settings = SubResource("LabelSettings_j3p8a")
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="PlayerPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="1" unique_id=283840371 instance=ExtResource("3_vxj5u")]
+[node name="CardInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="1" unique_id=1660859181 instance=ExtResource("13_0k3r2")]
+offset_left = 26.0
+offset_top = 336.0
+offset_right = 326.0
+offset_bottom = 784.0
+
+[node name="PlayerPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="2" unique_id=283840371 instance=ExtResource("3_vxj5u")]
 offset_left = -76.0
 offset_top = 56.0
 offset_right = 292.0
 offset_bottom = 240.0
 
-[node name="CardSetInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="2" unique_id=1985442569 instance=ExtResource("5_8w61a")]
+[node name="CardSetInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="3" unique_id=1985442569 instance=ExtResource("5_8w61a")]
+visible = false
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -207,24 +214,14 @@ offset_bottom = 444.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="CardInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="3" unique_id=806327608 instance=ExtResource("4_grut4")]
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 24.0
-offset_top = -276.0
-offset_right = 360.0
-offset_bottom = 284.0
-grow_vertical = 2
-
 [node name="AreaInfoPanel" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="4" unique_id=79139102 instance=ExtResource("10_8w61a")]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 24.0
-offset_top = 300.0
-offset_right = 360.0
-offset_bottom = 444.0
+offset_left = 26.0
+offset_top = 260.0
+offset_right = 326.0
+offset_bottom = 388.0
 grow_vertical = 2
 
 [node name="PlayerHandView" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="5" unique_id=922754167 instance=ExtResource("9_grut4")]
@@ -233,10 +230,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -80.0
-offset_top = -152.0
-offset_right = -80.0
-offset_bottom = -40.0
+offset_left = -448.0
+offset_top = -72.0
+offset_right = 448.0
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -247,26 +244,42 @@ offset_bottom = 32.0
 grow_horizontal = 2
 color = Color(0.2784314, 0.2784314, 0.2784314, 0.7058824)
 
-[node name="LuaMemoryPanel" parent="UI/TopBar" index="0" unique_id=1065636026 instance=ExtResource("9_8w61a")]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_right = 512.0
-offset_bottom = 0.0
-grow_vertical = 2
-
-[node name="RoundNum" type="Label" parent="UI/TopBar" index="1" unique_id=1379283710]
+[node name="RoundNum" type="Label" parent="UI/TopBar" index="0" unique_id=1379283710]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -192.0
-offset_right = 192.0
+offset_left = -128.0
+offset_right = 128.0
 offset_bottom = 32.0
 grow_horizontal = 2
 text = "————<< 第 0 回合 >>————"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TopLeftCustom" type="Label" parent="UI/TopBar" index="1" unique_id=1623444973]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -952.0
+offset_right = -152.0
+offset_bottom = 32.0
+grow_horizontal = 2
+text = "123"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TopRightCustom" type="Label" parent="UI/TopBar" index="2" unique_id=905526762]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 152.0
+offset_right = 952.0
+offset_bottom = 32.0
+grow_horizontal = 2
+text = "456"
 vertical_alignment = 1
 
 [node name="LogPanel" type="ColorRect" parent="UI" parent_id_path=PackedInt32Array(1932409307) index="7" unique_id=647268735]

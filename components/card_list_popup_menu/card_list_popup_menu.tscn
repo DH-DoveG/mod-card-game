@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://cj6fkydb8vpqh"]
+
+[ext_resource type="PackedScene" uid="uid://3dblljpldf5r" path="res://components/base_popup_menu/base_popup_menu.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://cqorrhwnv0ea1" path="res://components/card_list_popup_menu/card_list_popup_menu.gd" id="2_card"]
+
+[node name="CardListPopupMenu" unique_id=591830335 instance=ExtResource("1_base")]
+script = ExtResource("2_card")
+
+[node name="Mask" parent="." index="1" unique_id=832364131]
+visible = false
+
+[node name="ColorRect2" parent="." index="2" unique_id=1411328764]
+visible = false
+
+[node name="CardListPanel" type="ColorRect" parent="." index="3" unique_id=1817564725]
+custom_minimum_size = Vector2(400, 88)
+custom_maximum_size = Vector2(400, 88)
+offset_left = -408.0
+offset_top = -96.0
+offset_right = -8.0
+offset_bottom = -8.0
+color = Color(0.34117648, 0.34117648, 0.34117648, 0.8980392)
+
+[node name="Outline" type="ReferenceRect" parent="CardListPanel" index="0" unique_id=1614727609]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+border_color = Color(0.5176471, 0.5176471, 0.5176471, 1)
+border_width = 2.0
+editor_only = false
+
+[node name="Scroll" type="ScrollContainer" parent="CardListPanel" index="1" unique_id=812402072]
+custom_minimum_size = Vector2(0, 84)
+custom_maximum_size = Vector2(-1, 84)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.5
+offset_right = -26.5
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="HBox" type="HBoxContainer" parent="CardListPanel/Scroll" index="0" unique_id=1580267399]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AreaPos" type="ColorRect" parent="CardListPanel" index="2" unique_id=40307597]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 20.0
+grow_vertical = 2
+color = Color(0.51718444, 0.5171845, 0.51718444, 1)
+
+[node name="Label" type="Label" parent="CardListPanel/AreaPos" index="0" unique_id=75970613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "卡
+堆"
+horizontal_alignment = 1
+vertical_alignment = 1

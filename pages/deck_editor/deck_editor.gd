@@ -1,8 +1,6 @@
 extends Page
 
-
 @onready var search_card_dialog = $SearchCardDialog
-
 
 # 需要建立一个简易“数据库”
 var card_data_library = []
@@ -19,22 +17,18 @@ func _init_card_library():
 	for ckey in GResourceManager.card_resource:
 		var id = IDUtils.generate("__CardDataDeckLibrary__")
 		var ce: CardEntity = GApiManager.card_api.create_entity(id, ckey)
-		add_child(ce)
+
 		ids.append(id)
 		card_data_library.append(ce)
 		if not ce.meta["type"].is_empty():
 			t[ce.meta["type"]] = true
-		for value in ce.value_manager.keys():
+		for value in ce.values.keys():
 			v[value] = true
 	card_value_types = v.keys()
 	card_types = t.keys()
 
-
 func _exit_tree() -> void:
-	for ce in card_data_library:
-		if ce.name in ids:
-			ce.queue_free()
-
+	pass
 
 func search(config: Dictionary):
 	if config.is_empty():
@@ -60,10 +54,10 @@ func search(config: Dictionary):
 				continue
 			key = false
 			for value in card_values:
-				if not cdl.value_manager.has(value):
+				if not cdl.values.has(value):
 					key = true
 					break
-				if cdl.value_manager[value].value != card_values[value]:
+				if cdl.values[value].value != card_values[value]:
 					key = true
 					break
 			if key:
@@ -71,7 +65,7 @@ func search(config: Dictionary):
 			key = false
 			var count = 0
 			for behavior in card_behaviors:
-				for b: Behavior in cdl.behavior_manager.behaviors:
+				for b: Behavior in cdl.behaviors:
 					if b.get_info()["description"].contains(behavior):
 						count += 1
 			if not card_behaviors.is_empty() and count == 0:
@@ -79,15 +73,14 @@ func search(config: Dictionary):
 			cs.append(cdl)
 		build_srv(cs)
 
-
 func to_dict():
 	var card_stacks = []
 	for v in $Scroll/VBox.get_children():
 		var title = v.get_title()
 		var cs = []
 		for i in v.grid.get_children():
-			if i is CardView:
-				cs.append(i.data.get_code())
+			if i is CardView2D:
+				cs.append(i.entity.get_code())
 		card_stacks.append({
 			"title": title,
 			"content": cs
@@ -98,7 +91,6 @@ func to_dict():
 		"cover": "",
 		"stack": card_stacks
 	}
-
 
 func reload_sc():
 	var sdvho = $SearchCardDialog/Dialog/VBox/HBox/Option
@@ -112,7 +104,6 @@ func reload_sc():
 	for dscc in ConfigManager.deck_search_condition_config:
 		sdvho.add_item(dscc)
 
-
 func _on_sc_delete_pressed() -> void:
 	var sdvho = $SearchCardDialog/Dialog/VBox/HBox/Option
 	ConfigManager.deck_search_condition_config.erase(sdvho.get_item_text(sdvho.selected))
@@ -121,7 +112,6 @@ func _on_sc_delete_pressed() -> void:
 	_file.resize(f.length())
 	_file.store_string(f)
 	reload_sc()
-
 
 func build_srv(cdls: Array):
 	for i in $SearchBox/Result/VBox.get_children():
@@ -132,7 +122,6 @@ func build_srv(cdls: Array):
 		si.set_card(cdl)
 		si.change_status.connect(func(c: CardEntity, s):
 			if s:
-				#$Status/Label.text = file_name + " | " + "待添加卡片：" + c.card_name
 				update_status({ "添加卡片": c.card_name })
 			for _c in $SearchBox/Result/VBox.get_children():
 				if _c.data != c:
@@ -142,39 +131,33 @@ func build_srv(cdls: Array):
 				_c.show_add_card(c, s)
 		)
 
-
 # 编辑卡组
 func _init() -> void:
 	page_id = "DECK_EDITOR_PAGE"
 
-
 func _ready() -> void:
 	super ()
-	
+
 	_init_card_library()
-	
+
 	var card_type = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/Type/Option
 	card_type.add_item("")
 	for ct in card_types:
 		card_type.add_item(ct)
-	
-	reload_sc()
-	
-	search({})
 
+	reload_sc()
+
+	search({})
 
 func _on_create_card_set_pressed() -> void:
 	var cds = load("res://pages/deck_editor/card_deck_stack.tscn").instantiate()
 	$Scroll/VBox.add_child(cds)
 
-
 func _on_search_card_dialog_close_pressed() -> void:
 	search_card_dialog.hide()
 
-
 func _on_search_card_dialog_pressed() -> void:
 	search(get_search_card_dialog_data())
-
 
 func _on_search_card_dialog_save_pressed() -> void:
 	var value = $SearchCardDialog/Dialog/VBox/HBox/Option.get_item_text($SearchCardDialog/Dialog/VBox/HBox/Option.selected)
@@ -213,14 +196,12 @@ func _on_search_card_dialog_save_pressed() -> void:
 	_file.store_string(f)
 	reload_sc()
 
-
 func get_search_card_dialog_data():
 	var card_name = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/CardName/LineEdit.text
 	var card_type = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/Type/Option.get_item_text($SearchCardDialog/Dialog/VBox/Scroll/VBox/Top/Type/Option.selected)
 	var card_values = {}
 	var card_tags = []
 	var card_behaviors = []
-	# value
 	var _cvs = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid.get_children()
 	_cvs.pop_back()
 	for v in _cvs:
@@ -229,22 +210,15 @@ func get_search_card_dialog_data():
 			continue
 		var value = v.get_node("Line").value
 		card_values[id] = int(value)
-	# tag
 	var _cvt = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid.get_children()
 	_cvt.pop_back()
 	for v in _cvt:
 		card_tags.append(v.get_node("Line").text)
-	# behavior
 	var _cvb = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid.get_children()
 	_cvb.pop_back()
 	for v in _cvb:
 		card_behaviors.append(v.get_node("Text").text)
 	# 检查
-	print("NAME: ", card_name)
-	print("TYPE: ", card_type)
-	print("VALUE: ", card_values)
-	print("TAG: ", card_tags)
-	print("BEHAVIOR: ", card_behaviors)
 	# 过滤
 	return {
 		"card_name": card_name,
@@ -254,10 +228,8 @@ func get_search_card_dialog_data():
 		"card_behaviors": card_behaviors
 	}
 
-
 func _on_search_popup_pressed() -> void:
 	search_card_dialog.show()
-
 
 func _on_scd_values_add_pressed() -> void:
 	var add = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid/Add
@@ -273,7 +245,6 @@ func _on_scd_values_add_pressed() -> void:
 	for v in card_value_types:
 		item.add_item(v)
 
-
 func _on_scd_tag_add_pressed() -> void:
 	var add = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid/Add
 	var grid = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid
@@ -285,7 +256,6 @@ func _on_scd_tag_add_pressed() -> void:
 		template.queue_free()
 	)
 
-
 func _on_scd_behavior_add_pressed() -> void:
 	var add = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid/Add
 	var grid = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Behaviors/Grid
@@ -296,7 +266,6 @@ func _on_scd_behavior_add_pressed() -> void:
 	template.get_node("Delete").pressed.connect(func():
 		template.queue_free()
 	)
-
 
 func _on_option_item_selected(index: int) -> void:
 	if index == 0: return
@@ -310,10 +279,6 @@ func _on_option_item_selected(index: int) -> void:
 	if i != -1:
 		cto.selected = i + 1
 		pass
-	#for i in range(cto.item_count):
-		#if cto.get_item_text(i) == config["card_type"]:
-			#cto.selected = i
-			#break
 	# 设置数值
 	var ctv = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Values/Grid.get_children()
 	ctv.pop_back()
@@ -359,15 +324,12 @@ func _on_option_item_selected(index: int) -> void:
 			var vv = $SearchCardDialog/Dialog/VBox/Scroll/VBox/Tags/Grid.get_children()[-2]
 			vv.get_node("Line").text = v
 
-
 func _on_search_option_item_selected(index: int) -> void:
 	var sdvho = $SearchBox/Top/HBox/SearchOption
 	var config = ConfigManager.deck_search_condition_config.get(sdvho.get_item_text(index), {})
 	search(config)
 
-
 # 文件相关
-
 
 func _on_deck_save_as_file_pressed() -> void:
 	if not file_obj: return
@@ -403,14 +365,15 @@ func _on_deck_save_as_file_pressed() -> void:
 	var _file_name = v["value"] + ".json"
 	var _file_obj = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(_file_name))
 	var context = str(to_dict())
+	_file_obj.seek(0)
 	_file_obj.store_string(context)
+	_file_obj.resize(context.length())
 	_file_obj.flush()
 	file_obj.close()
 	file_name = _file_name
 	file_obj = _file_obj
 	update_status({})
 	ToastUtils.info("卡组副本已创建")
-
 
 func _on_deck_create_file_pressed() -> void:
 	var dialog = DialogUtils.show_input_dialog({
@@ -452,15 +415,47 @@ func _on_deck_create_file_pressed() -> void:
 	}))
 	_file_obj.close()
 
-
 func _on_save_file_pressed() -> void:
-	if not file_obj: return
+	if not file_obj:
+		var dialog = DialogUtils.show_input_dialog({
+			"title": "创建卡组",
+			"detail": "当前未打开卡组文件，请输入卡组名称以创建并保存",
+			"can_hide": false,
+			"placeholder": "请输入卡组名称",
+			"btns": [
+				{"text": "确定",
+					"callback": func(_v):
+						var close = true
+						if _v.is_empty(): close = false
+						if PersistenceUtils.find_file(ConfigManager.DECK_FOLDER_PATH, _v + ".json"):
+							ToastUtils.error("文件已存在")
+							return
+						return {
+							"close": close,
+							"value": _v,
+							"choose": "Confirm"
+					}},
+				{"text": "取消",
+					"callback": func(_v):
+						return {
+							"close": true,
+							"value": _v,
+							"choose": "Cancel"
+					}},
+			]
+		})
+		var v = await dialog.select_clicked
+		if v["choose"] != "Confirm": return
+		var _file_name = v["value"] + ".json"
+		file_obj = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(_file_name))
+		file_name = _file_name
+		update_status({})
 	var context = str(to_dict())
-	file_obj.resize(context.length())
+	file_obj.seek(0)
 	file_obj.store_string(context)
+	file_obj.resize(context.length())
 	file_obj.flush()
 	ToastUtils.info("卡组已保存")
-
 
 # 根据卡组配置反推生成
 func load_deck(config: Dictionary):
@@ -479,7 +474,6 @@ func load_deck(config: Dictionary):
 					cds.add_card(ce)
 					break
 
-
 func _on_deck_list_pressed() -> void:
 	var files = PersistenceUtils.folder_all_files(ConfigManager.DECK_FOLDER_PATH)
 	files = files.filter(func(_v): return _v.ends_with(".json"))
@@ -492,7 +486,7 @@ func _on_deck_list_pressed() -> void:
 			{"text": "确定",
 				"callback": func(_v):
 					var close = true
-					if _v == file_name: 
+					if _v == file_name:
 						ToastUtils.error("当前已打开该卡组")
 						close = false
 					return {
@@ -514,14 +508,12 @@ func _on_deck_list_pressed() -> void:
 	var text = v["value"]
 	open_deck(text)
 
-
 func open_deck(_file_name: String):
 	var file = PersistenceUtils.open_file(ConfigManager.DECK_FOLDER_PATH.path_join(_file_name))
 	file_name = _file_name
 	file_obj = file
 	update_status({})
 	load_deck(JSON.parse_string(file.get_as_text()))
-
 
 func update_status(config: Dictionary):
 	var file = file_name
@@ -536,7 +528,6 @@ func update_status(config: Dictionary):
 	elif c.size() == 1:
 		content += " | " + c[0]
 	$Status/Label.text = content
-
 
 func _on_deck_check_tool_pressed() -> void:
 	if not file_obj: return
@@ -565,10 +556,9 @@ func _on_deck_check_tool_pressed() -> void:
 	var v = await dialog.select_clicked
 	if v["choose"] != "Confirm": return
 	var fun = ModManager.do_mod_file(GResourceManager.deck_check_tool_resource[v["value"]])
-	#print(">>> ", to_dict())
 	var table = LuaUtils.dictionary_to_table(to_dict())
 	var result = fun.invoke(table)
-	#print(LuaUtils.table_to_dictionary(result))
+
 	var r = LuaUtils.table_to_dictionary(result).values()
 	for vv in r:
 		var text = "卡堆：" + vv["stack"] + " | 信息：" + vv["message"]
@@ -577,7 +567,6 @@ func _on_deck_check_tool_pressed() -> void:
 		else:
 			ToastUtils.error(text)
 
-
 func _on_close_pressed() -> void:
 	AsyncScene.new(
 		"res://pages/index.tscn",
@@ -585,9 +574,7 @@ func _on_close_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_deck_delete_pressed() -> void:
 	file_obj.close()

@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://x70rqmkew1rt" path="res://animate/animate.tscn" id="1_cnjol"]
 [ext_resource type="Script" uid="uid://bh7pkcyblgeoy" path="res://animate/animate_play_card_highlight.gd" id="2_8gvlh"]
-[ext_resource type="Texture2D" uid="uid://de15rhelm2a1v" path="res://sn-0007.png" id="3_5uvrb"]
 
 [sub_resource type="Animation" id="Animation_t2gml"]
 length = 0.001
@@ -61,6 +60,18 @@ tracks/4/path = NodePath("Animation/Form:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Animation/Name:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -144,6 +155,18 @@ tracks/5/keys = {
 "method": &"play_sound"
 }]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Animation/Name:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.38, 0.45, 2, 2.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8gvlh"]
 _data = {
@@ -156,7 +179,12 @@ script = ExtResource("2_8gvlh")
 
 [node name="UI" type="CanvasLayer" parent="." index="0" unique_id=1191717889]
 
-[node name="Animation" type="Control" parent="UI" index="0" unique_id=1399903318]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI" index="0" unique_id=199108593]
+libraries/ = SubResource("AnimationLibrary_8gvlh")
+autoplay = &"show"
+speed_scale = 2.0
+
+[node name="Animation" type="Control" parent="UI" index="1" unique_id=1399903318]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -170,13 +198,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Animation" index="0" unique_id=199108593]
-root_node = NodePath("../..")
-libraries/ = SubResource("AnimationLibrary_8gvlh")
-autoplay = &"show"
-speed_scale = 2.0
-
-[node name="Card" type="TextureRect" parent="UI/Animation" index="1" unique_id=128196565]
+[node name="Card" type="TextureRect" parent="UI/Animation" index="0" unique_id=128196565]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -187,10 +209,9 @@ anchor_bottom = 0.5
 offset_left = -352.0
 offset_top = -202.0
 offset_right = -64.0
-offset_bottom = 201.20007
+offset_bottom = 201.2001
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_5uvrb")
 expand_mode = 1
 
 [node name="RR" type="ReferenceRect" parent="UI/Animation/Card" index="0" unique_id=1859958040]
@@ -204,7 +225,7 @@ border_color = Color(1, 1, 1, 1)
 border_width = 2.0
 editor_only = false
 
-[node name="Title" type="Label" parent="UI/Animation" index="2" unique_id=1276489217]
+[node name="Title" type="Label" parent="UI/Animation" index="1" unique_id=1276489217]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = 36.0
@@ -213,29 +234,42 @@ offset_right = 596.0
 offset_bottom = -136.0
 theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 42
-text = "【瞬间】出发吧bro！"
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="UI/Animation" index="2" unique_id=1559292645]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -495.0
+offset_top = -272.0
+offset_right = 132.0
+offset_bottom = -208.0
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 42
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Detail" type="Label" parent="UI/Animation" index="3" unique_id=787373501]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 0
+custom_minimum_size = Vector2(560, 472)
+custom_maximum_size = Vector2(560, 472)
+layout_mode = 1
 offset_left = 36.0
 offset_top = -96.0
 offset_right = 596.0
-offset_bottom = 248.0
+offset_bottom = 376.0
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 28
-text = "抽卡进入弃区时可发动。我方从弃区将1张【骷髅】特征精灵超越降临。"
 autowrap_mode = 2
 
 [node name="Form" type="Label" parent="UI/Animation" index="4" unique_id=1572611745]
 modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(416, 136)
+custom_maximum_size = Vector2(416, 136)
 layout_mode = 0
-offset_left = -332.0
+offset_left = -396.0
 offset_top = 240.0
-offset_right = 228.0
-offset_bottom = 319.0
+offset_right = 20.0
+offset_bottom = 376.0
 theme_override_constants/outline_size = 12
 theme_override_font_sizes/font_size = 28
-text = "位于：Deck"
 autowrap_mode = 2

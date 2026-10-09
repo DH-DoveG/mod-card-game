@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cqg3wfmllk2hx"]
+
+[ext_resource type="Script" uid="uid://bkd3cnxq0ts7h" path="res://dev/card_hand_layout_test.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://cnq8768ctkqnv" path="res://dev/assets/sn-0007.png" id="2_b075d"]
+
+[node name="CardHandLayoutTest" type="Control" unique_id=615421970]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=322228975]
+visible = false
+custom_minimum_size = Vector2(65, 91)
+custom_maximum_size = Vector2(65, 91)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture_normal = ExtResource("2_b075d")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

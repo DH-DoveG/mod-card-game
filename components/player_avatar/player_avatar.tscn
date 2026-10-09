@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8b61e7ejs83p" path="res://components/player_avatar/player_avatar.gd" id="1_d106d"]
 [ext_resource type="Shader" uid="uid://ejs7mjxnfds3" path="res://assets/shader/canvas_item/rainbow_barder.gdshader" id="1_x3rxl"]
-[ext_resource type="Texture2D" uid="uid://chxo4hsk18w4w" path="res://addons/material_icons_importer/icons/alarm.png" id="2_d106d"]
+[ext_resource type="Texture2D" uid="uid://chxo4hsk18w4w" path="res://assets/images/icons/alarm.png" id="2_d106d"]
 [ext_resource type="Shader" uid="uid://c2f2wmvi17qnu" path="res://assets/shader/canvas_item/2d_outline.gdshader" id="2_n653b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rk6l7"]
@@ -123,8 +123,7 @@ layout_mode = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.818
-offset_bottom = 13.104
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_d106d")
@@ -132,6 +131,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="RoundTime" type="HBoxContainer" parent="." unique_id=1838875546]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -185,3 +185,21 @@ X
 T"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="NeoOutline" type="ReferenceRect" parent="." unique_id=1762462153]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 0.78431374)
+border_width = 2.0
+editor_only = false
+metadata/_edit_lock_ = true

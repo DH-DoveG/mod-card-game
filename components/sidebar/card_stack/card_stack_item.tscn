@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bphctyayq0bsv"]
 
 [ext_resource type="Script" uid="uid://0v4hxyxqypup" path="res://components/option/option_show_card_set/item.gd" id="1_5id8u"]
-[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://addons/material_icons_importer/icons/keyboardArrowDown.png" id="2_vhda1"]
+[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://assets/images/icons/keyboardArrowDown.png" id="2_vhda1"]
 
 [node name="Item" type="ColorRect" unique_id=1744075505]
 custom_minimum_size = Vector2(0, 144)

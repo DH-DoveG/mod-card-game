@@ -1,7 +1,6 @@
 extends Object
 class_name ModCardApi
 
-
 static func require(state: LuaState) -> void:
 	var table = state.create_table()
 	table.set("get_image", state.create_function(get_image))
@@ -14,27 +13,58 @@ static func require(state: LuaState) -> void:
 	table.set("get_controller", state.create_function(get_controller))
 	table.set("get_area", state.create_function(get_area))
 	table.set("set_area", state.create_function(set_area))
-	# table.set("set_rotation", state.create_function(set_rotation))
 	table.set("set_index", state.create_function(set_index))
 	table.set("find_condition", state.create_function(find_condition))
 	table.set("set_border_color", state.create_function(set_border_color))
 	table.set("set_public_information", state.create_function(set_public_information))
 	table.set("get_public_information", state.create_function(get_public_information))
-	
+	table.set("get_rotation", state.create_function(get_rotation))
+	table.set("set_rotation", state.create_function(set_rotation))
+	table.set("get_type", state.create_function(get_type))
 	state.globals["package"]["loaded"]["std.api.card-api"] = table
 
+static func get_type(param):
+	var id = param["id"] if param["id"] != null else ""
+	var card: CardEntity = FindUtils.find_card(id)
+	return card.get_type()
+
+# TODO: 实现对 y 轴的旋转获取
+static func get_rotation(param):
+	var id = param["id"] if param["id"] != null else ""
+	# LogUtils.info(str("[CORE][lua][get_rotation] id : ", id))
+	if id == "":
+		return 0
+	var card = FindUtils.find_card(id)
+	# LogUtils.info(str("[CORE][lua][get_rotation] card ", card, " | id : ", id))
+	if card == null:
+		return 0.0
+	var views: Array[CardView3D] = card.get_view_3d()
+	if views.is_empty():
+		return 0.0
+	# var euler = views[0].quaternion.get_euler()
+	# return views[0].rotation_degress.y
+	# LogUtils.info(str("[CORE][lua][get_rotation] euler : ", euler))
+	# LogUtils.info(str("[CORE][lua][get_rotation] rotation : ",  views[0].rotation_degrees))
+	return views[0].rotation_degrees.y
+
+# TODO: 实现对 y 轴的旋转设置
+static func set_rotation(param):
+	var id = param["id"] if param["id"] != null else ""
+	var rotation = param["rotation"] if param["rotation"] != null else null
+	# LogUtils.info(str("[CORE][lua][set_rotation] id : ", id, " | rotation : ", rotation))
+	if id == "" or rotation == null:
+		return
+	return GApiManager.card_api.rpc("set_rotation", id, rotation)
 
 static func set_public_information(param):
 	var cid = param["card_id"] if param["card_id"] != null else ""
 	var pids = param["player_ids"].to_array() if param["player_ids"] != null else []
-	print("[CORE] cid: ", cid, " | pids: ", pids)
+	# LogUtils.info(str("[CORE][lua] cid: ", cid, " | pids: ", pids))
 	GApiManager.card_api.rpc("set_public_information", cid, pids)
-
 
 static func get_public_information(param):
 	var cid = param["card_id"] if param["card_id"] != null else ""
 	return GApiManager.card_api.get_public_information(cid)
-
 
 static func set_border_color(param):
 	var id = param["id"] if param["id"] != null else null
@@ -43,44 +73,38 @@ static func set_border_color(param):
 		return
 	GApiManager.card_api.rpc("set_border_color", id, color)
 
-
 static func get_image(param: LuaTable) -> LuaTable:
 	var id = param["id"] if param["id"] != null else null
 	return ModManager.state.create_table(GApiManager.card_api.get_image(id))
 
-
 static func get_card(param: LuaTable) -> LuaTable:
 	var id = param["id"] if param["id"] != null else null
-	
+
 	if not id:
 		return null
-	
+
 	var card = FindUtils.find_card(id)
 	if card is not CardEntity:
 		return null
-	#return card.entity.meta
 	return card.meta
-
 
 static func get_front(param: LuaTable) -> bool:
 	var id = param["id"] if param["id"] != null else null
 	return GApiManager.card_api.get_front(id)
 
-
 static func set_front(param: LuaTable) -> void:
 	var id = param["id"] if param["id"] != null else null
 	var front = param["front"] if param["front"] != null else true
+	var change_public_information = param["change_public_information"] if param["change_public_information"] != null else true
 	if not id:
 		return
-	GApiManager.card_api.rpc("set_front", id, front)
-
+	GApiManager.card_api.rpc("set_front", id, front, change_public_information)
 
 static func get_direction(param: LuaTable) -> LuaTable:
 	var id = param["id"] if param["id"] != null else null
 	if not id:
 		return null
 	return ModManager.state.create_table(GApiManager.card_api.get_direction(id))
-
 
 static func set_orientation(param: LuaTable) -> void:
 	var id = param["id"] if param["id"] != null else null
@@ -89,23 +113,19 @@ static func set_orientation(param: LuaTable) -> void:
 		return
 	GApiManager.card_api.rpc("set_orientation", id, orientation)
 
-
 static func get_ownership(param: LuaTable) -> String:
 	var card_id = param["id"] if param["id"] != null else ""
 	if card_id.is_empty():
 		return ""
 	return GApiManager.card_api.get_ownership(card_id)
 
-
 static func get_controller(param: LuaTable) -> String:
 	var card_id = param["id"]
 	return GApiManager.card_api.get_controller(card_id)
 
-
 static func get_area(param: LuaTable) -> LuaTable:
 	var card_id = param["id"]
 	return ModManager.state.create_table(GApiManager.card_api.get_area(card_id))
-
 
 static func set_area(param: LuaTable) -> void:
 	var card_id = param["card_id"] if param["card_id"] != null else null
@@ -115,16 +135,16 @@ static func set_area(param: LuaTable) -> void:
 
 	assert(card_id, "CardID is null")
 	assert(area_id, "AreaID is null")
-	
+
 	if not card_id or not area_id:
 		return
-	
+
 	GApiManager.card_api.rpc("set_area", card_id, area_id, config)
 
-
 static func set_index(_param: LuaTable) -> void:
-	pass
-
+	var index = _param["index"] - 1 if (_param["index"] != null and _param["index"] != 0) else 0
+	var card_id: String = _param["card_id"] if _param["card_id"] != null else ""
+	GApiManager.card_api.rpc("set_index", card_id, index)
 
 static func find_condition(param: LuaTable) -> LuaTable:
 	var values = param["values"].to_array() if param["values"] != null else []
@@ -133,9 +153,10 @@ static func find_condition(param: LuaTable) -> LuaTable:
 	var kinds = param["kinds"].to_array() if param["kinds"] != null else []
 	var owners = param["owners"].to_array() if param["owners"] != null else []
 	var sets = param["sets"].to_array() if param["sets"] != null else []
-	
+	var codes = param["codes"].to_array() if param["codes"] != null else []
+
 	var mode = param["mode"] if param["mode"] != null else "ID"
-	
+
 	var dir = {}
 	if values.size(): dir["values"] = values
 	if tags.size(): dir["tags"] = tags
@@ -143,17 +164,19 @@ static func find_condition(param: LuaTable) -> LuaTable:
 	if kinds.size(): dir["kinds"] = kinds
 	if owners.size(): dir["owners"] = owners
 	if sets.size(): dir["sets"] = sets
+	if codes.size(): dir["codes"] = codes
+
+	# print("====> FC : ", dir)
 
 	var cards = FindUtils.find_condition_cards(dir)
-	
+
 	var result = []
 	for card: CardEntity in cards:
 		if mode == "ID":
 			result.append(str(card.name))
 		elif mode == "ALL":
-			# result.append(card.entity.meta)
 			result.append(card.meta)
-	
+
 	var table = LuaUtils.array_to_table(result)
-	
+
 	return table

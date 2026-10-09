@@ -1,8 +1,9 @@
 extends Node3D
 
-
 var event_id := ""
 var user: CardView3D
+var enable_view := true
+var useev := true
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
@@ -11,83 +12,78 @@ func _ready() -> void:
 			change_dirction(scene.visual_angle)
 		, ConnectFlags.CONNECT_ONE_SHOT)
 		event_id = scene.event_manager.subscribe("VISUAL_ANGLE_CHANGED", change_dirction)
-	user = get_parent()
-	#signal card_changed(_item: String, _ce: CardEntity)
+	user = get_parent().get_parent()
+
+
+func _process(_delta: float) -> void:
+	var scene = get_tree().current_scene
+	if scene is Battle:
+		# 光标移动到卡片上时，即使被挡住也需要显示
+		if (!enable_view or user.check_area_top_has_card()) and useev:
+			hide()
+			return
+		if scene.host_player_id not in scene.battle_data_bind_list.card_public_information[user.entity.name] and \
+		   "PUBLIC" not in scene.battle_data_bind_list.card_public_information[user.entity.name]:
+			hide()
+		else:
+			change_dirction(scene.visual_angle)
+			show()
+
 
 func update_entity(entity: CardEntity):
-	#entity.card_changed.connect(func(item: String, _entity: CardEntity):
-		#var scene = get_tree().current_scene
-		#if scene is Battle:
-			#change_dirction(scene.visual_angle)
-		#print("ITEM: ", item, " | ", user.get_front())
-		#if item == "orientation":
-			#if user.get_front():
-				#rotation_order = EULER_ORDER_ZYX
-				#rotation_degrees.z = 180
-				#$Sprite3D2.hide()
-			#else:
-				#rotation_order = EULER_ORDER_YXZ
-				#$Sprite3D2.show()
-	#)
+	$InfoView/SubViewport/Info/CardName.text = entity.card_name
+	var values = []
+	for key: String in entity.values:
+		var value: Value = entity.values[key]
+		if value.config:
+			if value.config.get("show_enable") == true:
+				var prefix: String = value.config.get("show_prefix", "")
+				var text = prefix + str(int(value.value))
+				var scolor = value.config.get("show_color")
+				if scolor:
+					text = "[color=" + scolor + "]" + text + "[/color]"
+				values.append(text)
+	$InfoView/SubViewport/Info/CardValues.append_text("[center]" + "/".join(values) + "[/center]")
+	
 	entity.card_quaternion_changed.connect(func():
 		var scene = get_tree().current_scene
 		if scene is Battle:
 			change_dirction(scene.visual_angle)
-		print("ITEM: card_quaternion_changed | ", user.get_front())
 		if user.get_front():
 			rotation_order = EULER_ORDER_ZYX
-			$Sprite3D2.show()
+			$ImageView.show()
 		else:
 			rotation_order = EULER_ORDER_YXZ
 			rotation_degrees.z = 180
-			$Sprite3D2.hide()
+			$ImageView.hide()
 	)
-
-#卡片的翻转应该是一个信号
-
-#func _process(_delta: float) -> void:
-	#if user.get_front():
-		#rotation_order = EULER_ORDER_ZYX
-		#$Sprite3D2.show()
-	#else:
-		#rotation_order = EULER_ORDER_XYZ
-		#$Sprite3D2.hide()
-	#var scene = get_tree().current_scene
-	#if scene is Battle:
-		#change_dirction(scene.visual_angle)
-	##print("user front: ", user.get_front())
-	#pass
-
 
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
 		scene.event_manager.unsubscribe("VISUAL_ANGLE_CHANGED", event_id)
 
-
 func set_rander_priority(priority):
-	$Sprite3D2.render_priority = priority
-	$Sprite3D.render_priority = priority + 1
-
+	$ImageView.render_priority = priority
+	$InfoView.render_priority = priority + 1
 
 # 是否立起
 func change_x(status: bool):
 	var tween = get_tree().create_tween().set_parallel(true)
 	if status:
-		tween.tween_property($Sprite3D2, "rotation_degrees:x", -75, 0.2)
-		tween.tween_property($Sprite3D, "rotation_degrees:x", -75, 0.2)
-		tween.tween_property($Sprite3D2, "position:y", 0.14, 0.2)
-		tween.tween_property($Sprite3D, "position:y", 0.14, 0.2)
+		tween.tween_property($ImageView, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($InfoView, "rotation_degrees:x", -75, 0.2)
+		tween.tween_property($ImageView, "position:y", 0.14, 0.2)
+		tween.tween_property($InfoView, "position:y", 0.14, 0.2)
 	else:
-		tween.tween_property($Sprite3D2, "rotation_degrees:x", -90, 0.2)
-		tween.tween_property($Sprite3D, "rotation_degrees:x", -90, 0.2)
-		tween.tween_property($Sprite3D2, "position:y", 0.02, 0.2)
-		tween.tween_property($Sprite3D, "position:y", 0.02, 0.2)
-
+		tween.tween_property($ImageView, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($InfoView, "rotation_degrees:x", -90, 0.2)
+		tween.tween_property($ImageView, "position:y", 0.02, 0.2)
+		tween.tween_property($InfoView, "position:y", 0.02, 0.2)
 
 func change_dirction(visual):
 	match visual:
-		Vector2i.DOWN:
+		Vector2i.DOWN: 
 			global_rotation_degrees.y = 0
 		Vector2i.UP:
 			global_rotation_degrees.y = 180
@@ -95,3 +91,4 @@ func change_dirction(visual):
 			global_rotation_degrees.y = 90
 		Vector2i.RIGHT:
 			global_rotation_degrees.y = -90
+	rotation_degrees.x = 90

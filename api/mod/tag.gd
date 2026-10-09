@@ -9,20 +9,17 @@ static func require(state: LuaState) -> void:
 	table.set("find_condition", state.create_function(find_condition))
 	state.globals["package"]["loaded"]["std.api.tag-api"] = table
 
-
 static func append(_param) -> void:
 	pass
-
 
 static func remove(_param) -> void:
 	pass
 
-
 static func has(param) -> bool:
 	var id: String = param["entity_id"] if param["entity_id"] else ""
-	var tag: String = param["tag"] if param["tag"] else ""
+	var tags: Array = param["tags"].to_array() if param["tags"] else []
 	var strict: bool = param["strict"] if param["strict"] else false
-	
+
 	var entity: Entity = null
 	if id.begins_with("PLAYER_"):
 		entity = FindUtils.find_player(id)
@@ -32,16 +29,16 @@ static func has(param) -> bool:
 		entity = FindUtils.find_area(id)
 	else:
 		return false
-	
+
 	for t in entity.tags:
 		if strict:
-			if t == tag:
+			if t in tags:
 				return true
 		else:
-			if t == tag or t.contains(tag):
-				return true
+			for tag in tags:
+				if t == tag or t.contains(tag):
+					return true
 	return false
-
 
 static func find_condition(_param) -> void:
 	pass

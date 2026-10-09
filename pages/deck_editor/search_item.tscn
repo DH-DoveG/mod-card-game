@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://s7mb7a2iq78u"]
 
 [ext_resource type="Script" uid="uid://n7g2go4iaxiy" path="res://pages/deck_editor/search_item.gd" id="1_nj6ug"]
-[ext_resource type="Texture2D" uid="uid://bqnvhv6pmwb4r" path="res://addons/material_icons_importer/icons/addBox.png" id="2_nj6ug"]
+[ext_resource type="Texture2D" uid="uid://bqnvhv6pmwb4r" path="res://assets/images/icons/addBox.png" id="2_nj6ug"]
 
 [node name="SearchItem" type="ColorRect" unique_id=815892232]
 custom_minimum_size = Vector2(400, 92)

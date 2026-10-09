@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5ac817ng12lf" path="res://pages/deck_editor/card_stack.gd" id="1_tj7r1"]
 [ext_resource type="Texture2D" uid="uid://b5d03ibtb5h0d" path="res://assets/images/icon/show.png" id="4_5vdvn"]
-[ext_resource type="Texture2D" uid="uid://dgm5eo3l287j4" path="res://addons/material_icons_importer/icons/add.png" id="5_0kca7"]
+[ext_resource type="Texture2D" uid="uid://dgm5eo3l287j4" path="res://assets/images/icons/add.png" id="5_0kca7"]
 [ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="5_5vdvn"]
 
 [node name="CardDeckStack" type="Panel" unique_id=246662510]

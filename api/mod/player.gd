@@ -11,21 +11,56 @@ static func require(state: LuaState) -> void:
 	table.set("get_player_timeout", state.create_function(get_player_timeout))
 	table.set("start_player_timeout", state.create_function(start_player_timeout))
 	table.set("stop_player_timeout", state.create_function(stop_player_timeout))
-	
+
+	# 实验
+	table.set("set_camp_enemys", state.create_function(set_camp_enemys))
+	table.set("get_camp_enemys", state.create_function(get_camp_enemys))
+	table.set("get_camp_table", state.create_function(get_camp_table))
+	table.set("get_players_in_camp", state.create_function(get_players_in_camp))
+
 	state.globals["package"]["loaded"]["std.api.player-api"] = table
 
+# 获取阵营里的玩家
+static func get_players_in_camp(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	#print("GPIC : camp : ", camp.to_dict())
+	if camp is not Camp:
+		return null
+	return LuaUtils.array_to_table(camp.units)
 
-static func add_blackboard_var(param) -> void:
-	var id = param["player_id"] if param["player_id"] != null else ""
-	var p = FindUtils.find_player(id)
-	p.bt_player.blackboard.set_var(param["var"], param["value"])
+static func get_camp_table(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	if camp is not Camp:
+		return null
+	return camp.to_table()
 
+static func get_camp_enemys(param) -> LuaTable:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	assert(Utils.is_battle_scene(), "is not battle scene")
+	var battle: Battle = Utils.get_current_scene()
+	var camp: Camp = battle.camps.get(camp_id)
+	return LuaUtils.array_to_table(camp.enemys)
+
+static func set_camp_enemys(param) -> void:
+	var camp_id = param["camp_id"] if param["camp_id"] != null else ""
+	var enemys = param["enemys"] if param["enemys"] != null else []
+	GApiManager.player_api.rpc("set_camp_enemys", camp_id, enemys)
+
+# static func add_blackboard_var(param) -> void:
+# 	var id = param["player_id"] if param["player_id"] != null else ""
+# 	var p = FindUtils.find_player(id)
+# 	p.bt_player.blackboard.set_var(param["var"], param["value"])
 
 static func get_player(param) -> LuaTable:
 	var id = param["id"] if param["id"] != null else ""
 	var player = FindUtils.find_player(id)
 	return player.meta
-
 
 static func get_players(param) -> LuaTable:
 	var mode = "ID"
@@ -51,9 +86,8 @@ static func get_players(param) -> LuaTable:
 	var table = LuaUtils.dictionary_to_table(dir)
 	return table
 
-
 static func get_area(param) -> LuaTable:
-	# LogUtils.info("[CORE][API] get_use_area: " + str(LuaUtils.table_to_dictionary(param)))
+
 	var id = param["id"] if param["id"] != null else ""
 	var mode = param["mode"] if param["mode"] != null else "ID"
 	var scene = Utils.get_current_scene()
@@ -80,7 +114,6 @@ static func get_area(param) -> LuaTable:
 			return LuaUtils.array_to_table(result)
 	return ModManager.state.create_table()
 
-
 static func get_camp(param) -> String:
 	var player_id = param["id"]
 	assert(Utils.is_battle_scene(), "is not battle scene")
@@ -89,8 +122,6 @@ static func get_camp(param) -> String:
 		if player_id in battle.battle_data_bind_list.camp_bind_players[key]:
 			return key
 	return ""
-
-
 
 static func set_player_timeout(param: LuaTable) -> void:
 	var pid = param["player_id"] if param["player_id"] else null
@@ -118,6 +149,7 @@ static func get_player_timeout(param: LuaTable) -> int:
 
 static func start_player_timeout(param: LuaTable) -> void:
 	var pid = param["player_id"] if param["player_id"] else null
+	print("start_player_timeout : ", pid)
 	if typeof(pid) != TYPE_STRING:
 		return
 	GApiManager.player_api.rpc("start_player_timeout", pid)
@@ -127,59 +159,3 @@ static func stop_player_timeout(param: LuaTable) -> void:
 	if typeof(pid) != TYPE_STRING:
 		return
 	GApiManager.player_api.rpc("stop_player_timeout", pid)
-
-
-# static func get_deck(param) -> LuaTable:
-# 	var player_id = param["id"]
-# 	assert(Utils.is_battle_scene(), "is not battle scene")
-# 	var battle: Battle = Utils.get_current_scene()
-# 	var decks = battle.battle_data_bind_list.player_bind_cards_of_deck[player_id]
-# 	return LuaUtils.array_to_table(decks)
-
-
-# static func get_hand(param) -> LuaTable:
-# 	var player_id = param["id"]
-# 	var mode = param["mode"] if param["mode"] != null else "ID"
-# 	if not Utils.is_battle_scene(): assert(false, "get_hand in non-battle scene")
-# 	var battle: Battle = Utils.get_current_scene()
-# 	# 获取绑定表
-# 	var cards = battle.battle_data_bind_list.player_bind_cards_of_hand[player_id]
-# 	if mode == "ALL":
-# 		var result = []
-# 		for i in cards:
-# 			var card = FindUtils.find_card(i)
-# 			result.append(card.entity.meta)
-# 		return LuaUtils.array_to_table(result)
-# 	return LuaUtils.array_to_table(cards)
-
-
-# static func get_graveyard(param) -> LuaTable:
-# 	var player_id = param["id"]
-# 	if not Utils.is_battle_scene(): assert(false, "get_graveyard in non-battle scene")
-# 	var battle: Battle = Utils.get_current_scene()
-# 	var cards = battle.battle_data_bind_list.player_bind_cards_of_graveyard[player_id]
-# 	return LuaUtils.array_to_table(cards)
-
-
-# static func set_deck(param):
-# 	var id = param["id"]
-# 	var ids  = param["ids"]
-# 	var adjusting = param["adjusting"] if param["adjusting"] else true
-# 	if not Utils.is_battle_scene(): assert(false, "set_deck in non-battle scene")
-# 	GApiManager.player_api.rpc("set_deck", id, ids.to_array(), adjusting)
-
-
-# static func set_hand(param):
-# 	var id = param["id"]
-# 	var ids  = param["ids"]
-# 	var is_adjust = param["is_adjust"] if param["is_adjust"] != null else true
-# 	if not Utils.is_battle_scene(): assert(false, "set_hand in non-battle scene")
-# 	GApiManager.player_api.rpc("set_hand", id, ids.to_array(), is_adjust)
-
-
-# static func set_graveyard(param):
-# 	var id = param["id"]
-# 	var ids  = param["ids"]
-# 	var adjusting = param["adjusting"] if param["adjusting"] else true
-# 	if not Utils.is_battle_scene(): assert(false, "set_graveyard in non-battle scene")
-# 	GApiManager.player_api.rpc("set_graveyard", id, ids.to_array(), adjusting)

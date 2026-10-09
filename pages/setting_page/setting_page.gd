@@ -1,15 +1,12 @@
 extends Page
 
-
 @onready var panel = $Panel
 @onready var panel_image = $Panel/Image/VBox
 @onready var mod_load_paths = $Panel/Mod/VBox/Item/Paths
 @onready var panel_sound = $Panel/Sound/VBox
 
-
 func _init() -> void:
 	page_id = "SETTING_PAGE"
-
 
 func _ready() -> void:
 	panel.set_tab_title(0, "    画 面 设 置    ")
@@ -18,7 +15,6 @@ func _ready() -> void:
 	_init_mod_set_options()
 	_init_image_set_options()
 	_init_sound_set_options()
-
 
 func _init_image_set_options():
 	# { title: String, property: String, options: [], details: String, choose: int<options.id> }
@@ -36,18 +32,15 @@ func _init_image_set_options():
 		item.show()
 		i += 1
 
-
 func _init_mod_set_options():
-	for config in ConfigManager.setting_mod_config[0]["paths"]:
+	for config in ConfigManager.mod.setting_mod_config[0]["paths"]:
 		_create_mod_load_path_item(config["path"], config["enable"])
-
 
 func _init_sound_set_options():
 	$Panel/Sound/VBox/Music/HBox/Option.value = ConfigManager.setting_sound_config["music"]["value"]
 	$Panel/Sound/VBox/Music/HBox/CheckBox.button_pressed = ConfigManager.setting_sound_config["music"]["enable"]
 	$Panel/Sound/VBox/Sound/HBox/Option.value = ConfigManager.setting_sound_config["sound"]["value"]
 	$Panel/Sound/VBox/Sound/HBox/CheckBox.button_pressed = ConfigManager.setting_sound_config["sound"]["enable"]
-
 
 func _create_mod_load_path_item(path: String, enable: bool):
 	var item = $Template/ModPathItem.duplicate()
@@ -57,7 +50,6 @@ func _create_mod_load_path_item(path: String, enable: bool):
 	item.get_node("Remove").pressed.connect(func(): item.queue_free())
 	item.show()
 
-
 func _on_quit_pressed() -> void:
 	AsyncScene.new(
 		"res://pages/index.tscn",
@@ -65,9 +57,7 @@ func _on_quit_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_option_pressed() -> void:
 	$ChooseModFolderPathDialog.current_dir = PersistenceUtils.get_exec_path()
@@ -75,36 +65,27 @@ func _on_option_pressed() -> void:
 	var _dir = await $ChooseModFolderPathDialog.dir_selected
 	_create_mod_load_path_item(_dir, true)
 
-
 func _on_save_pressed() -> void:
 	var save_image = {}
 	for item in panel_image.get_children():
 		var set_item = ConfigManager.setting_image_config[int(item.name)]
 		set_item["choose"] = item.get_node("HBox/Option").selected
 		save_image[str(set_item["id"])] = set_item["choose"]
-	var file = PersistenceUtils.open_file(ConfigManager.IMAGE_SETTING_FILE_PATH)
-	var text = str(save_image)
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
+	PersistenceUtils.write_file(ConfigManager.IMAGE_SETTING_FILE_PATH, str(save_image))
 
 	for item in mod_load_paths.get_children():
 		var path = item.get_node("Path").text
 		var check = item.get_node("CheckBox").button_pressed
 		var k = true
-		for c in ConfigManager.setting_mod_config[0]["paths"]:
+		for c in ConfigManager.mod.setting_mod_config[0]["paths"]:
 			if c["path"] == path:
 				c["enable"] = check
 				k = false
 				break
 		if k:
-			ConfigManager.setting_mod_config[0]["paths"].append({"path": path, "enable": check})
-	file = PersistenceUtils.open_file(ConfigManager.MOD_SETTING_FILE_PATH)
-	text = str(ConfigManager.setting_mod_config[0]["paths"])
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
-	
+			ConfigManager.mod.setting_mod_config[0]["paths"].append({"path": path, "enable": check})
+	PersistenceUtils.write_file(ModConfigManager.MOD_SETTING_FILE_PATH, str(ConfigManager.mod.setting_mod_config[0]["paths"]))
+
 	for item in panel_sound.get_children():
 		var v = {
 			"value": item.get_node("HBox/Option").value,
@@ -112,10 +93,6 @@ func _on_save_pressed() -> void:
 		}
 		if item.name == "Music": ConfigManager.setting_sound_config["music"] = v
 		if item.name == "Sound": ConfigManager.setting_sound_config["sound"] = v
-	file = PersistenceUtils.open_file(ConfigManager.SOUND_SETTING_FILE_PATH)
-	text = str(ConfigManager.setting_sound_config)
-	file.resize(text.length())
-	file.store_string(text)
-	file.close()
-	
+	PersistenceUtils.write_file(ConfigManager.SOUND_SETTING_FILE_PATH, str(ConfigManager.setting_sound_config))
+
 	ToastUtils.success("设置已保存")

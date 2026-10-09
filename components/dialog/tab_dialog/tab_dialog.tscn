@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_7dfbx"]
 [ext_resource type="Script" uid="uid://cpdxer2jpf5hy" path="res://components/dialog/tab_dialog/tab_dialog.gd" id="2_cqbdv"]
-[ext_resource type="Texture2D" uid="uid://cm1x7vh52w0fk" path="res://sn-0008.png" id="3_cqbdv"]
 
 [node name="TabDialog" unique_id=64599099 instance=ExtResource("1_7dfbx")]
 script = ExtResource("2_cqbdv")
@@ -35,7 +34,6 @@ offset_top = 5.5
 offset_right = 92.0
 offset_bottom = 263.5
 grow_horizontal = 2
-texture_normal = ExtResource("3_cqbdv")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -51,6 +49,8 @@ mouse_filter = 2
 color = Color(1, 1, 1, 0.5882353)
 
 [node name="Label" type="Label" parent="Template/Item/Info" index="0" unique_id=2063718991]
+custom_minimum_size = Vector2(195, 118)
+custom_maximum_size = Vector2(195, 118)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -5,9 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://c848c3jnvt4qi" path="res://assets/images/icon/Unlock.png" id="2_d7ok5"]
 
 [node name="AreaInfoPanel" type="ColorRect" unique_id=79139102]
-offset_right = 336.0
-offset_bottom = 144.0
-color = Color(0.34117648, 0.34117648, 0.34117648, 0.8980392)
+custom_minimum_size = Vector2(300, 128)
+offset_right = 300.0
+offset_bottom = 128.0
+color = Color(0.34117648, 0.34117648, 0.34117648, 0.5882353)
 script = ExtResource("1_d7ok5")
 
 [node name="Back" type="ColorRect" parent="." unique_id=2116849964]
@@ -16,7 +17,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 24.0
 grow_horizontal = 2
-color = Color(0.22352941, 0.22352941, 0.22352941, 1)
+color = Color(0.22352941, 0.22352941, 0.22352941, 0.78431374)
 
 [node name="Title" type="Label" parent="Back" unique_id=97428768]
 layout_mode = 1
@@ -51,6 +52,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -24.0
 grow_horizontal = 0
 grow_vertical = 2
 texture_normal = ExtResource("2_d7ok5")
@@ -58,8 +60,8 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Info" type="RichTextLabel" parent="." unique_id=111423839]
-custom_minimum_size = Vector2(328, 112)
-custom_maximum_size = Vector2(328, 112)
+custom_minimum_size = Vector2(292, 96)
+custom_maximum_size = Vector2(292, 96)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

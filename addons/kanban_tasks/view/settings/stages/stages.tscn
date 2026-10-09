@@ -36,8 +36,8 @@ value = 200.0
 rounded = true
 allow_greater = true
 alignment = 1
-suffix = "px"
 select_all_on_focus = true
+suffix = "px"
 
 [node name="WarnAboutEmptyDeletion" type="CheckBox" parent="Header" unique_id=1017071750]
 unique_name_in_owner = true

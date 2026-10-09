@@ -2,10 +2,10 @@ extends RefCounted
 class_name Entity
 
 var name := ""
-var value_manager: Dictionary[String, Value] = {}
-var behavior_manager := BehaviorManager.new()
+var values: Dictionary[String, Value] = {}
+var behaviors: Array = []
 var tags = []
-
+var behavior_states: Dictionary[String, Dictionary] = {}
 
 var meta: Variant:
 	set(_v):
@@ -14,11 +14,10 @@ var meta: Variant:
 		__tick_tags()
 		__tick_behaviors()
 
-
 func __tick_values() -> void:
 	if meta["entity"]:
-		var values = LuaUtils.table_to_dictionary(meta["entity"]["values"])
-		for v in values.values():
+		var _values = LuaUtils.table_to_dictionary(meta["entity"]["values"])
+		for v in _values.values():
 			var template = ModManager.do_mod_file(GResourceManager.value_resource[v["template"]])
 			template = template.invoke()
 			var override = v["override"]
@@ -40,17 +39,45 @@ func __tick_values() -> void:
 				__min,
 				__config
 			)
-			#value_mount.add_child(vobj)
-			value_manager[__code] = vobj
-
+			values[__code] = vobj
 
 func __tick_tags() -> void:
 	if meta["entity"]:
-		tags = LuaUtils.table_to_dictionary(meta["entity"]["tags"]).values()
-
+		tags = meta["entity"]["tags"].to_array()
 
 func __tick_behaviors() -> void:
 	if meta["entity"]:
-		for behavior in meta["entity"]["behaviors"].to_array():
-			var behavior_lua = GApiManager.behavior_api.create(behavior)
-			behavior_manager.add_behavior(behavior_lua)
+		behaviors = meta["entity"]["behaviors"].to_array()
+
+func add_behavior(b):
+	behaviors.append(b)
+
+func get_behavior_state(code: String) -> Dictionary:
+	if not behavior_states.has(code):
+		behavior_states[code] = {}
+	return behavior_states[code]
+
+func set_behavior_state(code: String, key: String, value) -> void:
+	get_behavior_state(code)[key] = value
+
+func clear_behavior_state(code: String) -> void:
+	if behavior_states.has(code):
+		behavior_states[code].clear()
+
+func reset_behavior_states() -> void:
+	for code in behavior_states:
+		var state = behavior_states[code]
+		var keys_to_erase: Array = []
+		for k in state.keys():
+			if not k.begins_with("__"):
+				keys_to_erase.append(k)
+		for k in keys_to_erase:
+			state.erase(k)
+
+func reset_chain_triggers_overrides() -> void:
+	# """清除所有 Entity 上所有 Behavior 的 chain-triggers 实例级覆盖"""
+	for code in behavior_states:
+		var state = behavior_states[code]
+		state.erase("__chain_triggers_override")
+		state.erase("__chain_triggers_add")
+		state.erase("__chain_triggers_remove")

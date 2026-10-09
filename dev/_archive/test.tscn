@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bpb0q62sxvl7m"]
+
+[ext_resource type="MeshLibrary" uid="uid://bhjppjftm1g51" path="res://assets/area_library.meshlib" id="1_qqetw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qqetw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_qqetw"]
+sky_material = SubResource("ProceduralSkyMaterial_qqetw")
+
+[sub_resource type="Environment" id="Environment_ydn0t"]
+background_mode = 2
+sky = SubResource("Sky_qqetw")
+glow_enabled = true
+
+[node name="Test" type="Node3D" unique_id=396786550]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=448662283]
+environment = SubResource("Environment_ydn0t")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2132214786]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="GridMap" type="GridMap" parent="." unique_id=187945985]
+mesh_library = ExtResource("1_qqetw")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65535, 65535, 0, 65535, 0, 0, 0, 65535, 0, 0, 0, 0, 65535, 65534, 1, 0, 65534, 1, 65534, 65534, 1, 65534, 65535, 0, 65534, 0, 0, 1, 65534, 1, 1, 65535, 0, 1, 0, 0, 2, 65534, 1, 2, 65535, 0, 2, 0, 0, 65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 1, 0, 2, 1, 0, 65534, 2, 1, 65535, 2, 1, 0, 2, 1, 1, 2, 1, 2, 2, 1)
+}
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1351956889]
+transform = Transform3D(0.99993604, -0.007910924, 0.0080789495, 0, 0.7144978, 0.6996377, -0.011307172, -0.69959295, 0.7144521, 0.6535303, 4.346872, 4.763253)

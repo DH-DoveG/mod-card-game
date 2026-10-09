@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://c0fpcfuqetpfk" path="res://assets/shader/canvas_item/option_card.gdshader" id="3_w0um4"]
 [ext_resource type="Texture2D" uid="uid://cunrechofk8if" path="res://assets/images/background/hex2.jpg" id="3_x6ney"]
 [ext_resource type="Script" uid="uid://0v4hxyxqypup" path="res://components/option/option_show_card_set/item.gd" id="4_v4ry4"]
-[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://addons/material_icons_importer/icons/keyboardArrowDown.png" id="6_1dy46"]
+[ext_resource type="Texture2D" uid="uid://dxukw1qenv7jl" path="res://assets/images/icons/keyboardArrowDown.png" id="6_1dy46"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hnnub"]
 shader = ExtResource("3_w0um4")
@@ -26,7 +26,23 @@ shader_parameter/alpha = 0.1
 layer = 10
 script = ExtResource("2_q4xv1")
 
-[node name="ColorRect2" type="TextureRect" parent="." index="0" unique_id=2134635099]
+[node name="Mask_Scroll#List" type="VBoxContainer" parent="." index="0" unique_id=46237467]
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="Mask#CustomOption" type="VBoxContainer" parent="." index="1" unique_id=1449268607]
+offset_left = 1536.0
+offset_top = 64.0
+offset_right = 1904.0
+offset_bottom = 872.0
+
+[node name="Mask#Scroll" type="ScrollContainer" parent="." index="2" unique_id=2109921847]
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 1488.0
+offset_bottom = 960.0
+
+[node name="ColorRect2" type="TextureRect" parent="." index="3" unique_id=2134635099]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,32 +53,13 @@ texture = ExtResource("3_x6ney")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="ColorRect" type="ColorRect" parent="." index="1" unique_id=1005410104]
+[node name="ColorRect" type="ColorRect" parent="." index="4" unique_id=1005410104]
 material = SubResource("ShaderMaterial_hnnub")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Scroll" type="ScrollContainer" parent="Mask" parent_id_path=PackedInt32Array(747709707) index="0" unique_id=2109921847]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 128.0
-offset_right = 1488.0
-offset_bottom = 960.0
-
-[node name="List" type="VBoxContainer" parent="Mask/Scroll" index="0" unique_id=46237467]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 32
-
-[node name="CustomOption" type="VBoxContainer" parent="Mask" parent_id_path=PackedInt32Array(747709707) index="1" unique_id=1449268607]
-layout_mode = 0
-offset_left = 1536.0
-offset_top = 64.0
-offset_right = 1904.0
-offset_bottom = 872.0
 
 [node name="Label" type="Label" parent="." index="5" unique_id=2025302740]
 anchors_preset = 3

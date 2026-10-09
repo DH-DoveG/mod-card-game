@@ -1,18 +1,12 @@
 extends ColorRect
 
 # 收缩状态：
-# box size: (1408, 288)
-# grid size: (1264, 200)
 
 # 展开状态：
-# box size: (1408, 928)
-# grid size: (1280, 848)
 
 # 收缩时是 横着滑 展开后是 竖着滑
 
-
 var is_expand = false
-
 
 func init_data(player_id: String, card_ids: Array) -> void:
 	for cid in card_ids:
@@ -46,7 +40,6 @@ func init_data(player_id: String, card_ids: Array) -> void:
 			hbox.show()
 	)
 
-
 func add_card_view(card_id: String) -> void:
 	var grid = $Scroll/Grid
 	var hbox = $Scroll/Hbox
@@ -61,6 +54,6 @@ func add_card_view(card_id: String) -> void:
 		hbox.add_child(cv)
 	cv.show()
 	var card: CardEntity = FindUtils.find_card(card_id)
-	# cv.texture_normal = GResourceManager.get_image_resoure(card.image)
+
 	cv.set_card(card, true)
 	cv.check_menu()

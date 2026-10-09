@@ -9,20 +9,21 @@ extends CanvasLayer
 
 var visible_mode = false # 是否收缩
 
+var _in_option_id: String = ""
+
 func _ready() -> void:
 	add_to_group(&"Dialog")
 	var scene = get_tree().current_scene
 	if scene is Battle:
-		scene.in_option = true
+		_in_option_id = IDUtils.generate("IN_OPT_DLG_")
+		scene.add_in_option(_in_option_id)
 		scene.scene.enabled_ray(false)
-
 
 func _exit_tree() -> void:
 	var scene = get_tree().current_scene
 	if scene is Battle:
-		scene.in_option = false
+		scene.remove_in_option(_in_option_id)
 		scene.scene.enabled_ray(true)
-
 
 func _on_visible_pressed() -> void:
 	visible_mode = !visible_mode
@@ -32,9 +33,7 @@ func _on_visible_pressed() -> void:
 		background.mouse_filter = Control.MouseFilter.MOUSE_FILTER_IGNORE
 		var scene = get_tree().current_scene
 		if scene is Battle:
-			scene.in_option = true
 			scene.scene.enabled_ray(true)
-
 
 func _on_show_dialog_pressed() -> void:
 	$HideBar.hide()
@@ -42,5 +41,4 @@ func _on_show_dialog_pressed() -> void:
 	background.mouse_filter = Control.MouseFilter.MOUSE_FILTER_STOP
 	var scene = get_tree().current_scene
 	if scene is Battle:
-		scene.in_option = true
 		scene.scene.enabled_ray(false)

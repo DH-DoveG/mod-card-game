@@ -1,40 +1,19 @@
 extends Page
 
-
 @onready var title = $Title
-
 
 func _init() -> void:
 	page_id = "INDEX_PAGE"
 
-
 func _ready() -> void:
 	super()
-	
 	if ConfigManager.page_index_title.is_empty():
 		title.text = "Mod Card"
 	else:
 		title.text = ConfigManager.page_index_title
 	# 这里断开网络连接
 	multiplayer.multiplayer_peer = null
-	#LimboConsole.register_command(multiply)
-	#LimboConsole.register_command(arr)
-	#LimboConsole.info("arr: ~~~~")
-	#LimboConsole.execute_command()
-	#LimboConsole.toggle_console()
 
-#
-##func arr(a: Array) -> void:
-#func arr(a: String) -> void:
-	#LimboConsole.info("arr: " + str(a))
-	#LimboConsole.info(str(typeof(str_to_var(a))))
-#
-#
-#func multiply(a: float, b: float, ...aa) -> void:
-	#LimboConsole.info("a * b: " + str(a * b))
-
-
-# mod 页
 func _on_mod_pressed() -> void:
 	AsyncScene.new(
 		"res://pages/mod_page/mod_page.tscn",
@@ -42,14 +21,11 @@ func _on_mod_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 # 退出游戏
 func _on_quit_pressed() -> void:
 	get_tree().quit()
-
 
 func _on_game_pressed() -> void:
 	AsyncScene.new(
@@ -58,9 +34,7 @@ func _on_game_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_deck_pressed() -> void:
 	AsyncScene.new(
@@ -69,9 +43,7 @@ func _on_deck_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_pack_pressed() -> void:
 	AsyncScene.new(
@@ -80,9 +52,7 @@ func _on_pack_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_setting_pressed() -> void:
 	AsyncScene.new(
@@ -91,9 +61,7 @@ func _on_setting_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()
-
 
 func _on_resource_pressed() -> void:
 		AsyncScene.new(
@@ -102,5 +70,4 @@ func _on_resource_pressed() -> void:
 		self
 	) \
 	.with_parameters({}) \
-	.with_transition(AsyncScene.TransitionType.Iris, 1.0, Color("#323235")) \
 	.start()

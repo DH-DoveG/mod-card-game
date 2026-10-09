@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://dc6fpyknhk8wh" path="res://components/dialog/custom_dialog/custom_dialog.tscn" id="1_m7l24"]
 [ext_resource type="Script" uid="uid://cvtrnyy6r34qv" path="res://components/dialog/select_item_dialog/select_item_dialog.gd" id="2_ilhem"]
-[ext_resource type="Script" uid="uid://j6ck3vouovnk" path="res://addons/label_font_auto_sizer/label_auto_sizer.gd" id="3_m123k"]
 
 [node name="SelectItemDialog" unique_id=2138887807 instance=ExtResource("1_m7l24")]
 script = ExtResource("2_ilhem")
@@ -48,7 +47,7 @@ grow_vertical = 0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.4862745)
 
-[node name="Label" type="Label" parent="Templates/Item" index="2" unique_id=2080158395]
+[node name="Label" type="Label" parent="Templates/Item" index="2" unique_id=1654680392]
 custom_minimum_size = Vector2(209, 73)
 custom_maximum_size = Vector2(209, 73)
 layout_mode = 1
@@ -69,13 +68,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 clip_text = true
-script = ExtResource("3_m123k")
-_size_just_modified_by_autosizer = false
-_set_defaults = true
-_base_font_size = 20
-_current_font_size = 20
-_last_size_state = 1
-metadata/_custom_type_script = "uid://j6ck3vouovnk"
 
 [node name="Dialog" parent="." index="3" unique_id=361497538]
 offset_left = -568.0
@@ -91,13 +83,9 @@ offset_bottom = 0.0
 [node name="Detail" parent="Dialog" index="1" unique_id=1177301859]
 offset_top = 35.5
 offset_bottom = -389.5
-autowrap_mode = 3
-clip_text = true
 
 [node name="Option" parent="Dialog/Btns" parent_id_path=PackedInt32Array(641750949) index="0" unique_id=1346335070]
-offset_left = 16.0
 offset_top = 3.0
-offset_right = -16.0
 offset_bottom = -5.0
 
 [node name="Scroll" type="ScrollContainer" parent="Dialog" index="3" unique_id=2022332006]

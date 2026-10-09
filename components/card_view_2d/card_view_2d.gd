@@ -6,14 +6,17 @@ var menu_key = false
 var relevance_menu = null
 var in_free = false
 
+# 是否启用描边，在关闭时当前描边效果不可变
+var enable_outline := true
+
+# 当前正在显示的行为菜单；点击卡片时触发，用此引用保证同一卡片只创建一个菜单
+var _behavior_popup: BasePopupMenu = null
 
 func _ready() -> void:
 	add_to_group(&"CardView2D")
 
-
 func _exit_tree() -> void:
 	remove_from_group(&"CardView2D")
-
 
 func animate_free():
 	in_free = true
@@ -36,7 +39,6 @@ func animate_free():
 			queue_free()
 	)
 
-
 func set_card(card: CardEntity, is_check_see = true) -> void:
 	name = card.name
 	var img = GResourceManager.get_image_resoure(card.image)
@@ -54,47 +56,65 @@ func set_card(card: CardEntity, is_check_see = true) -> void:
 			return
 	texture_normal = GResourceManager.get_image_resoure(card.image)
 
-
 func check_menu():
 	var battle: Battle = Utils.get_current_scene()
-	if entity.name in battle.battle_data_bind_list.card_public_information[battle.host_player_id]:
+	if battle.host_player_id in battle.battle_data_bind_list.card_public_information[entity.name]:
 		var ownership = GApiManager.card_api.get_ownership(entity.name)
 		if battle.host_player_id == ownership:
 			set_menu(true)
 			return
 	set_menu(false)
 
-
 func set_menu(k: bool):
 	menu_key = k
 
-
-func set_outline(k: bool):
-	$RR.visible = k
-
-
-func _on_pressed() -> void:
-	if menu_key:
-		var gp = global_position
-		gp.y += 60
-		gp.x += 120
-		var battle: Battle = Utils.get_current_scene()
-		var pos = gp
-		var menu: PopupMenu = preload("res://components/behavior_popup_menu/behavior_popup_menu.tscn").instantiate()
-		battle.add_child(menu)
-		menu.show_menu(pos, entity.behavior_manager.behaviors, entity)
-		menu.popup_hide.connect(func():
-			menu.queue_free()
-		)
-		relevance_menu = menu
-
+#func set_outline(k: bool):
+#	$RR.visible = k
 
 func _on_mouse_entered() -> void:
-	Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
-		"params": entity
-	})
-	set_outline(true)
+	if Utils.get_current_scene().get("event_manager") != null:
+		Utils.get_current_scene().event_manager.emit("SHOW_CARD_INFO_IN_PANEL", {
+			"params": entity
+		})
+	#if enable_outline:
+	#	set_outline(true)
 
+#func _on_mouse_exited() -> void:
+#	if enable_outline:
+#		set_outline(false)
+ 
+func _on_pressed() -> void:
+	if Utils.get_current_scene() is not Battle:
+		return
+	
+	var scene: Battle = Utils.get_current_scene()
+	print("CardView2D 1")
 
-func _on_mouse_exited() -> void:
-	set_outline(false)
+	if scene.is_in_option():
+		return
+
+	Utils.get_current_scene().event_manager.emit("LOCK_CARD_INFO", {"card": entity})
+
+	if not menu_key:
+		return
+
+	if is_instance_valid(_behavior_popup):
+		return
+
+	enable_outline = false
+	var gp = global_position
+	gp.y -= 10
+	gp.x += size.x * scale.x / 2
+	var pos = gp
+	print("CardView2D 2")
+	var n = load("res://components/behavior_popup_menu/neo_behavior_popup_menu.tscn").instantiate()
+	get_tree().current_scene.add_child(n)
+	await n.set_popup(pos, entity.behaviors, entity)
+	if is_instance_valid(n):
+		n.set_exp_mask(get_global_rect())
+		n.set_process(true)
+	_behavior_popup = n
+	#n.tree_exited.connect(func():
+	#	enable_outline = true
+	#	_on_mouse_exited()
+	#)

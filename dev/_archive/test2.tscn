@@ -1,0 +1,578 @@
+[gd_scene format=4 uid="uid://nk3r21ow4mwm"]
+
+[ext_resource type="Script" uid="uid://hjtw7141ma1g" path="res://dev/test_2.gd" id="1_knuc4"]
+[ext_resource type="PackedScene" uid="uid://eg7cpj4s8q3b" path="res://components/area_view_3d/area_view_3d.tscn" id="1_ryrba"]
+
+[sub_resource type="Shader" id="Shader_w2a8t"]
+code = "shader_type spatial;
+
+uniform float subdivisions : hint_range(1, 1024, 1.0) = 32;
+uniform float grid_width : hint_range(0.0, 1.0, 0.01) = 0.02;
+uniform vec3 background_color : source_color = vec3(0.2, 0.2, 0.2);
+uniform vec3 background_color_two : source_color = vec3(0.1, 0.1, 0.1);
+uniform vec3 grid_color : source_color = vec3(0.5, 0.5, 0.5);
+uniform float dashed_scale_x : hint_range(0.0, 0.99, 0.01) = 0.02;
+uniform float dashed_scale_y : hint_range(0.0, 0.99, 0.01) = 0.02;
+uniform float dashed_count_x : hint_range(0.0, 16.0, 1.0) = 1.0;
+uniform float dashed_count_y : hint_range(0.0, 16.0, 1.0) = 1.0;
+
+group_uniforms Point;
+uniform float point_width : hint_range(0.0, 1.0, 0.01) = 0.021;
+uniform vec3 point_color : source_color = vec3(0.0, 0.0, 0.0);
+uniform float point_scale_x : hint_range(0.0, 1.0, 0.01) = 0.05;
+uniform float point_scale_y : hint_range(0.0, 1.0, 0.01) = 0.05;
+
+group_uniforms InsideGrid;
+uniform float inside_width : hint_range(0.0, 1.0, 0.01) = 0.01;
+uniform float inside_subdivisions : hint_range(1, 9, 1) = 6;
+uniform vec3  inside_color : source_color = vec3(0.4, 0.4, 0.4);
+uniform float in_dashed_scale_x : hint_range(0.0, 0.99, 0.01) = 0.3;
+uniform float in_dashed_scale_y : hint_range(0.0, 0.99, 0.01) = 0.3;
+uniform float in_dashed_count_x : hint_range(0.0, 18.0, 1.0) = 6.0;
+uniform float in_dashed_count_y : hint_range(0.0, 18.0, 1.0) = 6.0;
+
+
+float grid(vec2 uv, vec2 lineWidth,bool check) {
+	vec4 uvDDXY = vec4(dFdx(uv), dFdy(uv));
+	vec2 uvDeriv = vec2(length(uvDDXY.xz), length(uvDDXY.yw));
+	
+	bvec2 invertLine = bvec2(lineWidth.x > 0.5, lineWidth.y > 0.5); //RV
+	vec2 targetWidth = vec2(
+		invertLine.x ? 1.0 - lineWidth.x : lineWidth.x,
+		invertLine.y ? 1.0 - lineWidth.y : lineWidth.y
+		);
+	
+	
+	vec2 lineAA = uvDeriv * 1.5;
+	vec2 gridUV = abs((fract(uv)) * 2.0 - 1.0);
+	
+	
+	if (check == true){
+		targetWidth = vec2(1.0);
+		lineAA *= 1.5;
+		
+		float index = 0.0;
+		index += step(1.0, mod(uv.x, 2.0));
+		index += step(1.0, mod(uv.y, 2.0)) * 2.0;
+		
+		if (index == 1.0 || index == 2.0) {
+			lineAA = -lineAA;
+		}
+	} else  {
+		gridUV = vec2(
+			invertLine.x ? gridUV.x : 1.0 - gridUV.x,
+			invertLine.y ? gridUV.y : 1.0 - gridUV.y 
+		);
+	}
+	
+	vec2 drawWidth = clamp(targetWidth, uvDeriv, vec2(1.0));
+	vec2 gridBase = smoothstep(drawWidth + lineAA, drawWidth - lineAA, gridUV);
+	
+	
+	gridBase *= clamp(targetWidth / drawWidth, 0.0, 1.0);
+	gridBase = mix(gridBase , targetWidth , clamp((uvDeriv * 2.0 - 1.0) , 0.0, 1.0));
+	gridBase.x = invertLine.x ? 1.0 - gridBase.x : gridBase.x; 
+	gridBase.y = invertLine.y ? 1.0 - gridBase.y : gridBase.y; 
+	
+	
+	return mix(gridBase.x, 1.0, gridBase.y);
+}
+
+
+float dashed_grid(vec2 uv, vec2 lineWidth, vec2 dot_width, vec2 count, float add){
+	//Inverts the width values
+	lineWidth = 1.0 - lineWidth;
+	//Create two \"masks\", one for X and one for Y
+	float gridX = 1.0 - grid(vec2(uv.x * count.x, uv.y + add), vec2(dot_width.x, lineWidth.x), false);
+	float gridY = 1.0 - grid(vec2(uv.y * count.y, uv.x + add), vec2(dot_width.y, lineWidth.y), false);
+	
+	float grid = mix(gridX, 1.0, gridY);
+	return grid;
+}
+
+
+void fragment() {
+	//Subdividing uv
+	vec2 uv = UV * subdivisions;
+	
+	//CheckerBoard
+	float checkeredGrid = grid(uv , vec2(0.5), true);
+	
+	//Grid
+	float mainGrid = dashed_grid(
+			uv , vec2(grid_width), vec2(dashed_scale_x, dashed_scale_y),
+			vec2(dashed_count_x, dashed_count_y), 0.5);
+			
+	//Inside Grid
+	float insideGrid = dashed_grid(
+			uv * inside_subdivisions, vec2(inside_width),
+			vec2(in_dashed_scale_x, in_dashed_scale_y),
+			vec2(in_dashed_count_x, in_dashed_count_y), 0.5);
+
+	//Points
+	float pointGrid = dashed_grid(
+			uv + 0.5, vec2(point_width),
+			1.0 - vec2(point_scale_x , point_scale_y),
+			vec2(1.0), 0.0);
+	
+	//Add final color
+	vec3 grid = mix(background_color, background_color_two, checkeredGrid);
+	if (insideGrid != 0.0) grid = mix(grid, inside_color, insideGrid);
+	if (mainGrid != 0.0) grid = mix(grid, grid_color, mainGrid);
+	if (pointGrid != 0.0) grid = mix(grid, point_color, pointGrid);
+	
+	ALBEDO = grid;
+
+	
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ryrba"]
+render_priority = 0
+shader = SubResource("Shader_w2a8t")
+shader_parameter/subdivisions = 1.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 4.0
+shader_parameter/inside_color = Color(0.31431624, 0.31431606, 0.31431615, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_knuc4"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.05, -0.5, 1, 0.1, 1),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"material": SubResource("ShaderMaterial_ryrba"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAAAv83MTL0AAAA/AAAAv83MTL0AAAC/AAAAv83MTD0AAAC/AAAAP83MTL0AAAC/AAAAv83MTL0AAAC/AAAAv83MTL0AAAA/AAAAv83MTD0AAAC/AAAAv83MTL0AAAC/AAAAP83MTL0AAAC/AAAAv83MTD0AAAC/AAAAv83MTD0AAAA/AAAAv83MTL0AAAA/AAAAv83MTL0AAAA/AAAAv83MTD0AAAA/AAAAP83MTD0AAAA/AAAAP83MTD0AAAA/AAAAv83MTD0AAAA/AAAAv83MTD0AAAC/AAAAv83MTL0AAAA/AAAAP83MTL0AAAA/AAAAP83MTL0AAAC/AAAAP83MTD0AAAA/AAAAP83MTL0AAAA/AAAAv83MTL0AAAA/AAAAP83MTL0AAAC/AAAAP83MTL0AAAA/AAAAP83MTD0AAAA/AAAAP83MTL0AAAC/AAAAP83MTD0AAAC/AAAAv83MTD0AAAC/AAAAv83MTD0AAAC/AAAAP83MTD0AAAC/AAAAP83MTD0AAAA/AAAAP83MTD0AAAA/AAAAP83MTD0AAAC/AAAAP83MTL0AAAC/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lpy3a"]
+data = PackedVector3Array(-0.5, -0.049999997, 0.5, -0.5, -0.049999997, -0.5, -0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5, -0.5, -0.049999997, -0.5, -0.5, -0.049999997, 0.5, -0.5, 0.049999997, -0.5, -0.5, -0.049999997, -0.5, 0.5, -0.049999997, -0.5, -0.5, 0.049999997, -0.5, -0.5, 0.049999997, 0.5, -0.5, -0.049999997, 0.5, -0.5, -0.049999997, 0.5, -0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, -0.5, 0.049999997, 0.5, -0.5, 0.049999997, -0.5, -0.5, -0.049999997, 0.5, 0.5, -0.049999997, 0.5, 0.5, -0.049999997, -0.5, 0.5, 0.049999997, 0.5, 0.5, -0.049999997, 0.5, -0.5, -0.049999997, 0.5, 0.5, -0.049999997, -0.5, 0.5, -0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, -0.049999997, -0.5, 0.5, 0.049999997, -0.5, -0.5, 0.049999997, -0.5, -0.5, 0.049999997, -0.5, 0.5, 0.049999997, -0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, 0.5, 0.5, 0.049999997, -0.5, 0.5, -0.049999997, -0.5)
+
+[sub_resource type="Shader" id="Shader_s52wj"]
+code = "shader_type spatial;
+
+uniform float subdivisions : hint_range(1, 1024, 1.0) = 32;
+uniform float grid_width : hint_range(0.0, 1.0, 0.01) = 0.02;
+uniform vec3 background_color : source_color = vec3(0.2, 0.2, 0.2);
+uniform vec3 background_color_two : source_color = vec3(0.1, 0.1, 0.1);
+uniform vec3 grid_color : source_color = vec3(0.5, 0.5, 0.5);
+uniform float dashed_scale_x : hint_range(0.0, 0.99, 0.01) = 0.02;
+uniform float dashed_scale_y : hint_range(0.0, 0.99, 0.01) = 0.02;
+uniform float dashed_count_x : hint_range(0.0, 16.0, 1.0) = 1.0;
+uniform float dashed_count_y : hint_range(0.0, 16.0, 1.0) = 1.0;
+
+group_uniforms Point;
+uniform float point_width : hint_range(0.0, 1.0, 0.01) = 0.021;
+uniform vec3 point_color : source_color = vec3(0.0, 0.0, 0.0);
+uniform float point_scale_x : hint_range(0.0, 1.0, 0.01) = 0.05;
+uniform float point_scale_y : hint_range(0.0, 1.0, 0.01) = 0.05;
+
+group_uniforms InsideGrid;
+uniform float inside_width : hint_range(0.0, 1.0, 0.01) = 0.01;
+uniform float inside_subdivisions : hint_range(1, 9, 1) = 6;
+uniform vec3  inside_color : source_color = vec3(0.4, 0.4, 0.4);
+uniform float in_dashed_scale_x : hint_range(0.0, 0.99, 0.01) = 0.3;
+uniform float in_dashed_scale_y : hint_range(0.0, 0.99, 0.01) = 0.3;
+uniform float in_dashed_count_x : hint_range(0.0, 18.0, 1.0) = 6.0;
+uniform float in_dashed_count_y : hint_range(0.0, 18.0, 1.0) = 6.0;
+
+
+float grid(vec2 uv, vec2 lineWidth,bool check) {
+	vec4 uvDDXY = vec4(dFdx(uv), dFdy(uv));
+	vec2 uvDeriv = vec2(length(uvDDXY.xz), length(uvDDXY.yw));
+	
+	bvec2 invertLine = bvec2(lineWidth.x > 0.5, lineWidth.y > 0.5); //RV
+	vec2 targetWidth = vec2(
+		invertLine.x ? 1.0 - lineWidth.x : lineWidth.x,
+		invertLine.y ? 1.0 - lineWidth.y : lineWidth.y
+		);
+	
+	
+	vec2 lineAA = uvDeriv * 1.5;
+	vec2 gridUV = abs((fract(uv)) * 2.0 - 1.0);
+	
+	
+	if (check == true){
+		targetWidth = vec2(1.0);
+		lineAA *= 1.5;
+		
+		float index = 0.0;
+		index += step(1.0, mod(uv.x, 2.0));
+		index += step(1.0, mod(uv.y, 2.0)) * 2.0;
+		
+		if (index == 1.0 || index == 2.0) {
+			lineAA = -lineAA;
+		}
+	} else  {
+		gridUV = vec2(
+			invertLine.x ? gridUV.x : 1.0 - gridUV.x,
+			invertLine.y ? gridUV.y : 1.0 - gridUV.y 
+		);
+	}
+	
+	vec2 drawWidth = clamp(targetWidth, uvDeriv, vec2(1.0));
+	vec2 gridBase = smoothstep(drawWidth + lineAA, drawWidth - lineAA, gridUV);
+	
+	
+	gridBase *= clamp(targetWidth / drawWidth, 0.0, 1.0);
+	gridBase = mix(gridBase , targetWidth , clamp((uvDeriv * 2.0 - 1.0) , 0.0, 1.0));
+	gridBase.x = invertLine.x ? 1.0 - gridBase.x : gridBase.x; 
+	gridBase.y = invertLine.y ? 1.0 - gridBase.y : gridBase.y; 
+	
+	
+	return mix(gridBase.x, 1.0, gridBase.y);
+}
+
+
+float dashed_grid(vec2 uv, vec2 lineWidth, vec2 dot_width, vec2 count, float add){
+	//Inverts the width values
+	lineWidth = 1.0 - lineWidth;
+	//Create two \"masks\", one for X and one for Y
+	float gridX = 1.0 - grid(vec2(uv.x * count.x, uv.y + add), vec2(dot_width.x, lineWidth.x), false);
+	float gridY = 1.0 - grid(vec2(uv.y * count.y, uv.x + add), vec2(dot_width.y, lineWidth.y), false);
+	
+	float grid = mix(gridX, 1.0, gridY);
+	return grid;
+}
+
+
+void fragment() {
+	//Subdividing uv
+	vec2 uv = UV * subdivisions;
+	
+	//CheckerBoard
+	float checkeredGrid = grid(uv , vec2(0.5), true);
+	
+	//Grid
+	float mainGrid = dashed_grid(
+			uv , vec2(grid_width), vec2(dashed_scale_x, dashed_scale_y),
+			vec2(dashed_count_x, dashed_count_y), 0.5);
+			
+	//Inside Grid
+	float insideGrid = dashed_grid(
+			uv * inside_subdivisions, vec2(inside_width),
+			vec2(in_dashed_scale_x, in_dashed_scale_y),
+			vec2(in_dashed_count_x, in_dashed_count_y), 0.5);
+
+	//Points
+	float pointGrid = dashed_grid(
+			uv + 0.5, vec2(point_width),
+			1.0 - vec2(point_scale_x , point_scale_y),
+			vec2(1.0), 0.0);
+	
+	//Add final color
+	vec3 grid = mix(background_color, background_color_two, checkeredGrid);
+	if (insideGrid != 0.0) grid = mix(grid, inside_color, insideGrid);
+	if (mainGrid != 0.0) grid = mix(grid, grid_color, mainGrid);
+	if (pointGrid != 0.0) grid = mix(grid, point_color, pointGrid);
+	
+	ALBEDO = grid;
+
+	
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i54fm"]
+render_priority = 0
+shader = SubResource("Shader_s52wj")
+shader_parameter/subdivisions = 1.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 4.0
+shader_parameter/inside_color = Color(0.31431624, 0.31431606, 0.31431615, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_eid4w"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.1, -0.5, 1, 0.2, 1),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"material": SubResource("ShaderMaterial_i54fm"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAAAv83MzL0AAAA/AAAAv83MzL0AAAC/AAAAv83MzD0AAAC/AAAAP83MzL0AAAC/AAAAv83MzL0AAAC/AAAAv83MzL0AAAA/AAAAv83MzD0AAAC/AAAAv83MzL0AAAC/AAAAP83MzL0AAAC/AAAAv83MzD0AAAC/AAAAv83MzD0AAAA/AAAAv83MzL0AAAA/AAAAv83MzL0AAAA/AAAAv83MzD0AAAA/AAAAP83MzD0AAAA/AAAAP83MzD0AAAA/AAAAv83MzD0AAAA/AAAAv83MzD0AAAC/AAAAv83MzL0AAAA/AAAAP83MzL0AAAA/AAAAP83MzL0AAAC/AAAAP83MzD0AAAA/AAAAP83MzL0AAAA/AAAAv83MzL0AAAA/AAAAP83MzL0AAAC/AAAAP83MzL0AAAA/AAAAP83MzD0AAAA/AAAAP83MzL0AAAC/AAAAP83MzD0AAAC/AAAAv83MzD0AAAC/AAAAv83MzD0AAAC/AAAAP83MzD0AAAC/AAAAP83MzD0AAAA/AAAAP83MzD0AAAA/AAAAP83MzD0AAAC/AAAAP83MzL0AAAC/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4xv5l"]
+data = PackedVector3Array(-0.5, -0.099999994, 0.5, -0.5, -0.099999994, -0.5, -0.5, 0.099999994, -0.5, 0.5, -0.099999994, -0.5, -0.5, -0.099999994, -0.5, -0.5, -0.099999994, 0.5, -0.5, 0.099999994, -0.5, -0.5, -0.099999994, -0.5, 0.5, -0.099999994, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.099999994, 0.5, -0.5, -0.099999994, 0.5, -0.5, -0.099999994, 0.5, -0.5, 0.099999994, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0.099999994, 0.5, -0.5, 0.099999994, 0.5, -0.5, 0.099999994, -0.5, -0.5, -0.099999994, 0.5, 0.5, -0.099999994, 0.5, 0.5, -0.099999994, -0.5, 0.5, 0.099999994, 0.5, 0.5, -0.099999994, 0.5, -0.5, -0.099999994, 0.5, 0.5, -0.099999994, -0.5, 0.5, -0.099999994, 0.5, 0.5, 0.099999994, 0.5, 0.5, -0.099999994, -0.5, 0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, -0.5, 0.099999994, -0.5, 0.5, 0.099999994, -0.5, 0.5, 0.099999994, 0.5, 0.5, 0.099999994, 0.5, 0.5, 0.099999994, -0.5, 0.5, -0.099999994, -0.5)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w2a8t"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_x338r"]
+sky_material = SubResource("ProceduralSkyMaterial_w2a8t")
+
+[sub_resource type="Environment" id="Environment_ryrba"]
+background_mode = 2
+sky = SubResource("Sky_x338r")
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" unique_id=976977098]
+script = ExtResource("1_knuc4")
+
+[node name="Area01" parent="." unique_id=340354799 instance=ExtResource("1_ryrba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Area12" type="MeshInstance3D" parent="." unique_id=491026817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 0)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area12" unique_id=642383186]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area12/StaticBody3D" unique_id=826855267]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area13" type="MeshInstance3D" parent="." unique_id=1776867600]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 0)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area13" unique_id=1219784141]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area13/StaticBody3D" unique_id=55333786]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area14" type="MeshInstance3D" parent="." unique_id=1645762847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, 0)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area14" unique_id=1596132696]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area14/StaticBody3D" unique_id=950590328]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area15" type="MeshInstance3D" parent="." unique_id=1388201762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.05, 0)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area15" unique_id=1427040692]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area15/StaticBody3D" unique_id=1643048690]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area16" type="MeshInstance3D" parent="." unique_id=201895974]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.05, 1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area16" unique_id=1722968954]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area16/StaticBody3D" unique_id=872278268]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area17" type="MeshInstance3D" parent="." unique_id=1943091046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area17" unique_id=624124956]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area17/StaticBody3D" unique_id=645023201]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area18" type="MeshInstance3D" parent="." unique_id=294885566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, 1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area18" unique_id=2032321714]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area18/StaticBody3D" unique_id=284084738]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area19" type="MeshInstance3D" parent="." unique_id=440955815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, 1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area19" unique_id=2087942701]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area19/StaticBody3D" unique_id=1665783738]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area20" type="MeshInstance3D" parent="." unique_id=1727140440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, 1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area20" unique_id=563535517]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area20/StaticBody3D" unique_id=1804119486]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area21" type="MeshInstance3D" parent="." unique_id=14486859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, -1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area21" unique_id=1662132183]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area21/StaticBody3D" unique_id=2007378170]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area22" type="MeshInstance3D" parent="." unique_id=797667679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.05, -1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area22" unique_id=1823718317]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area22/StaticBody3D" unique_id=1079737666]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area23" type="MeshInstance3D" parent="." unique_id=1267886966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.05, -1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area23" unique_id=1386180989]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area23/StaticBody3D" unique_id=970656336]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area24" type="MeshInstance3D" parent="." unique_id=660970824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area24" unique_id=726358986]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area24/StaticBody3D" unique_id=1819295611]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area25" type="MeshInstance3D" parent="." unique_id=1418662570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.05, -1)
+mesh = SubResource("ArrayMesh_knuc4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area25" unique_id=127481191]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area25/StaticBody3D" unique_id=193692816]
+shape = SubResource("ConcavePolygonShape3D_lpy3a")
+
+[node name="Area02" type="MeshInstance3D" parent="." unique_id=820182070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area02" unique_id=1669649004]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area02/StaticBody3D" unique_id=377719397]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area03" type="MeshInstance3D" parent="." unique_id=1631449868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area03" unique_id=371868803]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area03/StaticBody3D" unique_id=67966764]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area04" type="MeshInstance3D" parent="." unique_id=531887100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.1, 2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area04" unique_id=1118016784]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area04/StaticBody3D" unique_id=847249787]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area05" type="MeshInstance3D" parent="." unique_id=1272634303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, 2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area05" unique_id=1161818617]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area05/StaticBody3D" unique_id=21040370]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area06" type="MeshInstance3D" parent="." unique_id=985231079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, 2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area06" unique_id=483762293]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area06/StaticBody3D" unique_id=2022690095]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area07" type="MeshInstance3D" parent="." unique_id=722187919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.1, 2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area07" unique_id=1359197913]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area07/StaticBody3D" unique_id=1766082980]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area08" type="MeshInstance3D" parent="." unique_id=1002203409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.1, -2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area08" unique_id=1323905897]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area08/StaticBody3D" unique_id=928821269]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area09" type="MeshInstance3D" parent="." unique_id=1355012156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.1, -2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area09" unique_id=1816525804]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area09/StaticBody3D" unique_id=301873068]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area10" type="MeshInstance3D" parent="." unique_id=2057537315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.1, -2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area10" unique_id=1719779153]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area10/StaticBody3D" unique_id=1449931365]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="Area11" type="MeshInstance3D" parent="." unique_id=597732056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.1, -2)
+mesh = SubResource("ArrayMesh_eid4w")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area11" unique_id=269772375]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area11/StaticBody3D" unique_id=518933745]
+shape = SubResource("ConcavePolygonShape3D_4xv5l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=867674531]
+environment = SubResource("Environment_ryrba")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=107839209]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2086586210]
+transform = Transform3D(0.99993604, -0.007910924, 0.0080789495, 0, 0.7144978, 0.6996377, -0.011307172, -0.69959295, 0.7144521, 0.6535303, 4.346872, 4.763253)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=757522200]
+
+[node name="DeepRayCast3D" type="DeepRayCast3D" parent="Node3D" unique_id=2140765256]

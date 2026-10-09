@@ -1,11 +1,9 @@
 extends Object
 class_name IDUtils
 
-
 static var ids: PackedStringArray = []
 # ID自增长记录 { prefix: count }
 static var id_auto_increase: Dictionary[String, int] = {}
-
 
 static func generate(prefix: String, value: String = "", length: int = 8) -> String:
 	var id = ""
@@ -16,6 +14,7 @@ static func generate(prefix: String, value: String = "", length: int = 8) -> Str
 		id = prefix + str(id_auto_increase[prefix]).lpad(length, "0")
 		if id in ids:
 			return generate(prefix, value, length)
+		ids.append(id)
 		return id
 	id = prefix + value.lpad(length, "0")
 	ids.append(id)

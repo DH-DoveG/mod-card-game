@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://dxsl0yrvkwu3" path="res://pages/setting_page/setting_page.gd" id="2_vw1vr"]
 [ext_resource type="Texture2D" uid="uid://njw7hctbmyfk" path="res://assets/images/icon/close.png" id="3_ifjrh"]
 [ext_resource type="LabelSettings" uid="uid://dn7mgvxraqjqi" path="res://pages/setting_page/item_text_settings.tres" id="3_ngyab"]
-[ext_resource type="Texture2D" uid="uid://bkff633cqkn6s" path="res://addons/kenney_fantasy-ui-borders/PNG/Double/Divider Fade/divider-fade-001.png" id="8_dkm1i"]
 
 [node name="SettingPage" unique_id=742008028 instance=ExtResource("1_xh4p5")]
 script = ExtResource("2_vw1vr")
@@ -239,24 +238,6 @@ theme_override_font_sizes/font_size = 32
 text = "游戏设置"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Left" type="TextureRect" parent="Title" index="1" unique_id=266816252]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-grow_vertical = 2
-texture = ExtResource("8_dkm1i")
-
-[node name="Right" type="TextureRect" parent="Title" index="2" unique_id=1186739761]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
-texture = ExtResource("8_dkm1i")
-flip_h = true
 
 [node name="Template" type="Node" parent="." index="4" unique_id=429771131]
 
